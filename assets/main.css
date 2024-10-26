@@ -1,0 +1,209 @@
+        /*@import '//cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css?ver=6.2.2';*/
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:Cuprum, "LXGW WenKai Screen", "Century Gothic", "Microsoft Yahei Light", STFangsong, "Microsoft Yahei", monospace,sans-serif;
+            background: #f1eeed;
+            scroll-behavior: smooth;
+            margin: 20px;
+            /*background-color: #f6f8fa;*/
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-family: Codystar, Cuprum, "LXGW WenKai Screen", "Century Gothic", "Microsoft Yahei Light", STFangsong, "Microsoft Yahei", monospace,sans-serif;
+            font-size: 20px;
+            font-weight: normal;
+        }
+        a {
+            TEXT-DECORATION:none;
+            color: #008090;
+            /*white-space: pre-wrap;*/
+            word-wrap: break-word;
+            overflow-wrap: break-word;  
+            word-break: break-all;  
+            word-break: break-word;  
+        }
+        #heatmap {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            gap: 5px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .month-row {
+            display: grid;
+            grid-template-columns: repeat(31, 9px);
+            gap: 2px;
+        }
+
+        .day {
+            width: 9px;
+            height: 9px;
+            border-radius: 2px;
+            background-color: #ebedf0;
+            transition: background-color 0.5s;
+        }
+
+        .day:hover {
+            background-color: #d0d7de;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+            pointer-events: none;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .month-label {
+            display: inline-block;
+            width: 20px;
+            text-align: right;
+            margin-right: 10px;
+            font-weight: bold;
+            font-size: 10px;
+            font-family: monospace;
+        }
+
+        .month-container {
+            display: flex;
+            align-items: center;
+        }
+
+        #json-data {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px; /* Adjust gap as needed */
+            justify-content: center; /* Center the cards */
+            margin-top: 10px;
+        }
+        
+        .card {
+            background-color: #e2e3d3;
+            box-shadow: 4px 4px 4px rgba(105, 115, 92, .4);
+            transform: rotate(0deg);
+            border-radius: 0px;
+            padding: 15px;
+            margin: 5px;
+            height: fit-content;
+            line-height: 25px;
+            max-width: 600px; /* Max card width */
+            flex: 1 1 auto; /* Allow flexible growth/shrinking */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-link {
+            font-size: 12px;
+            color: #555;
+            padding-left: 20px;
+            background: url(/assets/svg-certificate.svg);
+            background-repeat: no-repeat;
+            background-position: left;
+            background-size: 18px;
+        }
+
+        .card-header {
+            font-weight: normal;
+            margin-bottom: 10px;
+            font-size: 12px;
+            font-family: Galdeano, monospace, Codystar, Cuprum;
+            color: #000;
+            padding-left: 20px;
+            background: url(/assets/svg-clock-3.svg);
+            background-repeat: no-repeat;
+            background-position: left;
+            background-size: 16px;
+        }
+
+        .card-content {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #333;
+            white-space: pre-wrap;
+            /* Preserve newlines and spaces */
+        }
+        
+
+
+        .card-footer {
+            font-size: 12px;
+            color: #555;
+            padding-left: 20px;
+            background: url(/assets/profile-stardust-128.jpg);
+            background-repeat: no-repeat;
+            background-position: left;
+            background-size: 16px;
+            border-radius: 5px;
+        }
+        
+        .card-avatar {
+            font-size: 12px;
+            color: #555;
+	          display: flex;
+            justify-content: flex-end;
+            line-height: 18px;
+        }
+        
+        .imgavatarclass {
+	          width:16px;
+	          height:16px;
+	          border-radius:4px;
+        }
+
+        .resource-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .resource-item {
+            margin-bottom: 5px;
+        }
+
+        .resource-item a {
+            text-decoration: none;
+            color: #0366d6;
+        }
+
+        .resource-item img {
+            max-width: 100%;
+            height: 50px;
+            border-radius: 4px;
+            margin: 15px;
+        }
+
+        #backToTop {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 10px;
+            z-index: 99;
+            border: none;
+            outline: none;
+    padding: 3px 3px 0 3px;
+            background: #8f8f8f00;
+            color: #795548;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        #backToTop:hover {      	
+            background-color: #8f8f8f8f;
+            color: #f1f0f0;
+            border-radius: 10px;
+            transition: all 1s;
+        }

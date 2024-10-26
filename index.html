@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="zhaohao" />
+<meta name="theme-color" content="#E7E2D4">
+<meta name="description" content="ZHao's Memos">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Let the day go on and on...</title>
+<link rel="shortcut icon" href="./assets/svg-notebook.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="./assets/svg-notebook.svg" />
+<link rel="stylesheet" href="./assets/fonts.css">
+<link rel="stylesheet" href="./assets/main.css">
+<link rel="stylesheet" href="./assets/fancybox.css" />
+<script src="./assets/fancybox.umd.js"></script>
+<script src="./assets/main.js"></script>
+</head>
+
+<body>
+<h1>Let the day go on and on...</h1>
+<div style=" display: flex; justify-content: center; align-items: center; ">
+<span><a style="color:#bbbb00; font-size:13px;white-space:nowrap; margin:0 15px;" href="https://zhao.im" target="_blank"><img src="/assets/svg-mouse-1.svg"></a></span>
+<span><a style="color:#bbbb00; font-size:13px;white-space:nowrap; margin:0 15px;" href=" javascript:location.href ='mailto:'+['hao','zhao.im'].join('@')"><img src="/assets/svg-mail.svg"></a></span>
+</div>
+<div style="font-size:11px;color:#555;margin:10px 5px 20px 0;text-align:right;">仅仅为了记录，记录下消逝了的和即将消逝的点点滴滴，在回首的时候能够知道，我曾经来过……</div>
+<div id="heatmap"></div>
+<div class="tooltip" id="tooltip"></div>
+<div id="json-data"></div>
+<button id="backToTop" title="Back To Top"><img src="/assets/svg-up.svg"></button>
+
+<script>
+window.onscroll = function () {
+    scrollFunction();
+};
+
+function scrollFunction() {
+    var backToTopButton = document.getElementById("backToTop");
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+       backToTopButton.style.display = "block";
+    } else {
+       backToTopButton.style.display = "none";
+    }
+}
+
+document.getElementById("backToTop").onclick = function () {
+    document.body.scrollTop = 0; // Safari
+    document.documentElement.scrollTop = 0; // Chrome、Firefox、IE 和 Opera
+};
+</script> 
+<p style="font-size:70%;color:#999;text-align:center;">Copyright ©2003-2024 <a href="https://zhao.im">zhaohao</a> | <a href="#"> ^🔝^ </a></p>
+</html>
+</body>
+</html>
