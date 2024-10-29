@@ -11,8 +11,13 @@ function formatDateTime(dateStr) {
 function renderTimeline(memos) {
   const timeline = document.getElementById('timeline');
   memos.forEach(memo => {
-    const date = new Date(memo.createTime);
-    const dateaStr = date.toISOString().split('T')[0];
+    //const date = new Date(memo.createTime);
+    //const dateaStr = date.toISOString().split('T')[0];
+
+    var curTime = new Date(item.createTime);
+    var addHour = curTime.setHours(curTime.getHours() + 8);
+    const dateaStr = new Date(addHour).toISOString().split('T')[0];
+
     const post = document.createElement('div');
     post.className = 'post';
 
