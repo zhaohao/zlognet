@@ -14,7 +14,7 @@ function renderTimeline(memos) {
     //const date = new Date(memo.createTime);
     //const dateaStr = date.toISOString().split('T')[0];
 
-    var curTime = new Date(item.createTime);
+    var curTime = new Date(memo.createTime);
     var addHour = curTime.setHours(curTime.getHours() + 8);
     const dateaStr = new Date(addHour).toISOString().split('T')[0];
 
