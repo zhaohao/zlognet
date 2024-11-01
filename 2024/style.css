@@ -1,11 +1,43 @@
 @import '//cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css?ver=6.2.2';
+@font-face {
+	font-family: 'Galdeano';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Galdeano Regular'), local('Galdeano-Regular'), url("./font-Galdeano.woff") format('woff');
+}
+
+@font-face {
+	font-family: 'Electrolize';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Electrolize'), local('Electrolize-Regular'), url("./font-Electrolize.woff") format('woff');
+}
+
+@font-face {
+	font-family: 'Cuprum';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Cuprum'), local('Cuprum-Regular'), url("./font-Cuprum.woff") format('woff');
+}
+
+@font-face {
+	font-family: 'Codystar';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Codystar'), url("./font-Codystar.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Century Gothic';
+  src:url("./font-Gothic.ttf") format('truetype');
+}
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: "Century Gothic", "LXGW WenKai Screen", sans-serif;
+  font-family: Cuprum, "Century Gothic", "LXGW WenKai Screen", sans-serif;
   background: #f1eeed;
 }
 
