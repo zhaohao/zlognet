@@ -8,7 +8,7 @@
 <meta name="description" content="ZHao's Memos">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Let the day go on and on...</title>
-<link rel="shortcut icon" href="./assets/svg-notebook.svg" type="image/svg+xml" />
+<link id="favicon" rel="icon" href="./assets/svg-whale-01.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="./assets/svg-notebook.svg" />
 <link rel="stylesheet" href="./assets/fonts.css">
 <link rel="stylesheet" href="./assets/main.css">
@@ -18,6 +18,28 @@
 </head>
 
 <body>
+	 <script>
+        // 定义一组 Favicon URL
+        const favicons = [
+            './assets/svg-whale-01.svg',
+            './assets/svg-whale-02.svg',
+            './assets/svg-bird.svg',
+            './assets/svg-mouse.svg'
+        ];
+
+        // 当前 favicon 索引
+        let currentFaviconIndex = 0;
+
+        // 更改 favicon 的函数
+        function changeFavicon() {
+            const favicon = document.getElementById('favicon');
+            currentFaviconIndex = (currentFaviconIndex + 1) % favicons.length;
+            favicon.href = favicons[currentFaviconIndex];
+        }
+
+        // 设置每隔 1 秒更新 favicon
+        setInterval(changeFavicon, 700);
+    </script>
 <h1>Let the day go on and on...</h1>
 <div style=" display: flex; justify-content: center; align-items: center; ">
 <span><a style="color:#bbbb00; font-size:13px;white-space:nowrap; margin:0 15px;" href="https://zhao.im" target="_blank"><img src="/assets/svg-mouse-1.svg"></a></span>
