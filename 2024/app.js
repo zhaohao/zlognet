@@ -50,7 +50,7 @@ function renderTimeline(memos) {
   
       const memolocation = document.createElement('div');
       memolocation.className = 'post-location';
-      memolocation.textContent = memo.location;
+      memolocation.textContent = `${location.placeholder}`;
 
 
     post.appendChild(cardaNamelink);
