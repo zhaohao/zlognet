@@ -47,12 +47,11 @@ function renderTimeline(memos) {
       post.appendChild(imagesContainer);
     }
 
-    if (memo.location && memo.location.length > 0) {
+  
       const memolocation = document.createElement('div');
       memolocation.className = 'post-location';
       memolocation.textContent = memo.location.placeholder;
 
-    }
 
     post.appendChild(cardaNamelink);
     post.appendChild(time);
