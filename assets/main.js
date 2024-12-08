@@ -234,11 +234,19 @@ async function displayJSONData(memos) {
         }
 
 
+        const memolocation = document.createElement('div');
+        memolocation.className = 'card-location';
+        if (memo.location) {
+            memolocation.textContent = `${memo.location.placeholder}`;
+        }
+
+
 
         card.appendChild(cardaNamelink);
         card.appendChild(cardlinkDiv);
         card.appendChild(cardContent);
         card.appendChild(cardHeader);
+        card.appendChild(memolocation);
         //card.appendChild(cardFooter);
         card.appendChild(avatarDiv);
 

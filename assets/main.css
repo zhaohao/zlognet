@@ -137,7 +137,15 @@
             /* Preserve newlines and spaces */
         }
         
-
+        .card-location {
+            margin-top:24px;
+            font-size: 11px;
+            padding-left: 20px;
+            background: url(/assets/svg-location.svg);
+            background-repeat: no-repeat;
+            background-position: left;
+            background-size: 16px;
+          }
 
         .card-footer {
             font-size: 12px;
