@@ -1,6 +1,18 @@
 /* Author : zhaohao.online */
 /* Date : 2024-10-16 */
 /* Update: 2024-10-24 */
+
+function randomString(e) {    
+    e = e || 32;
+    var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
+    a = t.length,
+    n = "";
+    for (i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+    return n
+}
+
+let verstring = "?"+ randomString(8);
+
 async function loadConfig() {
     try {
         const response = await fetch('config.json');
@@ -18,7 +30,7 @@ async function generateHeatmapFromJSON() {
         return;
     }
 
-    const jsonUrl = config.json_url;
+    const jsonUrl = config.json_url + verstring;
     const startDate = new Date(config.start_date);
     const endDate = new Date(config.end_date);
 
@@ -132,7 +144,7 @@ async function displayJSONData(memos) {
         return;
     }
 
-    const memosUrl = config.memos_url;
+    const memosUrl = config.memos_url + verstring;
 
     const container = document.getElementById("json-data");
     container.innerHTML = "";
