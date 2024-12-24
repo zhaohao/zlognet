@@ -193,7 +193,8 @@ a {
 
 .resource-item a {
     text-decoration: none;
-    color: #0366d6;
+    color: #008090;
+    font-size: 10px;
 }
 
 .resource-item img {
