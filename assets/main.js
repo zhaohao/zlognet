@@ -214,6 +214,20 @@ async function displayJSONData(memos) {
         const resourceItem = document.createElement("span");
         resourceItem.className = "resource-item";
 
+
+        if (/\.(mp4|mpg|mkv|avi|mp3)/i.test(resource.filename)) {
+          const container = document.createElement("div");
+          const medialink = "./files/" + resource.filename;
+
+          container.innerHTML = `
+                   <video controls style="width: 80%; height: auto;">
+                     <source src=${medialink} type="video/mp4">
+                     您的浏览器不支持 HTML5 视频播放。
+                   </video>
+             `;
+          resourceItem.appendChild(container);
+        }
+
         //if (resource.type === "image/jpeg")
         if (/\.(jpeg|jpg|gif|png|bmp|webp|svg|avif)/i.test(resource.filename)) {
           const img = document.createElement("img");
