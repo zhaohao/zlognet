@@ -215,7 +215,7 @@ async function displayJSONData(memos) {
         resourceItem.className = "resource-item";
 
 
-        if (/\.(mp4|mpg|mkv|avi|mp3)/i.test(resource.filename)) {
+        if (/\.(mp4|mpg|mkv|mp3)/i.test(resource.filename)) {
           const container = document.createElement("div");
           const medialink = "./files/" + resource.filename;
 
