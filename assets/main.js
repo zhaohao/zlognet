@@ -143,7 +143,7 @@ async function displayJSONData(memos) {
   }
 
   const memosUrl = config.memos_url + verstring;
-  const msiteUrl = config.json_url;
+  const msiteUrl = config.memos_url;
 
   const container = document.getElementById("json-data");
   container.innerHTML = "";
