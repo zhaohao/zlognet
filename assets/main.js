@@ -143,6 +143,7 @@ async function displayJSONData(memos) {
   }
 
   const memosUrl = config.memos_url + verstring;
+  const msiteUrl = config.json_url;
 
   const container = document.getElementById("json-data");
   container.innerHTML = "";
@@ -173,9 +174,9 @@ async function displayJSONData(memos) {
       "style",
       "TEXT-DECORATION: none;color:#555; font-size:10px; font-family:monospace;",
     );
-    cardLink.href = config.memos_url + "/m/" + memo.uid;
+    cardLink.href = msiteUrl + "/m/" + memo.uid;
     cardLink.setAttribute("target", "_blank");
-    cardLink.textContent = config.memos_url + "/m/" + memo.uid;
+    cardLink.textContent = msiteUrl + "/m/" + memo.uid;
 
     const cardlinkDiv = document.createElement("div");
     cardlinkDiv.className = "card-link";
