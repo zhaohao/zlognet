@@ -214,13 +214,12 @@ async function displayJSONData(memos) {
         const resourceItem = document.createElement("span");
         resourceItem.className = "resource-item";
 
-
         if (/\.(mp4|mpg|mkv|mp3)/i.test(resource.filename)) {
           const container = document.createElement("div");
           const medialink = "./files/" + resource.filename;
 
           container.innerHTML = `
-                   <video controls style="width: 80%; height: auto;">
+                   <video controls style="width: 96%; height: auto;">
                      <source src=${medialink} type="video/mp4">
                      您的浏览器不支持 HTML5 视频播放。
                    </video>
