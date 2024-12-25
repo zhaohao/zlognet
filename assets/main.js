@@ -173,9 +173,9 @@ async function displayJSONData(memos) {
       "style",
       "TEXT-DECORATION: none;color:#555; font-size:10px; font-family:monospace;",
     );
-    cardLink.href = memosUrl + "/m/" + memo.uid;
+    cardLink.href = config.memos_url + "/m/" + memo.uid;
     cardLink.setAttribute("target", "_blank");
-    cardLink.textContent = memosUrl + "/m/" + memo.uid;
+    cardLink.textContent = config.memos_url + "/m/" + memo.uid;
 
     const cardlinkDiv = document.createElement("div");
     cardlinkDiv.className = "card-link";
