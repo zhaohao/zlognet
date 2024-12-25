@@ -1,5 +1,5 @@
 {
-    "memos_url": "https://memos.zlog.net",
+    "memos_url": "https://memos.zhaohao.online",
     "json_url": "/memos.json",
     "json_url_online": "https://memos.zlog.net/api/v1/memos?pageSize=1000&filter=visibilities == [%27PUBLIC%27] %26%26 creator == %27users/1%27",
     "start_date": "2024-08-01",
