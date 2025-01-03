@@ -217,7 +217,7 @@ async function displayJSONData(memos) {
 
         if (/\.(mp4|mpg|mkv|mp3)/i.test(resource.filename)) {
           const container = document.createElement("div");
-          const medialink = "https://keep.zlog.net/files/" + resource.filename;
+          const medialink = "https://cloud.zlog.net/files/" + resource.filename;
 
           container.innerHTML = `
                    <video controls style="width: 96%; height: auto;">
