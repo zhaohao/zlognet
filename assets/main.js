@@ -174,9 +174,11 @@ async function displayJSONData(memos) {
       "style",
       "TEXT-DECORATION: none;color:#555; font-size:10px; font-family:monospace;",
     );
-    cardLink.href = msiteUrl + "/m/" + memo.uid;
+    //cardLink.href = msiteUrl + "/m/" + memo.uid;
+    cardLink.href = msiteUrl + "/"+ memo.name;
     cardLink.setAttribute("target", "_blank");
-    cardLink.textContent = msiteUrl + "/m/" + memo.uid;
+    //cardLink.textContent = msiteUrl + "/m/" + memo.uid;
+    cardLink.textContent = msiteUrl + "/"+ memo.name;
 
     const cardlinkDiv = document.createElement("div");
     cardlinkDiv.className = "card-link";
