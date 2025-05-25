@@ -176,12 +176,12 @@ async function displayJSONData(memos) {
     );
 
     if(memo.uid) {
-    cardLink.href = msiteUrl + "/m/" + memo.uid;
+    cardLink.href = msiteUrl_old + "/m/" + memo.uid;
     cardLink.setAttribute("target", "_blank");
     cardLink.textContent = msiteUrl + "/m/" + memo.uid;
     }
     else {
-    cardLink.href = msiteUrl + "/"+ memo.name;
+    cardLink.href = msiteUrl_new + "/"+ memo.name;
     cardLink.setAttribute("target", "_blank");
     cardLink.textContent = msiteUrl + "/"+ memo.name;
     }
