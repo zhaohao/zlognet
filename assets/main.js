@@ -180,12 +180,12 @@ async function displayJSONData(memos) {
     if(memo.uid) {
     cardLink.href = msiteUrl_old + "/m/" + memo.uid;
     cardLink.setAttribute("target", "_blank");
-    cardLink.textContent = msiteUrl + "/m/" + memo.uid;
+    cardLink.textContent = msiteUrl_old + "/m/" + memo.uid;
     }
     else {
     cardLink.href = msiteUrl_new + "/"+ memo.name;
     cardLink.setAttribute("target", "_blank");
-    cardLink.textContent = msiteUrl + "/"+ memo.name;
+    cardLink.textContent = msiteUrl_new + "/"+ memo.name;
     }
 
     const cardlinkDiv = document.createElement("div");
