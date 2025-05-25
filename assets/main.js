@@ -142,8 +142,10 @@ async function displayJSONData(memos) {
     return;
   }
 
-  const memosUrl = config.memos_url + verstring;
-  const msiteUrl = config.memos_url;
+//  const memosUrl_new = config.memos_url_new + verstring;
+//  const memosUrl_old = config.memos_url_old + verstring;
+  const msiteUrl_new = config.memos_url_new;
+  const msiteUrl_old = config.memos_url_old;
 
   const container = document.getElementById("json-data");
   container.innerHTML = "";
