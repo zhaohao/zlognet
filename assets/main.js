@@ -216,12 +216,12 @@ async function displayJSONData(memos) {
     avatarDiv.textContent = `${dateStrlong}　`;
     avatarDiv.appendChild(avatarLink);
 
-    // Display resources if they exist
-    if (memo.resources && memo.resources.length > 0) {
+    // Display attachments if they exist
+    if (memo.attachments && memo.attachments.length > 0) {
       const resourceList = document.createElement("div");
       resourceList.className = "resource-list";
 
-      memo.resources.forEach((resource) => {
+      memo.attachments.forEach((resource) => {
         const resourceItem = document.createElement("span");
         resourceItem.className = "resource-item";
 
