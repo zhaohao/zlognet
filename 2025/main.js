@@ -205,7 +205,7 @@ async function displayJSONData(memos) {
     imgavatar.className = "imgavatarclass";
 
     const avatarLink = document.createElement("a");
-    avatarLink.href = "https://zhaohao.online";
+    avatarLink.href = "https://zlog.net";
     avatarLink.setAttribute("target", "_blank");
 
     avatarLink.appendChild(imgavatar);

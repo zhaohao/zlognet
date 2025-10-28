@@ -1,1 +1,1 @@
-{"memos_url_old":"https://memos.zlog.net","end_date":"2025-12-31","json_url":"/2025/memos.json","memos_url_new":"https://memos.zhao.im","json_url_online":"https://memos.zhao.im/api/v1/memos?pageSize=1000&filter=visibilities == [%27PUBLIC%27] %26%26 creator == %27users/1%27","start_date":"2025-01-01"}
+{"memos_url_old":"https://memos.zlog.net","end_date":"2025-12-31","json_url":"/2025/memos.json","memos_url_new":"https://m.zhao.im","json_url_online":"https://m.zhao.im/api/v1/memos?pageSize=1000&view=MEMO_VIEW_FULL","start_date":"2025-01-01"}
