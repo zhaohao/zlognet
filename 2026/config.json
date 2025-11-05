@@ -1,0 +1,8 @@
+{
+    "start_date": "2026-01-01",
+    "end_date": "2026-12-31",
+    "memos_url_new": "https://m.zhao.im",
+    "memos_url_old": "https://memos.zlog.net",
+    "json_url": "/2026/memos.json",
+    "json_url_online": "https://m.zhao.im/api/v1/memos?pageSize=1000&view=MEMO_VIEW_FULL"
+}

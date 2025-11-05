@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="zhaohao" />
+<meta name="theme-color" content="#E7E2D4">
+<meta name="description" content="ZMemos">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Let the day go on and on...</title>
+<link id="favicon" rel="icon" href="../assets/svgs/001.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/svgs/001.svg" />
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/main.css">
+<link rel="stylesheet" href="../assets/fancybox.css" />
+<script src="../assets/fancybox.umd.js"></script>
+<script src="main.js"></script>
+</head>
+
+<body>
+	 <script>
+        // 定义一组 Favicon URL
+        const favicons = [
+            './assets/svgs/001.svg',
+            './assets/svgs/002.svg',
+            './assets/svgs/003.svg',
+            './assets/svgs/004.svg',
+            './assets/svgs/005.svg',
+            './assets/svgs/006.svg',
+            './assets/svgs/007.svg',
+            './assets/svgs/008.svg',
+            './assets/svgs/009.svg',
+            './assets/svgs/010.svg',
+            './assets/svgs/011.svg',
+            './assets/svgs/012.svg'
+        ];
+
+        // 当前 favicon 索引
+        let currentFaviconIndex = 0;
+
+        // 更改 favicon 的函数
+        function changeFavicon() {
+            const favicon = document.getElementById('favicon');
+            currentFaviconIndex = (currentFaviconIndex + 1) % favicons.length;
+            favicon.href = favicons[currentFaviconIndex];
+        }
+
+        // 设置每隔 1 秒更新 favicon
+        setInterval(changeFavicon, 700);
+    </script>
+<h1>Let the day go on and on @2026</h1>
+<div style=" display: flex; justify-content: center; align-items: center; ">
+<span><a style="color:#bbbb00; font-size:13px;white-space:nowrap; margin:0 15px;" href="https://zhao.im" target="_blank"><img src="/assets/svgs/svg-rat.svg"></a></span>
+<span><a style="color:#bbbb00; font-size:13px;white-space:nowrap; margin:0 15px;" href=" javascript:location.href ='mailto:'+['hao','zhao.im'].join('@')"><img src="/assets/svgs/svg-gmail.svg"></a></span>
+</div>
+<div style="font-size:11px;color:#555;margin:10px 5px 20px 0;text-align:right;">仅仅为了记录，记录下消逝了的和即将消逝的点点滴滴，在回首的时候能够知道，我曾经来过……</div>
+
+<div id="heatmap"></div>
+<div class="tooltip" id="tooltip"></div>
+<div id="json-data"></div>
+<button id="backToTop" title="Back To Top"><img src="/assets/svgs/svg-up.svg"></button>
+
+<script>
+window.onscroll = function () {
+    scrollFunction();
+};
+
+function scrollFunction() {
+    var backToTopButton = document.getElementById("backToTop");
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+       backToTopButton.style.display = "block";
+    } else {
+       backToTopButton.style.display = "none";
+    }
+}
+
+document.getElementById("backToTop").onclick = function () {
+    document.body.scrollTop = 0; // Safari
+    document.documentElement.scrollTop = 0; // Chrome、Firefox、IE 和 Opera
+};
+</script>
+<div id="disqus_thread"></div>
+<script>
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+    /*
+    var disqus_config = function () {
+    this.page.url = 'https://zlog.net/2026/';  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = 'https://zlog.net/2026/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://haozhao.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<div style="
+        background-image: url(&quot;data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAACQAAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAIAAAACAAAAAEHBpeGkAAAAAAwoKCgAAAAxhdjFDgQBMAAAAABNjb2xybmNseAAJABAACQAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACxtZGF0EgAKCRgZv/9ihIgEgjIVEZACSSSRALSDWh0OcWLT/Laowj+g&quot;);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-size: 11px;
+        margin:10px 5px 20px 0;
+        text-align:center; " >
+        有时候，“虚惊一场”这四个字是人世间最美好的成语，比起什么兴高采烈，五彩缤纷，一帆风顺都要美好百倍。你可懂什么叫失去。这些时间来，更觉如此。愿悲伤恐惧能够过去，事外之人更懂珍惜。
+</div>
+<p style="font-size:70%;color:#999;text-align:center;">Copyright ©2003-2025 <a href="https://zlog.net/2025/index.html">zlog.net</a> | <a href="#"> ▲Back To Top </a></p>
+</html>
+</body>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="170e4246-7377-4f38-8e3e-fa65207d98c8"></script>
+</html>
