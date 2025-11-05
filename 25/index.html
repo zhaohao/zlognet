@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="author" content="zhaohao" />
+  <meta name="theme-color" content="#E7E2D4">
+  <meta name="description" content="ZHao's Memos">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moments@2025</title>
+  <!--link rel="shortcut icon" href="./bird.svg" type="image/svg+xml" /-->
+  <link id="favicon" rel="icon" href="./svg-mouse.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./svg-mouse.svg" />
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./fancybox.css">
+  <script src="./fancybox.umd.js"></script>
+</head>
+<body>
+ <script>
+        const favicons = [
+            '001.svg',
+            '002.svg',
+            '003.svg',
+            '004.svg',
+            '005.svg',
+            '006.svg',
+            '007.svg',
+            '008.svg',
+            '009.svg',
+            '010.svg',
+            '011.svg',
+            '012.svg'            
+        ];
+        let currentFaviconIndex = 0;
+        function changeFavicon() {
+            const favicon = document.getElementById('favicon');
+            currentFaviconIndex = (currentFaviconIndex + 1) % favicons.length;
+            favicon.href = favicons[currentFaviconIndex];
+        }
+        setInterval(changeFavicon, 1000);
+    </script>
+  <header class="top">
+    <a style="color:#bbbb00; font-size:13px;position: absolute; top: 10px; left: 10px;" href="https://memos.zlog.net"
+      target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+        class="lucide lucide-bird w-24 h-auto text-gray-500 dark:text-gray-400">
+        <path d="M16 7h.01"></path>
+        <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"></path>
+        <path d="m20 7 2 .5-2 .5"></path>
+        <path d="M10 18v3"></path>
+        <path d="M14 17.75V21"></path>
+        <path d="M7 18a6 6 0 0 0 3.84-10.61"></path>
+      </svg>
+    </a>
+    <a style="color:#bbbb00; font-size:13px;white-space:nowrap; position: absolute; top: 10px; right: 10px;"
+      href=" javascript:location.href ='mailto:'+['hao','zhao.im'].join('@')">
+      <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+        stroke="#000000">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+        <g id="SVGRepo_iconCarrier">
+          <path
+            d="M10 19H6.2C5.0799 19 4.51984 19 4.09202 18.782C3.71569 18.5903 3.40973 18.2843 3.21799 17.908C3 17.4802 3 16.9201 3 15.8V8.2C3 7.0799 3 6.51984 3.21799 6.09202C3.40973 5.71569 3.71569 5.40973 4.09202 5.21799C4.51984 5 5.0799 5 6.2 5H17.8C18.9201 5 19.4802 5 19.908 5.21799C20.2843 5.40973 20.5903 5.71569 20.782 6.09202C21 6.51984 21 7.0799 21 8.2V10M20.6067 8.26229L15.5499 11.6335C14.2669 12.4888 13.6254 12.9165 12.932 13.0827C12.3192 13.2295 11.6804 13.2295 11.0677 13.0827C10.3743 12.9165 9.73279 12.4888 8.44975 11.6335L3.14746 8.09863M14 21L16.025 20.595C16.2015 20.5597 16.2898 20.542 16.3721 20.5097C16.4452 20.4811 16.5147 20.4439 16.579 20.399C16.6516 20.3484 16.7152 20.2848 16.8426 20.1574L21 16C21.5523 15.4477 21.5523 14.5523 21 14C20.4477 13.4477 19.5523 13.4477 19 14L14.8426 18.1574C14.7152 18.2848 14.6516 18.3484 14.601 18.421C14.5561 18.4853 14.5189 18.5548 14.4903 18.6279C14.458 18.7102 14.4403 18.7985 14.405 18.975L14 21Z"
+            stroke="#bbbb00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+      </svg>
+    </a>
+    <div style=" "><a href="./"> <img src="./stardust.jpg"></a></div>
+    <div style="color: #f1eeed; padding-right: 15px; /* text-align: end; */ position: absolute; right: 70px; bottom: 5px;">stardust</div>
+  </header>
+  <div style="width:100%; max-width:600px;margin:0 auto; padding:10px 0; background:#f5f5f5; ">
+    <div style="font-size:11px;color:#555;margin:25px 5px 20px 0;text-align:right;">仅仅为了记录，记录下消逝了的和即将消逝的点点滴滴，在回首的时候能够知道，我曾经来过……</div>
+    <div id="heatmap"></div>
+    <div class="tooltip" id="tooltip"></div>
+  </div>
+  <div id="timeline"></div>
+  <button id="backToTop" title="Back To Top">
+    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 15L12.2278 8.26574C12.108 8.12606 11.892 8.12606 11.7722 8.26574L6 15" stroke="#000000"
+        stroke-width="2" stroke-linecap="round" />
+    </svg>
+  </button>
+
+  <script>
+    window.onscroll = function () {
+      scrollFunction();
+    };
+
+    function scrollFunction() {
+      var backToTopButton = document.getElementById("backToTop");
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        backToTopButton.style.display = "block";
+      } else {
+        backToTopButton.style.display = "none";
+      }
+    }
+
+    document.getElementById("backToTop").onclick = function () {
+      document.body.scrollTop = 0; // Safari
+      document.documentElement.scrollTop = 0; // Chrome、Firefox、IE 和 Opera
+    };
+  </script>
+  <script src="app.js"></script>
+  <script src="heatmap.js"></script>
+</body>
+
+</html>
