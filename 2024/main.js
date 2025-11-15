@@ -227,7 +227,7 @@ async function displayJSONData(memos) {
 
         if (/\.(mp4|mpg|mkv|mp3)/i.test(resource.filename)) {
           const container = document.createElement("div");
-          const medialink = "/files/" + resource.filename;
+          const medialink = "/files/2024/" + resource.filename;
 
           container.innerHTML = `
                    <video controls style="width: 96%; height: auto;">
@@ -241,14 +241,14 @@ async function displayJSONData(memos) {
         //if (resource.type === "image/jpeg")
         if (/\.(jpeg|jpg|gif|png|bmp|webp|svg|avif)/i.test(resource.filename)) {
           const img = document.createElement("img");
-          img.src = "/files/" + resource.filename;
+          img.src = "/files/2024/" + resource.filename;
           //img.src = memosUrl + '/file/' + resource.name + '/' + resource.filename;
           //img.setAttribute('data-fancybox', 'gallery');
           img.className = "imgclass";
 
           const fancyboxlink = document.createElement("a");
           //fancyboxlink.href = memosUrl + '/file/' + resource.name + '/' + resource.filename;
-          fancyboxlink.href = "/files/" + resource.filename;
+          fancyboxlink.href = "/files/2024/" + resource.filename;
           fancyboxlink.setAttribute("data-fancybox", "gallery");
           fancyboxlink.target = "_blank";
 
@@ -258,7 +258,7 @@ async function displayJSONData(memos) {
         } else {
           const rlink = document.createElement("a");
           //rlink.href = memosUrl + '/file/' + resource.name + '/' + resource.filename;
-          rlink.href = "/files/" + resource.filename;
+          rlink.href = "/files/2024/" + resource.filename;
           rlink.textContent = resource.description || resource.filename;
           rlink.target = "_blank";
           resourceItem.appendChild(rlink);

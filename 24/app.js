@@ -41,7 +41,7 @@ function renderTimeline(memos) {
         imgavatar.className = 'imgavatarclass';
 
         const avatarLink = document.createElement("a");
-        avatarLink.href = "https://zhaohao.online";
+        avatarLink.href = "https://zlog.net";
         avatarLink.setAttribute('target', '_blank');
 
         avatarLink.appendChild(imgavatar);
@@ -74,14 +74,14 @@ function renderTimeline(memos) {
     
       if (['mp4', 'mpg', 'webm', 'ogg'].includes(fileExtension)) { // 如果是视频文件
         const video = document.createElement('video');
-        video.src = `/files/${resource.filename}`;
+        video.src = `/files/2024/${resource.filename}`;
         video.controls = true; // 添加播放控件
         video.className = 'video-container';
         mediaContainer.appendChild(video);
       } 
       else if (['jpg', 'jpeg', 'png', 'gif', 'svg', 'avif', 'webp'].includes(fileExtension)) { // 如果是图片文件
         const img = document.createElement('img');
-        img.src = `/files/${resource.filename}`;
+        img.src = `/files/2024/${resource.filename}`;
         img.setAttribute('data-fancybox', 'gallery');
         img.className = 'images-container';
         mediaContainer.appendChild(img);
