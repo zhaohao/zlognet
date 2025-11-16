@@ -189,9 +189,9 @@ async function displayJSONData(memos) {
 //    cardLink.textContent = msiteUrl_new + "/"+ memo.name;
 //    }
 
-    cardLink.href =  msiteUrl_old ;
+    cardLink.href =  "https://zlog.net/2024/" ;
     cardLink.setAttribute("target", "_blank");
-    cardLink.textContent = stardust;
+    cardLink.textContent = "stardust";
 
     const cardlinkDiv = document.createElement("div");
     cardlinkDiv.className = "card-link";
