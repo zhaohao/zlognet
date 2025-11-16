@@ -176,7 +176,7 @@ async function displayJSONData(memos) {
       "style",
       "TEXT-DECORATION: none;color:#555; font-size:10px; font-family:monospace;",
     );
-
+/* 停用旧 memos 应用，链接失效去除。
     if(memo.uid) {
     cardLink.href = msiteUrl_old + "/m/" + memo.uid;
     cardLink.setAttribute("target", "_blank");
@@ -187,6 +187,10 @@ async function displayJSONData(memos) {
     cardLink.setAttribute("target", "_blank");
     cardLink.textContent = msiteUrl_new + "/"+ memo.name;
     }
+*/
+    cardLink.href = "https://zlog.net/2024/";
+    cardLink.setAttribute("target", "_blank");
+    cardLink.textContent = stardust;
 
     const cardlinkDiv = document.createElement("div");
     cardlinkDiv.className = "card-link";
@@ -205,7 +209,7 @@ async function displayJSONData(memos) {
     imgavatar.className = "imgavatarclass";
 
     const avatarLink = document.createElement("a");
-    avatarLink.href = "https://zhaohao.online";
+    avatarLink.href = "https://zlog.net/2024/";
     avatarLink.setAttribute("target", "_blank");
 
     avatarLink.appendChild(imgavatar);
