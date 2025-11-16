@@ -189,7 +189,7 @@ async function displayJSONData(memos) {
 //    cardLink.textContent = msiteUrl_new + "/"+ memo.name;
 //    }
 
-    cardLink.href = 'https://zlog.net/2024/' ;
+    cardLink.href =  msiteUrl_old ;
     cardLink.setAttribute("target", "_blank");
     cardLink.textContent = stardust;
 
