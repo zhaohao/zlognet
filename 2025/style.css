@@ -38,10 +38,9 @@ h1 {
     display: flex;
     align-items: start;
     flex-direction: column;
-    gap: 5px;
+    gap: 0px;
     justify-content: center;
     margin: 20px 0 20px 0;
-
     background: white;
     border-radius: 8px;
     padding: 20px;
