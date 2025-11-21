@@ -14,7 +14,7 @@ const attachmentlink = "https://zlog.net/files/2025/";
 const MEMOS_JSON_URL = 'https://memos.zhao.im/api/v1/memos?pageSize=1000&view=MEMO_VIEW_FULL' + verstring;
 
 // 配置 memos.json 文件的 URL
-// const MEMOS_JSON_URL = 'https://zlog.net/2025/memos.json'; // 修改为您的 memos.json 文件路径
+// const MEMOS_JSON_URL = 'memos.json'; // 修改为您的 memos.json 文件路径
 
 // 全局变量
 let currentImageIndex = 0;
@@ -210,7 +210,7 @@ function createMemoElement(memo) {
     }
 
     memoItem.innerHTML = `
-                <a name="${dateAnchor}" class="memo-anchor"></a>
+                <a id="${dateAnchor}" class="memo-anchor"></a>
                 <div class="memo-header">
                     <div class="memo-date">${formattedDate}</div>
                     <div class="memo-tags">${tagsHtml}</div>

@@ -152,9 +152,9 @@ function generateHeatmap(dateCounts, startDate, endDate) {
 			}
 			cell.style.backgroundColor = color;
 			const dotLink = document.createElement("a");
-			dotLink.setAttribute("style", "TEXT-DECORATION: none;");
+			dotLink.setAttribute("style", "TEXT-DECORATION: none;color: #fff;");
 			dotLink.href = '#' + dateStr;
-			dotLink.textContent = 'ㅤ';
+			dotLink.textContent = '.';
 			cell.appendChild(dotLink);
 			cell.title = `${dateStr}: ${count} entries`;
 			cell.addEventListener('mouseover', function (event) {
