@@ -1,116 +1,240 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-CN">
+
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="zhaohao" />
-<meta name="theme-color" content="#E7E2D4">
-<meta name="description" content="ZHao's Memos">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Let the day go on and on...</title>
-<link id="favicon" rel="icon" href="../assets/svgs/001.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="../assets/svgs/001.svg" />
-<link rel="stylesheet" href="../assets/fonts.css">
-<link rel="stylesheet" href="../assets/main.css">
-<link rel="stylesheet" href="../assets/fancybox.css" />
-<script src="../assets/fancybox.umd.js"></script>
-<script src="main.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <title>ZMemos@2024</title>
+    <style>
+        /* --- Navbar Base --- */
+        .zl-navbar {
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 999;
+
+            background: #ffffff;
+
+        }
+
+        .zl-nav-container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+
+        .zl-nav-logo a {
+            font-weight: 600;
+            font-size: 20px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        /* --- Desktop Nav --- */
+        .zl-nav-menu li {
+            position: relative;
+        }
+
+        /* Frosted hover background */
+        .zl-nav-menu li::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: #ffffff;
+
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            z-index: -1;
+        }
+
+        .zl-nav-menu li:hover::before {
+            opacity: 1;
+        }
+
+        .zl-nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 26px;
+        }
+
+        .zl-nav-menu li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 15px;
+            transition: 0.2s ease;
+        }
+
+        .zl-nav-menu li a:hover {
+            color: #0073ff;
+        }
+
+        /* --- Mobile Toggle Button --- */
+        .zl-nav-toggle {
+            display: none;
+            flex-direction: column;
+            width: 26px;
+            height: 22px;
+            justify-content: space-between;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .zl-nav-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: #333;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* --- Mobile Menu --- */
+        @media (max-width: 768px) {
+            .zl-nav-menu {
+                z-index: 9999;
+            }
+
+            .zl-nav-toggle {
+                display: flex;
+            }
+
+            .zl-nav-menu {
+                position: absolute;
+                top: 56px;
+                left: 0;
+                width: 100%;
+                background: #ffffff;
+
+                flex-direction: column;
+                padding: 12px 0;
+                display: none;
+
+            }
+
+            .zl-nav-menu li {
+                padding: 10px 0;
+                text-align: center;
+            }
+
+            .zl-nav-menu.active {
+                display: flex;
+            }
+        }
+
+        /* Toggle Animation */
+        .zl-nav-toggle.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .zl-nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .zl-nav-toggle.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+    </style>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-	 <script>
-        // 定义一组 Favicon URL
-        const favicons = [
-            '../assets/svgs/001.svg',
-            '../assets/svgs/002.svg',
-            '../assets/svgs/003.svg',
-            '../assets/svgs/004.svg',
-            '../assets/svgs/005.svg',
-            '../assets/svgs/006.svg',
-            '../assets/svgs/007.svg',
-            '../assets/svgs/008.svg',
-            '../assets/svgs/009.svg',
-            '../assets/svgs/010.svg',
-            '../assets/svgs/011.svg',
-            '../assets/svgs/012.svg'
-        ];
+    <header style="display: none;">
+        <h1>ZMemos@2024</h1>
+        <p class="subtitle">Let the day go on and on</p>
+    </header>
 
-        // 当前 favicon 索引
-        let currentFaviconIndex = 0;
+    <!-- Responsive Modern Navbar -->
+    <nav class="zl-navbar">
+        <div class="zl-nav-container">
+            <div class="zl-nav-logo"><a href="/">ZLOG.NET</a></div>
 
-        // 更改 favicon 的函数
-        function changeFavicon() {
-            const favicon = document.getElementById('favicon');
-            currentFaviconIndex = (currentFaviconIndex + 1) % favicons.length;
-            favicon.href = favicons[currentFaviconIndex];
+            <button class="zl-nav-toggle" id="zlNavToggle" aria-label="Toggle Navigation">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="zl-nav-menu" id="zlNavMenu">
+                <li><a href="/2024/" style="color:#21793f;font-weight: bold;">2024</a></li>
+                <li><a href="/2025/">2025</a></li>
+                <li><a href="/2026/">2026</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <main>
+        <div id="heatmap"></div>
+        <div class="tooltip" id="tooltip"></div>
+        <div class="memo-list" id="memoList">
+            <div class="loading" id="loadingState">
+                <p>正在加载备忘录数据...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 图片模态框 -->
+    <div id="imageModal" class="modal">
+        <span class="close" id="closeModal">&times;</span>
+        <div class="modal-navigation">
+            <button class="nav-btn" id="prevBtn">&#10094;</button>
+            <button class="nav-btn" id="nextBtn">&#10095;</button>
+        </div>
+        <div class="modal-content">
+            <img class="modal-image" id="modalImage">
+            <div class="modal-info" id="modalInfo"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p class="data-source">数据源: <span id="dataSource">未设置</span></p>
+    </footer>
+    <button id="backToTop" title="Back To Top">
+        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 15L12.2278 8.26574C12.108 8.12606 11.892 8.12606 11.7722 8.26574L6 15" stroke="#000000"
+                stroke-width="2" stroke-linecap="round" />
+        </svg>
+    </button>
+
+    <script>
+        window.onscroll = function () {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            var backToTopButton = document.getElementById("backToTop");
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                backToTopButton.style.display = "block";
+            } else {
+                backToTopButton.style.display = "none";
+            }
         }
 
-        // 设置每隔 1 秒更新 favicon
-        setInterval(changeFavicon, 700);
+        document.getElementById("backToTop").onclick = function () {
+            document.body.scrollTop = 0; // Safari
+            document.documentElement.scrollTop = 0; // Chrome、Firefox、IE 和 Opera
+        };
     </script>
-<h1>Let the day go on and on @2024</h1>
-<div style=" display: flex; justify-content: center; align-items: center; ">
-<span><a style="color:#bbbb00; font-size:13px;white-space:nowrap; margin:0 15px;" href="https://zhao.im" target="_blank"><img src="/assets/svgs/svg-rat.svg"></a></span>
-<span><a style="color:#bbbb00; font-size:13px;white-space:nowrap; margin:0 15px;" href=" javascript:location.href ='mailto:'+['hao','zhao.im'].join('@')"><img src="/assets/svgs/svg-gmail.svg"></a></span>
-</div>
-<div style="font-size:11px;color:#555;margin:10px 5px 20px 0;text-align:right;">仅仅为了记录，记录下消逝了的和即将消逝的点点滴滴，在回首的时候能够知道，我曾经来过……</div>
+    <script>
+        // Mobile Toggle
+        const zlToggle = document.getElementById('zlNavToggle');
+        const zlMenu = document.getElementById('zlNavMenu');
 
-<div id="heatmap"></div>
-<div class="tooltip" id="tooltip"></div>
-<div id="json-data"></div>
-<button id="backToTop" title="Back To Top"><img src="/assets/svgs/svg-up.svg"></button>
-
-<script>
-window.onscroll = function () {
-    scrollFunction();
-};
-
-function scrollFunction() {
-    var backToTopButton = document.getElementById("backToTop");
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-       backToTopButton.style.display = "block";
-    } else {
-       backToTopButton.style.display = "none";
-    }
-}
-
-document.getElementById("backToTop").onclick = function () {
-    document.body.scrollTop = 0; // Safari
-    document.documentElement.scrollTop = 0; // Chrome、Firefox、IE 和 Opera
-};
-</script>
-<div id="disqus_thread"></div>
-<script>
-    /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    /*
-    var disqus_config = function () {
-    this.page.url = 'https://zlog.net/2024/';  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = 'https://zlog.net/2024/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://haozhao.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-<div style="
-        background-image: url(&quot;data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAACQAAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAIAAAACAAAAAEHBpeGkAAAAAAwoKCgAAAAxhdjFDgQBMAAAAABNjb2xybmNseAAJABAACQAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACxtZGF0EgAKCRgZv/9ihIgEgjIVEZACSSSRALSDWh0OcWLT/Laowj+g&quot;);
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: transparent;
-        font-size: 11px;
-        margin:10px 5px 20px 0;
-        text-align:center; " >
-        有时候，“虚惊一场”这四个字是人世间最美好的成语，比起什么兴高采烈，五彩缤纷，一帆风顺都要美好百倍。你可懂什么叫失去。这些时间来，更觉如此。愿悲伤恐惧能够过去，事外之人更懂珍惜。
-</div>
-<p style="font-size:70%;color:#999;text-align:center;">Copyright ©2003-2024 <a href="https://zlog.net/2024/index.html">zlog.net</a> | <a href="#"> ▲Back To Top </a></p>
-</html>
+        zlToggle.addEventListener('click', () => {
+            zlToggle.classList.toggle('active');
+            zlMenu.classList.toggle('active');
+        });
+    </script>
+    <script src="heatmap.js"></script>
+    <script src="memos.js"></script>
 </body>
-<script defer src="https://cloud.umami.is/script.js" data-website-id="170e4246-7377-4f38-8e3e-fa65207d98c8"></script>
+
 </html>

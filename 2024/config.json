@@ -1,1 +1,6 @@
-{"memos_url_old":"https://memos.zlog.net","end_date":"2024-12-31","json_url":"/2024/memos.json","memos_url_new":"https://memos.zhao.im","json_url_online":"https://memos.zhao.im/api/v1/memos?pageSize=1000&filter=visibilities == [%27PUBLIC%27] %26%26 creator == %27users/1%27","start_date":"2024-08-01"}
+{
+    "json_url": "memos.json",
+    "file_url": "https://zlog.net/files/2024/",
+    "end_date": "2024-12-31",
+    "start_date": "2024-08-01"
+}
