@@ -9,12 +9,45 @@ function randomString(e) {
 }
 let verstring = "?" + randomString(8);
 
-const attachmentlink = "https://zlog.net/files/2025/";
 
-const MEMOS_JSON_URL = 'https://memos.zhao.im/api/v1/memos?pageSize=1000&view=MEMO_VIEW_FULL' + verstring;
+let MEMOS_JSON_URL = null;
+let MEMOS_FILE_URL = null;
 
-// 配置 memos.json 文件的 URL
-// const MEMOS_JSON_URL = 'memos.json'; // 修改为您的 memos.json 文件路径
+async function init() {
+    try {
+        const res = await fetch("config.json");
+        const config = await res.json();
+
+        MEMOS_JSON_URL = config.json_url;
+        MEMOS_FILE_URL = config.file_url;
+
+        // 显示数据源
+        document.getElementById('dataSource').textContent = MEMOS_JSON_URL;
+
+        // 加载 memos 数据
+        loadMemosData();
+
+        // 绑定模态框事件
+        setupModalEvents();
+
+    } catch (err) {
+        console.error("加载 config.json 失败:", err);
+        document.getElementById('loadingState').innerHTML = `
+            <div class="error">
+                <p>加载配置文件失败</p>
+                <p>错误信息: ${err.message}</p>
+                <p>请检查 config.json 文件路径是否正确</p>
+            </div>
+        `;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", init);
+
+// const MEMOS_FILE_URL = "https://zlog.net/files/2025/";
+// const MEMOS_JSON_URL = 'https://memos.zhao.im/api/v1/memos?pageSize=1000&view=MEMO_VIEW_FULL' + verstring;
+
+
 
 // 全局变量
 let currentImageIndex = 0;
@@ -23,13 +56,8 @@ let allImages = [];
 document.addEventListener('DOMContentLoaded', function () {
     // 显示数据源
     document.getElementById('dataSource').textContent = MEMOS_JSON_URL;
-
-    // 加载 memos 数据
-    loadMemosData();
-
-    // 绑定模态框事件
-    setupModalEvents();
 });
+
 
 // 设置模态框事件
 function setupModalEvents() {
@@ -124,6 +152,7 @@ function collectAllImages() {
 
 // 加载 memos.json 数据
 async function loadMemosData() {
+
     const memoList = document.getElementById('memoList');
 
     try {
@@ -232,7 +261,7 @@ function createAttachmentElement(attachment) {
     if (attachment.type.startsWith('image/')) {
         return `
                     <div class="attachment attachment-image" data-image-src="${attachment.filename}">
-                        <img src="${attachmentlink}${attachment.filename}" alt="${fileName}" loading="lazy">
+                        <img src="${MEMOS_FILE_URL}${attachment.filename}" alt="${fileName}" loading="lazy">
                         <div class="attachment-info">
                             <span class="attachment-type">图片</span>
                             <span>${fileSize}</span>
@@ -243,7 +272,7 @@ function createAttachmentElement(attachment) {
         return `
                     <div class="attachment attachment-video">
                         <video controls>
-                            <source src="${attachmentlink}${attachment.filename}" type="${attachment.type}">
+                            <source src="${MEMOS_FILE_URL}${attachment.filename}" type="${attachment.type}">
                             您的浏览器不支持视频播放
                         </video>
                         <div class="attachment-info">

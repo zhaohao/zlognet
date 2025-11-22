@@ -128,6 +128,9 @@ function generateHeatmap(dateCounts, startDate, endDate) {
 			dotLink.href = '#' + dateStr;
 			dotLink.textContent = '';
 
+
+
+
 			const cell = document.createElement("div");
 			cell.className = "day";
 			let color;
@@ -180,6 +183,8 @@ function generateHeatmap(dateCounts, startDate, endDate) {
 			);
 
 			dotLink.appendChild(cell);
+
+
 			monthRow.appendChild(dotLink);
 
 		}
