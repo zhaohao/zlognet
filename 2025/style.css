@@ -152,8 +152,7 @@ h1 {
 
 .memo-anchor {
     position: absolute;
-    top: -60px;
-    /* 考虑到固定导航栏的偏移 */
+    top: 0px;
     visibility: hidden;
 }
 
