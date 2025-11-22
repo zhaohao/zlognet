@@ -121,6 +121,13 @@ function generateHeatmap(dateCounts, startDate, endDate) {
 
 			const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 			const count = dateCounts[dateStr] || 0;
+
+
+			const dotLink = document.createElement("a");
+			dotLink.setAttribute("style", "TEXT-DECORATION: none;color: #fff;");
+			dotLink.href = '#' + dateStr;
+			dotLink.textContent = '';
+
 			const cell = document.createElement("div");
 			cell.className = "day";
 			let color;
@@ -151,11 +158,8 @@ function generateHeatmap(dateCounts, startDate, endDate) {
 
 			}
 			cell.style.backgroundColor = color;
-			const dotLink = document.createElement("a");
-			dotLink.setAttribute("style", "TEXT-DECORATION: none;color: #fff;");
-			dotLink.href = '#' + dateStr;
-			dotLink.textContent = '.';
-			cell.appendChild(dotLink);
+
+
 			cell.title = `${dateStr}: ${count} entries`;
 			cell.addEventListener('mouseover', function (event) {
 
@@ -174,7 +178,9 @@ function generateHeatmap(dateCounts, startDate, endDate) {
 
 			}
 			);
-			monthRow.appendChild(cell);
+
+			dotLink.appendChild(cell);
+			monthRow.appendChild(dotLink);
 
 		}
 		monthContainer.appendChild(label);
