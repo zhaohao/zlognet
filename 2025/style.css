@@ -50,8 +50,8 @@ h1 {
 }
 
 .day {
-    width: 8px;
-    height: 8px;
+    width: 9px;
+    height: 9px;
     border-radius: 2px;
     background-color: #ebedf0;
     transition: background-color 0.5s;
