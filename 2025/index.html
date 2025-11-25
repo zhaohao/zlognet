@@ -7,17 +7,90 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <title>ZMemos@2025</title>
-  <style></style>
-  <link rel="stylesheet" href="./style.css">
+  <script type="text/javascript" src="jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root{
+      --bgcolor:#f8f9fa;
+      --darknumer:0;
+      --darkdegree:0deg;
+    }
+
+    [data-theme="dark"] {
+      --darknumer:1;
+      --darkdegree:180deg;
+    }
+
+    [data-theme="light"] {
+      --darknumer:0;
+      --darkdegree:0deg;
+      --bgcolor:#f8f9fa;
+    }
+
+    /* 将滤镜从 body 移到 html —— 关键修复点 */
+    html {
+      filter: invert(var(--darknumer)) hue-rotate(var(--darkdegree));
+      transition: all 0.5s ease-in-out;
+    }
+
+    .toggle{
+      font-size: 20px;
+      color: #008090;
+      background-color: #0e0e0e00;
+      border: 0px;
+      width: 20px;
+      height: 20px;
+      position: fixed;
+      right: 10px;
+      top: 10px;
+      left: unset;
+      cursor: pointer;
+      transition: all 0.5s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+    }
+
+    .toggle:hover {
+      transform:rotate(360deg);
+      -ms-transform:rotate(360deg);
+      -moz-transform:rotate(360deg);
+      -webkit-transform:rotate(360deg);
+      -o-transform:rotate(360deg);
+    }
+
+    body{
+      background: var(--bgcolor);
+      /* 已删除 filter，避免 fixed 失效 */
+      transition: all 0.5s ease-in-out;
+    }
+
+    img,
+    video,
+    pre {
+      filter: invert(var(--darknumer)) hue-rotate(var(--darkdegree));
+    }
+  </style>
+
 </head>
 
 <body>
+
+  <button onclick="toggle()" class="toggle">◑</button>
+  <button id="backToTop" title="Back To Top">
+    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 15L12.2278 8.26574C12.108 8.12606 11.892 8.12606 11.7722 8.26574L6 15"
+            stroke="#000000" stroke-width="2" stroke-linecap="round" />
+    </svg>
+  </button>
+
   <header style="display: none;">
     <h1>ZMemos@2025</h1>
     <p class="subtitle">Let the day go on and on</p>
   </header>
 
-  <!-- Responsive Modern Navbar -->
+  <!-- Navbar -->
   <nav class="zl-navbar">
     <div class="zl-nav-container">
       <div class="zl-nav-logo"><a href="/">ZLOG.NET</a></div>
@@ -27,14 +100,12 @@
       </button>
 
       <ul class="zl-nav-menu" id="zlNavMenu">
-        <li><a href="/2024/">2024</a></li>
-        <li><a href="/2025/" style="color:#21793f;font-weight: bold;">2025</a></li>
-        <li><a href="/2026/">2026</a></li>
+                <li><a href="/2024/">2024</a></li>
+                <li><a href="/2025/" style="color:#21793f;font-weight: bold;">2025</a></li>
+                <li style="display: none;"><a href="/2026/">2026</a></li>
       </ul>
     </div>
   </nav>
-
-
 
   <main>
     <div id="heatmap"></div>
@@ -62,12 +133,22 @@
   <footer>
     <p class="data-source">数据源: <span id="dataSource">未设置</span></p>
   </footer>
-  <button id="backToTop" title="Back To Top">
-    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M18 15L12.2278 8.26574C12.108 8.12606 11.892 8.12606 11.7722 8.26574L6 15" stroke="#000000"
-        stroke-width="2" stroke-linecap="round" />
-    </svg>
-  </button>
+
+  <script>
+    let html = document.querySelector('html');
+    html.setAttribute('data-theme', localStorage.getItem("themeName"));
+    function toggle() {
+      let html = document.querySelector('html');
+      let currentTheme = html.getAttribute('data-theme');
+      if (currentTheme === "dark") {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem("themeName", 'light');
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem("themeName", 'dark');
+      }
+    }
+  </script>
 
   <script>
     window.onscroll = function () {
@@ -84,10 +165,11 @@
     }
 
     document.getElementById("backToTop").onclick = function () {
-      document.body.scrollTop = 0; // Safari
-      document.documentElement.scrollTop = 0; // Chrome、Firefox、IE 和 Opera
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
     };
   </script>
+
   <script>
     // Mobile Toggle
     const zlToggle = document.getElementById('zlNavToggle');
@@ -98,6 +180,7 @@
       zlMenu.classList.toggle('active');
     });
   </script>
+
   <script src="heatmap.js"></script>
   <script src="memos.js"></script>
 </body>
