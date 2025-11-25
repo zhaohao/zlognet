@@ -1,0 +1,61 @@
+
+#heatmap {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: 1px;
+    justify-content: center;
+    margin: 20px 0 20px 0;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px 10px 20px 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+
+}
+
+.month-row {
+    display: grid;
+    grid-template-columns: repeat(31, 8px);
+    gap: 2px;
+}
+
+.day {
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    background-color: #ebedf0;
+    transition: background-color 0.5s;
+}
+
+.day:hover {
+    background-color: #d0d7de;
+}
+
+.tooltip {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    pointer-events: none;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.month-label {
+    display: inline-block;
+    width: 20px;
+    text-align: right;
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 10px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.month-container {
+    display: flex;
+    align-items: center;
+}
+
