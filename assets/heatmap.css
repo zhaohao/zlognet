@@ -1,7 +1,7 @@
 
 #heatmap {
     display: flex;
-    align-items: start;
+    align-items: center;
     flex-direction: column;
     gap: 1px;
     justify-content: center;
