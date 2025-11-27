@@ -1,11 +1,11 @@
 function randomString(e) {
 
-	e = e || 32;
-	var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
-	a = t.length,
-	n = "";
-	for (i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
-	return n
+    e = e || 32;
+    var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
+        a = t.length,
+        n = "";
+    for (i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+    return n
 }
 let verstring = "?" + randomString(8);
 
@@ -216,10 +216,13 @@ function createMemoElement(memo) {
 
     // 处理内容
     let contentHtml = '';
+
+
     if (memo.nodes && memo.nodes.length > 0) {
         contentHtml = parseNodes(memo.nodes);
     } else {
-        contentHtml = `<p>${memo.content || '无内容'}</p>`;
+        contentHtml = formatContent(memo.content);
+        //        contentHtml = `<p>${memo.content || '无内容'}</p>`;
     }
 
     // 处理标签
@@ -311,6 +314,80 @@ function formatFileSize(bytes) {
     return `${size.toFixed(1)} ${units[unitIndex]}`;
 }
 
+// 解析 content 节点的内容
+function formatContent(content) {
+    if (!content) return '';
+
+    let formatted = content;
+
+    // 0. 首先处理内容中的标签 #xyz
+    // 使用更精确的正则表达式，避免匹配到其他地方的 #
+    formatted = formatted.replace(/(^|\s)#([a-zA-Z0-9\u4e00-\u9fa5_-]+)(?=\s|$)/g,
+        '$1<span class="tag" data-tag="$2">#$2</span>');
+
+    // 1. 处理代码块 ```
+    formatted = formatted.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+
+    // 2. 处理行内代码 `
+    formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+    // 3. 处理标题
+    formatted = formatted.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+    formatted = formatted.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+    formatted = formatted.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+    // 4. 处理粗体 ** ** 或 __ __
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    formatted = formatted.replace(/__(.*?)__/g, '<strong>$1</strong>');
+
+    // 5. 处理斜体 * * 或 _ _
+    formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    formatted = formatted.replace(/_(.*?)_/g, '<em>$1</em>');
+
+    // 6. 处理删除线 ~~ ~~
+    formatted = formatted.replace(/~~(.*?)~~/g, '<del>$1</del>');
+
+    // 7. 处理引用块 >
+    formatted = formatted.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
+
+    // 8. 处理无序列表 * 或 -
+    formatted = formatted.replace(/^\s*[\*\-] (.*$)/gim, '<li>$1</li>');
+    formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+
+    // 9. 处理有序列表 1. 2. 3.
+    formatted = formatted.replace(/^\s*\d+\. (.*$)/gim, '<li>$1</li>');
+    formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>');
+
+    // 10. 处理链接 [text](url)
+    formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+    // 11. 处理图片 ![alt](src)
+    formatted = formatted.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%;height:auto;" />');
+
+    // 12. 处理简单的表格（基本支持）
+    formatted = formatted.replace(/^\|(.+)\|$/gim, function (match) {
+        if (match.includes('---')) {
+            return ''; // 跳过表头分隔线
+        }
+        return '<tr>' + match.split('|').slice(1, -1).map(cell =>
+            `<td>${cell.trim()}</td>`
+        ).join('') + '</tr>';
+    });
+
+    // 13. 包装表格
+    formatted = formatted.replace(/(<tr>.*<\/tr>)/s, '<table>$1</table>');
+
+    // 14. 处理换行（将两个换行转换为段落，单个换行转换为 <br>）
+    formatted = formatted.replace(/\n\n+/g, '</p><p>');
+    formatted = formatted.replace(/\n/g, '<br>');
+    formatted = '<p>' + formatted + '</p>';
+
+    // 15. 清理空的段落
+    formatted = formatted.replace(/<p><\/p>/g, '');
+    formatted = formatted.replace(/<p><br><\/p>/g, '');
+
+    return formatted;
+}
 // 解析节点数据
 function parseNodes(nodes) {
     let html = '';
@@ -377,7 +454,7 @@ function parseChildren(children) {
                 }
                 break;
             case 'LINE_BREAK':
-                html += '<br>';
+                html += '';
                 break;
             case 'UNORDERED_LIST_ITEM':
                 if (child.unorderedListItemNode && child.unorderedListItemNode.children) {
