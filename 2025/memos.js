@@ -208,8 +208,18 @@ function createMemoElement(memo) {
         month: 'long',
         day: 'numeric',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
+        weekday: 'long'
     });
+
+    const datastring = createDate.toLocaleDateString('en-us', {
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric'
+    });
+
+
 
     // 创建日期锚点（YYYY-MM-DD格式）
     const dateAnchor = createDate.toISOString().split('T')[0];
@@ -249,6 +259,7 @@ function createMemoElement(memo) {
                 </div>
                 <div class="memo-content">${contentHtml}</div>
                 ${attachmentsHtml ? `<div class="memo-attachments">${attachmentsHtml}</div>` : ''}
+                <div class="memo-bottom-date">${datastring}</div>
             `;
 
     return memoItem;
@@ -400,7 +411,7 @@ function parseNodes(nodes) {
                 }
                 break;
             case 'LINE_BREAK':
-                html += '';
+                html += '<br>';
                 break;
             case 'CODE_BLOCK':
                 if (node.codeBlockNode) {
@@ -454,7 +465,7 @@ function parseChildren(children) {
                 }
                 break;
             case 'LINE_BREAK':
-                html += '<br>';
+                html += '';
                 break;
             case 'UNORDERED_LIST_ITEM':
                 if (child.unorderedListItemNode && child.unorderedListItemNode.children) {

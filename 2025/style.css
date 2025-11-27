@@ -154,9 +154,16 @@ h1 {
 }
 
 .memo-date {
-    color: #7f8c8d;
+    color: #008090;
     font-size: 0.9rem;
 }
+
+.memo-bottom-date {
+    color: #008090;
+    font-size: 0.9rem;
+    text-align: right;
+}
+
 
 .memo-tags {
     display: flex;
