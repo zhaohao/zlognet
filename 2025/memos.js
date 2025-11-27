@@ -400,7 +400,7 @@ function parseNodes(nodes) {
                 }
                 break;
             case 'LINE_BREAK':
-                html += '<br>';
+                html += '';
                 break;
             case 'CODE_BLOCK':
                 if (node.codeBlockNode) {
@@ -454,7 +454,7 @@ function parseChildren(children) {
                 }
                 break;
             case 'LINE_BREAK':
-                html += '';
+                html += '<br>';
                 break;
             case 'UNORDERED_LIST_ITEM':
                 if (child.unorderedListItemNode && child.unorderedListItemNode.children) {
