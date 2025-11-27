@@ -222,7 +222,13 @@ function createMemoElement(memo) {
 
 
     // 创建日期锚点（YYYY-MM-DD格式）
-    const dateAnchor = createDate.toISOString().split('T')[0];
+    // UTC const dateAnchor = createDate.toISOString().split('T')[0];
+    // LOC const dateAnchor = createDate.toLocaleDateString('en-CA'); 
+    const lyear = createDate.getFullYear();
+    const lmonth = String(createDate.getMonth() + 1).padStart(2, '0');
+    const lday = String(createDate.getDate()).padStart(2, '0');
+
+    const dateAnchor = `${lyear}-${lmonth}-${lday}`; 
 
     // 处理内容
     let contentHtml = '';
