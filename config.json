@@ -1,6 +1,6 @@
 {
     "json_url": "https://memos.zhao.im/api/v1/memos?pageSize=1000&view=MEMO_VIEW_FULL",
-    "file_url": "https://zlog.net/files/2025/",
+    "file_url": "https://v.zlog.net/files/2025/",
     "end_date": "2025-12-31",
     "start_date": "2025-01-01"
 }

@@ -1,31 +1,97 @@
 @import '//cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css?ver=6.2.2';
 
+:root {
+    --bgcolor: #f8f9fa;
+    --darknumer: 0;
+    --darkdegree: 0deg;
+    --scrollbar-track: #f8f9fa;
+    --scrollbar-thumb: #d1ece9;
+}
+
+[data-theme="dark"] {
+    --darknumer: 1;
+    --darkdegree: 180deg;
+    --scrollbar-track: #000;
+    --scrollbar-thumb: #96c2b6;
+}
+
+[data-theme="light"] {
+    --darknumer: 0;
+    --darkdegree: 0deg;
+    --bgcolor: #f8f9fa;
+    --scrollbar-track: #f8f9fa;
+    --scrollbar-thumb: #96c2b6;
+}
+
+html {
+    filter: invert(var(--darknumer)) hue-rotate(var(--darkdegree));
+    transition: all 0.5s ease-in-out;
+    scroll-behavior: smooth;
+}
+
+/* 滚动条本体：宽度在这里设置 */
 ::-webkit-scrollbar {
-    -webkit-appearance: none;
     width: 8px;
     height: 8px;
 }
 
-::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: oklch(0.78 0.05 176.01);
-    -webkit-box-shadow: 0 0 1px hsla(0, 0%, 100%, 0.5);
+/* 滚动条轨道 */
+::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-track);
 }
 
-body {font-family:monospace,"Century Gothic","LXGW WenKai Screen",sans-serif;}
+/* 滚动条拇指 */
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: var(--scrollbar-thumb);
+    -webkit-box-shadow: 0 0 1px hsla(0, 0%, 100%, 0.3);
+}
 
-html {
-  scroll-behavior: smooth;
+.toggle {
+    font-size: 20px;
+    color: #207a3e;
+    background-color: #0e0e0e00;
+    border: 0px;
+    width: 20px;
+    height: 20px;
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    left: unset;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+}
+
+.toggle:hover {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
 }
 
 body {
-    font-family: monospace,"Century Gothic","LXGW WenKai Screen",sans-serif;
+    background: var(--bgcolor);
+    transition: all 0.5s ease-in-out;
+    font-family: monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
     line-height: 1.6;
     color: #333;
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
 }
+
+img,
+video,
+pre {
+    filter: invert(var(--darknumer)) hue-rotate(var(--darkdegree));
+}
+
+
 
 header {
     text-align: right;
@@ -423,132 +489,137 @@ footer {
 
 /* --- Navbar Base --- */
 .zl-navbar {
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  background: #ffffff;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    background: #ffffff;
 }
 
 .zl-nav-container {
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 56px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
 }
 
 .zl-nav-logo a {
-  font-weight: 600;
-  font-size: 20px;
-  color: #333;
-  text-decoration: none;
+    font-weight: 600;
+    font-size: 20px;
+    color: #333;
+    text-decoration: none;
 }
 
 /* --- Desktop Nav --- */
 .zl-nav-menu li {
-  position: relative;
+    position: relative;
 }
 
 /* Frosted hover background */
 .zl-nav-menu li::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #ffffff;
-  
-  border-radius: 8px;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  z-index: -1;
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #ffffff;
+
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    z-index: -1;
 }
 
 .zl-nav-menu li:hover::before {
-  opacity: 1;
+    opacity: 1;
 }
+
 .zl-nav-menu {
-  list-style: none;
-  display: flex;
-  gap: 26px;
+    list-style: none;
+    display: flex;
+    gap: 26px;
 }
 
 .zl-nav-menu li a {
-  text-decoration: none;
-  color: #333;
-  font-size: 15px;
-  transition: 0.2s ease;
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    transition: 0.2s ease;
 }
+
 .zl-nav-menu li a:hover {
-  color: #0073ff;
+    color: #0073ff;
 }
 
 /* --- Mobile Toggle Button --- */
 .zl-nav-toggle {
-  display: none;
-  flex-direction: column;
-  width: 26px;
-  height: 22px;
-  justify-content: space-between;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
+    display: none;
+    flex-direction: column;
+    width: 26px;
+    height: 22px;
+    justify-content: space-between;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 }
 
 .zl-nav-toggle span {
-  display: block;
-  height: 3px;
-  width: 100%;
-  background: #333;
-  border-radius: 2px;
-  transition: all 0.3s ease;
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: #333;
+    border-radius: 2px;
+    transition: all 0.3s ease;
 }
 
 /* --- Mobile Menu --- */
 @media (max-width: 768px) {
-  .zl-nav-menu {
-    z-index: 9999;
-  }
-  .zl-nav-toggle {
-    display: flex;
-  }
+    .zl-nav-menu {
+        z-index: 9999;
+    }
 
-  .zl-nav-menu {
-    position: absolute;
-    top: 56px;
-    left: 0;
-    width: 100%;
-    background: #ffffff;
-    
-    flex-direction: column;
-    padding: 12px 0;
-    display: none;
-    
-  }
+    .zl-nav-toggle {
+        display: flex;
+    }
 
-  .zl-nav-menu li {
-    padding: 10px 0;
-    text-align: center;
-  }
+    .zl-nav-menu {
+        position: absolute;
+        top: 56px;
+        left: 0;
+        width: 100%;
+        background: #ffffff;
 
-  .zl-nav-menu.active {
-    display: flex;
-  }
+        flex-direction: column;
+        padding: 12px 0;
+        display: none;
+
+    }
+
+    .zl-nav-menu li {
+        padding: 10px 0;
+        text-align: center;
+    }
+
+    .zl-nav-menu.active {
+        display: flex;
+    }
 }
 
 /* Toggle Animation */
 .zl-nav-toggle.active span:nth-child(1) {
-  transform: translateY(9px) rotate(45deg);
+    transform: translateY(9px) rotate(45deg);
 }
+
 .zl-nav-toggle.active span:nth-child(2) {
-  opacity: 0;
+    opacity: 0;
 }
+
 .zl-nav-toggle.active span:nth-child(3) {
-  transform: translateY(-9px) rotate(-45deg);
+    transform: translateY(-9px) rotate(-45deg);
 }
 
 
