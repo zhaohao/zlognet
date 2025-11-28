@@ -283,7 +283,7 @@ function createAttachmentElement(attachment) {
                     <div class="attachment attachment-image" data-image-src="${attachment.filename}">
                         <img src="${MEMOS_FILE_URL}${attachment.filename}" alt="${fileName}" loading="lazy">
                         <div class="attachment-info">
-                            <span class="attachment-type">图片</span>
+                            <span class="attachment-type">Photo</span>
                             <span>${fileSize}</span>
                         </div>
                     </div>
@@ -296,7 +296,7 @@ function createAttachmentElement(attachment) {
                             您的浏览器不支持视频播放
                         </video>
                         <div class="attachment-info">
-                            <span class="attachment-type">视频</span>
+                            <span class="attachment-type">Video</span>
                             <span>${fileSize}</span>
                         </div>
                     </div>
@@ -375,11 +375,11 @@ function formatContent(content) {
     formatted = formatted.replace(/^\s*\d+\. (.*$)/gim, '<li>$1</li>');
     formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>');
 
-    // 10. 处理链接 [text](url)
-    formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+    // 10. 处理图片 ![alt](src)
+    formatted = formatted.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:50%;height:auto;" />');
 
-    // 11. 处理图片 ![alt](src)
-    formatted = formatted.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%;height:auto;" />');
+    // 11. 处理链接 [text](url)
+    formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
 
     // 12. 处理简单的表格（基本支持）
     formatted = formatted.replace(/^\|(.+)\|$/gim, function (match) {

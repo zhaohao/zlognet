@@ -49,7 +49,7 @@ html {
 
 .toggle {
     font-size: 20px;
-    color: #207a3e;
+    color: #96c2b6;
     background-color: #0e0e0e00;
     border: 0px;
     width: 20px;
@@ -197,7 +197,7 @@ h1 {
 
 .memo-list {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 30px;
 }
 
@@ -233,7 +233,7 @@ h1 {
 }
 
 .memo-date {
-    color: #008090;
+    color: #555;
     font-size: 0.9rem;
 }
 

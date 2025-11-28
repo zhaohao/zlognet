@@ -234,11 +234,10 @@ function createMemoElement(memo) {
     let contentHtml = '';
 
 
-    if (memo.nodes && memo.nodes.length > 0) {
-        contentHtml = parseNodes(memo.nodes);
-    } else {
+    if (memo.content && memo.content.length > 0) {
         contentHtml = formatContent(memo.content);
-        //        contentHtml = `<p>${memo.content || '无内容'}</p>`;
+    } else {
+        contentHtml = `<p>${memo.content || '无内容'}</p>`;
     }
 
     // 处理标签
@@ -275,7 +274,7 @@ function createMemoElement(memo) {
 function createAttachmentElement(attachment) {
     if (!attachment.type) return '';
 
-    const fileSize = attachment.size ? formatFileSize(attachment.size) : '';
+//    const fileSize = attachment.size ? formatFileSize(attachment.size) : '';
     const fileName = attachment.filename || '未命名文件';
 
     if (attachment.type.startsWith('image/')) {
@@ -283,8 +282,7 @@ function createAttachmentElement(attachment) {
                     <div class="attachment attachment-image" data-image-src="${attachment.filename}">
                         <img src="${MEMOS_FILE_URL}${attachment.filename}" alt="${fileName}" loading="lazy">
                         <div class="attachment-info">
-                            <span class="attachment-type">图片</span>
-                            <span>${fileSize}</span>
+                            <span class="attachment-type">Photo</span>
                         </div>
                     </div>
                 `;
@@ -296,8 +294,7 @@ function createAttachmentElement(attachment) {
                             您的浏览器不支持视频播放
                         </video>
                         <div class="attachment-info">
-                            <span class="attachment-type">视频</span>
-                            <span>${fileSize}</span>
+                            <span class="attachment-type">Video</span>
                         </div>
                     </div>
                 `;
@@ -308,7 +305,6 @@ function createAttachmentElement(attachment) {
                         <div style="padding: 15px; background: #f5f5f5; text-align: center;">
                             <p>${fileName}</p>
                             <p>${attachment.type}</p>
-                            <p>${fileSize}</p>
                         </div>
                     </div>
                 `;
@@ -404,87 +400,6 @@ function formatContent(content) {
     formatted = formatted.replace(/<p><br><\/p>/g, '');
 
     return formatted;
-}
-// 解析节点数据
-function parseNodes(nodes) {
-    let html = '';
-
-    nodes.forEach(node => {
-        switch (node.type) {
-            case 'PARAGRAPH':
-                if (node.paragraphNode && node.paragraphNode.children) {
-                    html += '<p>' + parseChildren(node.paragraphNode.children) + '</p>';
-                }
-                break;
-            case 'LINE_BREAK':
-                html += '<br>';
-                break;
-            case 'CODE_BLOCK':
-                if (node.codeBlockNode) {
-                    html += `<pre><code>${node.codeBlockNode.content || ''}</code></pre>`;
-                }
-                break;
-            case 'LIST':
-                if (node.listNode && node.listNode.children) {
-                    const listType = node.listNode.kind === 'ORDERED' ? 'ol' : 'ul';
-                    html += `<${listType}>` + parseChildren(node.listNode.children) + `</${listType}>`;
-                }
-                break;
-            default:
-                // 其他节点类型
-                break;
-        }
-    });
-
-    return html;
-}
-
-// 解析子节点
-function parseChildren(children) {
-    let html = '';
-
-    children.forEach(child => {
-        switch (child.type) {
-            case 'TEXT':
-                if (child.textNode && child.textNode.content) {
-                    html += child.textNode.content;
-                }
-                break;
-            case 'BOLD':
-                if (child.boldNode && child.boldNode.children) {
-                    html += '<strong>' + parseChildren(child.boldNode.children) + '</strong>';
-                }
-                break;
-            case 'ITALIC':
-                if (child.italicNode && child.italicNode.children) {
-                    html += '<em>' + parseChildren(child.italicNode.children) + '</em>';
-                }
-                break;
-            case 'TAG':
-                if (child.tagNode && child.tagNode.content) {
-                    html += `<span class="tag">${child.tagNode.content}</span>`;
-                }
-                break;
-            case 'AUTO_LINK':
-                if (child.autoLinkNode && child.autoLinkNode.url) {
-                    html += `<a href="${child.autoLinkNode.url}" target="_blank">${child.autoLinkNode.url}</a>`;
-                }
-                break;
-            case 'LINE_BREAK':
-                html += '';
-                break;
-            case 'UNORDERED_LIST_ITEM':
-                if (child.unorderedListItemNode && child.unorderedListItemNode.children) {
-                    html += '<li>' + parseChildren(child.unorderedListItemNode.children) + '</li>';
-                }
-                break;
-            default:
-                // 其他子节点类型
-                break;
-        }
-    });
-
-    return html;
 }
 
 // 在文档加载完成后绑定图片点击事件
