@@ -1,4 +1,17 @@
 @import '//cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css?ver=6.2.2';
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: oklch(0.78 0.05 176.01);
+    -webkit-box-shadow: 0 0 1px hsla(0, 0%, 100%, 0.5);
+}
+
 body {font-family:monospace,"Century Gothic","LXGW WenKai Screen",sans-serif;}
 
 html {
