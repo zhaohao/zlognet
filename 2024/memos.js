@@ -1,14 +1,3 @@
-function randomString(e) {
-
-    e = e || 32;
-    var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
-        a = t.length,
-        n = "";
-    for (i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
-    return n
-}
-let verstring = "?" + randomString(8);
-
 
 let MEMOS_JSON_URL = null;
 let MEMOS_FILE_URL = null;
@@ -21,13 +10,10 @@ async function init() {
         MEMOS_JSON_URL = config.json_url;
         MEMOS_FILE_URL = config.file_url;
 
-        // 显示数据源
         document.getElementById('dataSource').textContent = MEMOS_JSON_URL;
 
-        // 加载 memos 数据
         loadMemosData();
 
-        // 绑定模态框事件
         setupModalEvents();
 
     } catch (err) {
@@ -44,41 +30,29 @@ async function init() {
 
 document.addEventListener("DOMContentLoaded", init);
 
-// const MEMOS_FILE_URL = "https://zlog.net/files/2025/";
-// const MEMOS_JSON_URL = 'https://memos.zhao.im/api/v1/memos?pageSize=1000&view=MEMO_VIEW_FULL' + verstring;
-
-
-
-// 全局变量
 let currentImageIndex = 0;
 let allImages = [];
 
 document.addEventListener('DOMContentLoaded', function () {
-    // 显示数据源
     document.getElementById('dataSource').textContent = MEMOS_JSON_URL;
 });
 
-
-// 设置模态框事件
 function setupModalEvents() {
     const modal = document.getElementById('imageModal');
     const closeBtn = document.getElementById('closeModal');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
 
-    // 关闭模态框
     closeBtn.addEventListener('click', function () {
         modal.style.display = 'none';
     });
 
-    // 点击模态框背景关闭
     modal.addEventListener('click', function (event) {
         if (event.target === modal) {
             modal.style.display = 'none';
         }
     });
 
-    // 键盘事件
     document.addEventListener('keydown', function (event) {
         if (modal.style.display === 'block') {
             if (event.key === 'Escape') {
@@ -91,24 +65,20 @@ function setupModalEvents() {
         }
     });
 
-    // 导航按钮
     prevBtn.addEventListener('click', showPreviousImage);
     nextBtn.addEventListener('click', showNextImage);
 }
 
-// 显示上一张图片
 function showPreviousImage() {
     currentImageIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;
     updateModalImage();
 }
 
-// 显示下一张图片
 function showNextImage() {
     currentImageIndex = (currentImageIndex + 1) % allImages.length;
     updateModalImage();
 }
 
-// 更新模态框图片
 function updateModalImage() {
     const modalImage = document.getElementById('modalImage');
     const modalInfo = document.getElementById('modalInfo');
@@ -118,7 +88,6 @@ function updateModalImage() {
         modalImage.src = currentImage.src;
         modalImage.alt = currentImage.alt;
 
-        // 更新信息
         modalInfo.innerHTML = `
                     <div>${currentImage.alt}</div>
                     <div>${currentImageIndex + 1} / ${allImages.length}</div>
@@ -126,7 +95,6 @@ function updateModalImage() {
     }
 }
 
-// 打开图片模态框
 function openImageModal(imageIndex) {
     currentImageIndex = imageIndex;
     const modal = document.getElementById('imageModal');
@@ -134,7 +102,6 @@ function openImageModal(imageIndex) {
     updateModalImage();
 }
 
-// 收集所有图片
 function collectAllImages() {
     allImages = [];
     const memoItems = document.querySelectorAll('.memo-item');
@@ -150,7 +117,6 @@ function collectAllImages() {
     });
 }
 
-// 加载 memos.json 数据
 async function loadMemosData() {
 
     const memoList = document.getElementById('memoList');
@@ -164,23 +130,19 @@ async function loadMemosData() {
 
         const memosData = await response.json();
 
-        // 隐藏加载状态
         document.getElementById('loadingState').style.display = 'none';
 
-        // 检查是否有 memos 数据
         if (memosData.memos && memosData.memos.length > 0) {
-            // 按时间倒序排列
+
             const sortedMemos = memosData.memos.sort((a, b) =>
                 new Date(b.createTime) - new Date(a.createTime)
             );
 
-            // 渲染每个备忘录
             sortedMemos.forEach(memo => {
                 const memoElement = createMemoElement(memo);
                 memoList.appendChild(memoElement);
             });
 
-            // 收集所有图片用于模态框导航
             collectAllImages();
         } else {
             memoList.innerHTML = '<div class="empty-state">暂无备忘录内容</div>';
@@ -196,12 +158,10 @@ async function loadMemosData() {
     }
 }
 
-// 创建单个备忘录元素的函数
 function createMemoElement(memo) {
     const memoItem = document.createElement('article');
     memoItem.className = 'memo-item';
 
-    // 格式化日期
     const createDate = new Date(memo.createTime);
     const formattedDate = createDate.toLocaleDateString('zh-CN', {
         year: 'numeric',
@@ -213,34 +173,28 @@ function createMemoElement(memo) {
     });
 
     const datastring = createDate.toLocaleDateString('en-us', {
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
         day: 'numeric'
     });
 
 
-
-    // 创建日期锚点（YYYY-MM-DD格式）
     // UTC const dateAnchor = createDate.toISOString().split('T')[0];
     // LOC const dateAnchor = createDate.toLocaleDateString('en-CA'); 
     const lyear = createDate.getFullYear();
     const lmonth = String(createDate.getMonth() + 1).padStart(2, '0');
     const lday = String(createDate.getDate()).padStart(2, '0');
 
-    const dateAnchor = `${lyear}-${lmonth}-${lday}`; 
+    const dateAnchor = `${lyear}-${lmonth}-${lday}`;
 
-    // 处理内容
     let contentHtml = '';
-
-
     if (memo.content && memo.content.length > 0) {
         contentHtml = formatContent(memo.content);
     } else {
         contentHtml = `<p>${memo.content || '无内容'}</p>`;
     }
 
-    // 处理标签
     let tagsHtml = '';
     if (memo.tags && memo.tags.length > 0) {
         tagsHtml = memo.tags.map(tag =>
@@ -248,7 +202,6 @@ function createMemoElement(memo) {
         ).join('');
     }
 
-    // 处理附件
     let attachmentsHtml = '';
     if (memo.attachments && memo.attachments.length > 0) {
         attachmentsHtml = memo.attachments.map(attachment => {
@@ -270,11 +223,10 @@ function createMemoElement(memo) {
     return memoItem;
 }
 
-// 创建附件元素
 function createAttachmentElement(attachment) {
     if (!attachment.type) return '';
 
-//    const fileSize = attachment.size ? formatFileSize(attachment.size) : '';
+    //    const fileSize = attachment.size ? formatFileSize(attachment.size) : '';
     const fileName = attachment.filename || '未命名文件';
 
     if (attachment.type.startsWith('image/')) {
@@ -283,6 +235,7 @@ function createAttachmentElement(attachment) {
                         <img src="${MEMOS_FILE_URL}${attachment.filename}" alt="${fileName}" loading="lazy">
                         <div class="attachment-info">
                             <span class="attachment-type">Photo</span>
+                            <span>stardust</span>
                         </div>
                     </div>
                 `;
@@ -295,23 +248,24 @@ function createAttachmentElement(attachment) {
                         </video>
                         <div class="attachment-info">
                             <span class="attachment-type">Video</span>
+                            <span>stardust</span>
                         </div>
                     </div>
                 `;
     } else {
-        // 其他文件类型
+
         return `
                     <div class="attachment">
                         <div style="padding: 15px; background: #f5f5f5; text-align: center;">
                             <p>${fileName}</p>
                             <p>${attachment.type}</p>
+                            <p>stardust</p>
                         </div>
                     </div>
                 `;
     }
 }
 
-// 格式化文件大小
 function formatFileSize(bytes) {
     if (!bytes) return '';
 
@@ -327,14 +281,11 @@ function formatFileSize(bytes) {
     return `${size.toFixed(1)} ${units[unitIndex]}`;
 }
 
-// 解析 content 节点的内容
 function formatContent(content) {
     if (!content) return '';
 
     let formatted = content;
 
-    // 0. 首先处理内容中的标签 #xyz
-    // 使用更精确的正则表达式，避免匹配到其他地方的 #
     formatted = formatted.replace(/(^|\s)#([a-zA-Z0-9\u4e00-\u9fa5_-]+)(?=\s|$)/g,
         '$1<span class="tag" data-tag="$2">#$2</span>');
 
@@ -371,11 +322,11 @@ function formatContent(content) {
     formatted = formatted.replace(/^\s*\d+\. (.*$)/gim, '<li>$1</li>');
     formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>');
 
-    // 10. 处理链接 [text](url)
-    formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+    // 10. 处理图片 ![alt](src)
+    formatted = formatted.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:50%;height:auto;" />');
 
-    // 11. 处理图片 ![alt](src)
-    formatted = formatted.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%;height:auto;" />');
+    // 11. 处理链接 [text](url)
+    formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
 
     // 12. 处理简单的表格（基本支持）
     formatted = formatted.replace(/^\|(.+)\|$/gim, function (match) {
@@ -402,18 +353,16 @@ function formatContent(content) {
     return formatted;
 }
 
-// 在文档加载完成后绑定图片点击事件
 document.addEventListener('DOMContentLoaded', function () {
-    // 使用事件委托来处理图片点击
+
     document.addEventListener('click', function (event) {
-        // 检查点击的是否是图片附件
+
         if (event.target.closest('.attachment-image')) {
             const attachment = event.target.closest('.attachment-image');
             const img = attachment.querySelector('img');
             const src = img.src;
             const alt = img.alt;
 
-            // 找到图片在所有图片中的索引
             const imageIndex = allImages.findIndex(image => image.src === src);
             if (imageIndex !== -1) {
                 openImageModal(imageIndex);
@@ -421,3 +370,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+function randomString(e) {
+
+    e = e || 32;
+    var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
+        a = t.length,
+        n = "";
+    for (i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+    return n
+}
+let verstring = "?" + randomString(8);
