@@ -233,7 +233,10 @@ h1 {
 }
 
 .memo-date {
-    color: #555;
+    background: #eaf4f4;
+    color: #1a4a4a;
+    padding: 3px 8px;
+    border-radius: 12px;
     font-size: 0.9rem;
 }
 
