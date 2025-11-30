@@ -136,8 +136,8 @@ function generateHeatmap(dateCounts, startDate, endDate) {
 			let color;
 			if (count === 0) {
 
-				color = '#ccc';
-				//'#ebedf0';
+				color = '#ebedf0';
+				//'#ccc';
 
 			}
 			else if (count == 1) {
