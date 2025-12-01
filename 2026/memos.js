@@ -195,6 +195,11 @@ function createMemoElement(memo) {
         contentHtml = `<p>${memo.content || '无内容'}</p>`;
     }
 
+    let locationHtml = '';
+    if (memo.location && memo.location.placeholder.length > 0) {
+        locationHtml = `<p>${memo.location.placeholder}</p>`;
+    }
+
     let tagsHtml = '';
     if (memo.tags && memo.tags.length > 0) {
         tagsHtml = memo.tags.map(tag =>
@@ -217,6 +222,7 @@ function createMemoElement(memo) {
                 </div>
                 <div class="memo-content">${contentHtml}</div>
                 ${attachmentsHtml ? `<div class="memo-attachments">${attachmentsHtml}</div>` : ''}
+                <div class="memo-bottom-date">${locationHtml}</div>
                 <div class="memo-bottom-date">${datastring}</div>
             `;
 
