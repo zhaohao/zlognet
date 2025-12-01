@@ -161,32 +161,28 @@ async function loadMemosData() {
 function createMemoElement(memo) {
     const memoItem = document.createElement('article');
     memoItem.className = 'memo-item';
-
+    
     const createDate = new Date(memo.createTime);
-    const formattedDate = createDate.toLocaleDateString('zh-CN', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        weekday: 'long'
-    });
 
     const datastring = createDate.toLocaleDateString('en-us', {
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
         day: 'numeric'
     });
 
-
     // UTC const dateAnchor = createDate.toISOString().split('T')[0];
     // LOC const dateAnchor = createDate.toLocaleDateString('en-CA'); 
-    const lyear = createDate.getFullYear();
-    const lmonth = String(createDate.getMonth() + 1).padStart(2, '0');
-    const lday = String(createDate.getDate()).padStart(2, '0');
 
-    const dateAnchor = `${lyear}-${lmonth}-${lday}`; 
+    const weekday = createDate.toLocaleDateString('zh-CN', { weekday: 'long' });
+    const y = createDate.getFullYear();
+    const m = String(createDate.getMonth() + 1).padStart(2, '0');
+    const d = String(createDate.getDate()).padStart(2, '0');
+    const hh = String(createDate.getHours()).padStart(2, '0');
+    const mm = String(createDate.getMinutes()).padStart(2, '0');
+
+    const formattedDate = `${y}年${m}月${d}日${hh}点${mm}分 ${weekday}`;
+    const dateAnchor = `${y}-${m}-${d}`;
 
     let contentHtml = '';
     if (memo.content && memo.content.length > 0) {
