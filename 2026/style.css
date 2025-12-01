@@ -1,10 +1,10 @@
 @import '//cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css?ver=6.2.2';
 
 :root {
-    --bgcolor: #f8f9fa;
+    --bgcolor: rgb(233, 237, 230);
     --darknumer: 0;
     --darkdegree: 0deg;
-    --scrollbar-track: #f8f9fa;
+    --scrollbar-track: rgb(233, 237, 230);
     --scrollbar-thumb: #d1ece9;
 }
 
@@ -18,8 +18,8 @@
 [data-theme="light"] {
     --darknumer: 0;
     --darkdegree: 0deg;
-    --bgcolor: #f8f9fa;
-    --scrollbar-track: #f8f9fa;
+    --bgcolor: rgb(233, 237, 230);
+    --scrollbar-track: rgb(233, 237, 230);
     --scrollbar-thumb: #96c2b6;
 }
 
