@@ -6,70 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <title>ZMemos@2026</title>
+  <title>ZLOG2026</title>
   <script type="text/javascript" src="jquery-3.7.1.min.js"></script>
   <link rel="stylesheet" href="style.css">
-  <style>
-    :root{
-      --bgcolor:#f8f9fa;
-      --darknumer:0;
-      --darkdegree:0deg;
-    }
-
-    [data-theme="dark"] {
-      --darknumer:1;
-      --darkdegree:180deg;
-    }
-
-    [data-theme="light"] {
-      --darknumer:0;
-      --darkdegree:0deg;
-      --bgcolor:#f8f9fa;
-    }
-
-    html {
-      filter: invert(var(--darknumer)) hue-rotate(var(--darkdegree));
-      transition: all 0.5s ease-in-out;
-    }
-
-    .toggle{
-      font-size: 20px;
-      color: #008090;
-      background-color: #0e0e0e00;
-      border: 0px;
-      width: 20px;
-      height: 20px;
-      position: fixed;
-      right: 10px;
-      top: 10px;
-      left: unset;
-      cursor: pointer;
-      transition: all 0.5s ease;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 50;
-    }
-
-    .toggle:hover {
-      transform:rotate(360deg);
-      -ms-transform:rotate(360deg);
-      -moz-transform:rotate(360deg);
-      -webkit-transform:rotate(360deg);
-      -o-transform:rotate(360deg);
-    }
-
-    body{
-      background: var(--bgcolor);
-      transition: all 0.5s ease-in-out;
-    }
-
-    img,
-    video,
-    pre {
-      filter: invert(var(--darknumer)) hue-rotate(var(--darkdegree));
-    }
-  </style>
+  <style></style>
 
 </head>
 
@@ -84,7 +24,7 @@
   </button>
 
   <header style="display: none;">
-    <h1>ZMemos@2026</h1>
+    <h1>ZLOG2026</h1>
     <p class="subtitle">Let the day go on and on</p>
   </header>
 
@@ -100,7 +40,7 @@
       <ul class="zl-nav-menu" id="zlNavMenu">
                 <li><a href="/2024/">2024</a></li>
                 <li><a href="/2025/">2025</a></li>
-                <li style="display: none;"><a href="/2026/" style="color:#21793f;font-weight: bold;">2026</a></li>
+                <li style="display: none; color:#21793f; font-weight: bold;"><a href="/2026/">2026</a></li>
       </ul>
     </div>
   </nav>
@@ -110,7 +50,7 @@
     <div class="tooltip" id="tooltip"></div>
     <div class="memo-list" id="memoList">
       <div class="loading" id="loadingState">
-        <p>Loading memos...</p>
+        <p>正在加载备忘录数据...</p>
       </div>
     </div>
   </main>

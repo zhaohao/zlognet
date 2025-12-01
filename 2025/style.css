@@ -115,16 +115,16 @@ h1 {
     margin: 20px 0 20px 0;
     background: #ffffff;
     border-radius: 8px;
-    padding: 20px 10px 20px 10px;
+    padding: 0px 10px 0px 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-
-
+    min-height: 100px;
 }
 
 .month-row {
     display: grid;
     grid-template-columns: repeat(31, 8px);
     gap: 2px;
+    margin-bottom: 5px;
 }
 
 .day {
@@ -153,19 +153,30 @@ h1 {
 
 .month-label {
     display: inline-block;
-    width: 20px;
+    width: 30px;
     text-align: right;
     margin-right: 10px;
     font-weight: bold;
-    font-size: 10px;
+    font-size: 12px;
     font-family: 'Courier New', Courier, monospace;
+    color: #333;
 }
 
 .month-container {
     display: flex;
     align-items: center;
+    margin-bottom: 0px;
 }
 
+
+.empty-heatmap {
+    text-align: center;
+    padding: 40px;
+    color: #7f8c8d;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
 
 #backToTop {
     display: none;
@@ -254,8 +265,6 @@ h1 {
 }
 
 .tag {
-    /*background: #e1f0fa;
-    color: #3498db;*/
     background: #eaf4f4;
     color: #1a4a4a;
     padding: 3px 8px;
@@ -272,7 +281,6 @@ h1 {
 }
 
 .memo-content code {
-    /*background: #f4f4f4;*/
     color: #1a4a4a;
     padding: 2px 6px;
     border-radius: 4px;
@@ -627,8 +635,51 @@ footer {
     transform: translateY(-9px) rotate(-45deg);
 }
 
+/* 分页按钮样式 */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+    padding: 20px 0;
+    flex-wrap: wrap;
+    gap: 8px;
+}
 
+.pagination-btn {
+    padding: 8px 14px;
+    border: 1px solid #e1e1e1;
+    background-color: white;
+    color: #333;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    min-width: 40px;
+    text-align: center;
+}
 
+.pagination-btn:hover:not(:disabled) {
+    background-color: #f5f5f5;
+    border-color: #1a4a4a;
+    color: #1a4a4a;
+}
+
+.pagination-btn.active {
+    background-color: #1a4a4a;
+    color: white;
+    border-color: #1a4a4a;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-btn.active:hover {
+    background-color: #1a4a4a;
+    color: white;
+}
 
 @media (max-width: 600px) {
     body {
@@ -667,5 +718,30 @@ footer {
     .nav-btn {
         padding: 8px 12px;
         font-size: 16px;
+    }
+    
+    .month-label {
+        width: 25px;
+        font-size: 10px;
+    }
+    
+    .month-row {
+        grid-template-columns: repeat(31, 7px);
+        gap: 1px;
+    }
+    
+    .day {
+        width: 7px;
+        height: 7px;
+    }
+    
+    .pagination-container {
+        gap: 5px;
+    }
+    
+    .pagination-btn {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+        min-width: 35px;
     }
 }
