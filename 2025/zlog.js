@@ -1,3 +1,7 @@
+// filename: zlog.js
+// update time: 2025.12.02
+// homepage: https://zlog.net
+
 let MEMOS_JSON_URL = null;
 let MEMOS_FILE_URL = null;
 let ITEMS_PER_PAGE = 20; // 默认每页显示数量
@@ -350,14 +354,14 @@ function createMemoElement(memo) {
         day: 'numeric'
     });
 
-    const weekday = createDate.toLocaleDateString('zh-CN', { weekday: 'long' });
+    const weekday = createDate.toLocaleDateString('en-US', { weekday: 'short' });
     const y = createDate.getFullYear();
     const m = String(createDate.getMonth() + 1).padStart(2, '0');
     const d = String(createDate.getDate()).padStart(2, '0');
     const hh = String(createDate.getHours()).padStart(2, '0');
     const mm = String(createDate.getMinutes()).padStart(2, '0');
 
-    const formattedDate = `${y}年${m}月${d}日${hh}点${mm}分 ${weekday}`;
+    const formattedDate = `${y}.${m}.${d} ${hh}:${mm} ${weekday}`;
     const dateAnchor = `${y}-${m}-${d}`;
 
     let contentHtml = '';
