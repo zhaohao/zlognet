@@ -1,3 +1,7 @@
+/* filename: zlog.css */
+/* update time: 2025.12.02 */
+/* homepage: https://zlog.net */
+
 @import '//cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css?ver=6.2.2';
 
 :root {
@@ -117,14 +121,12 @@ h1 {
     border-radius: 8px;
     padding: 20px 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    min-height: 100px;
 }
 
 .month-row {
     display: grid;
     grid-template-columns: repeat(31, 8px);
     gap: 2px;
-    margin-bottom: 5px;
 }
 
 .day {
@@ -160,7 +162,6 @@ h1 {
     font-size: 12px;
     font-family: 'Courier New', Courier, monospace;
     color: #333;
-    padding: 0 0 5px 0;
 }
 
 .month-container {
