@@ -4,16 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <title>ZLOG.NET</title>
     <link rel="stylesheet" href="zlog.css">
 
     <style>
-        /* 图片模态框：最终稳定版 */
+        /* 图片模态框：稳定版 */
         #imageModal {
             display: none;
-            /* 默认隐藏 */
             position: fixed;
             z-index: 9999;
             left: 0;
@@ -22,14 +21,15 @@
             height: 100%;
             overflow: hidden;
             background-color: rgba(26, 74, 74, 0.3);
-            animation: zoomIn 0.3s;
 
-            /* Flex 居中布局，仅在 show 时生效 */
+            /* Flex 居中 */
             justify-content: center;
             align-items: center;
+
+            animation: zoomIn 0.3s;
         }
 
-        /* 显示 modal 时启用 flex */
+        /* 显示 modal 时 */
         #imageModal.show {
             display: flex;
         }
@@ -89,7 +89,7 @@
     <!-- memo 内容 -->
     <div id="memoContainer">加载中...</div>
 
-    <!-- 图片模态框（隐藏状态） -->
+    <!-- 图片模态框 -->
     <div id="imageModal">
         <span id="closeModal">&times;</span>
         <div class="modal-navigation">
@@ -124,7 +124,6 @@
             }
 
             const createDate = new Date(memo.createTime);
-
             const weekday = createDate.toLocaleDateString('en-US', { weekday: 'short' });
             const y = createDate.getFullYear();
             const m = String(createDate.getMonth() + 1).padStart(2, '0');
@@ -145,22 +144,19 @@
             }
 
             document.getElementById("memoContainer").innerHTML = `
-                <div class="memo-item">
-                    <div class="memo-date">${title}</div>
-                    <div class="memo-content">${contentHtml}</div>
-                    <div class="memo-attachments">${attachmentsHtml}</div>
-                </div>
-            `;
+        <div class="memo-item">
+            <div class="memo-date">${title}</div>
+            <div class="memo-content">${contentHtml}</div>
+            <div class="memo-attachments">${attachmentsHtml}</div>
+        </div>
+    `;
 
             setupImageViewer();
         })();
 
-
-
         /* ==========================================================
-           图片查看器（最终稳定版）
+           图片查看器（稳定版，图片加载完再显示 modal）
         ========================================================== */
-
         let imageList = [];
         let currentIndex = 0;
 
@@ -179,8 +175,19 @@
             const modal = document.getElementById("imageModal");
             const modalImg = document.getElementById("modalImage");
 
-            modal.classList.add("show");
-            modalImg.src = imageList[currentIndex];
+            // 先隐藏，避免闪现
+            modal.classList.remove("show");
+
+            // 先清空 src 防止上一次图片闪现
+            modalImg.src = "";
+
+            // 关键：等图片加载完成再显示 modal
+            const img = new Image();
+            img.onload = function () {
+                modalImg.src = imageList[currentIndex];
+                modal.classList.add("show");
+            };
+            img.src = imageList[currentIndex];
         }
 
         function closeModal() {
@@ -191,19 +198,19 @@
 
         document.getElementById("prevBtn").onclick = function () {
             currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
-            document.getElementById("modalImage").src = imageList[currentIndex];
+            openModal(currentIndex);
         };
 
         document.getElementById("nextBtn").onclick = function () {
             currentIndex = (currentIndex + 1) % imageList.length;
-            document.getElementById("modalImage").src = imageList[currentIndex];
+            openModal(currentIndex);
         };
 
         document.getElementById("imageModal").addEventListener("click", function (e) {
             if (e.target === this) closeModal();
         });
 
-        // 键盘控制：判断是否显示
+        // 键盘控制
         document.addEventListener("keydown", function (e) {
             const modal = document.getElementById("imageModal");
             if (!modal.classList.contains("show")) return;
@@ -232,6 +239,7 @@
 
     <script defer src="https://cloud.umami.is/script.js"
         data-website-id="170e4246-7377-4f38-8e3e-fa65207d98c8"></script>
+
 </body>
 
 </html>
