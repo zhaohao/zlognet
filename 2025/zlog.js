@@ -1,5 +1,5 @@
 // filename: zlog.js
-// update time: 2025.12.02
+// update time: 2025.12.03
 // homepage: https://zlog.net
 
 let MEMOS_JSON_URL = null;
@@ -410,11 +410,12 @@ function createAttachmentElement(attachment) {
 
     const fileSize = attachment.size ? formatFileSize(attachment.size) : '';
     const fileName = attachment.filename || '未命名文件';
+    const fileYear = attachment.createTime.substring(0, 4);
 
     if (attachment.type.startsWith('image/')) {
         return `
-                    <div class="attachment attachment-image" data-image-src="${attachment.filename}">
-                        <img src="${MEMOS_FILE_URL}${attachment.filename}" alt="${fileName}" loading="lazy">
+                    <div class="attachment attachment-image" data-image-src="${fileName}">
+                        <img src="${MEMOS_FILE_URL}${fileYear}/${fileName}" alt="${fileName}" loading="lazy">
                         <div class="attachment-info">
                             <span class="attachment-type">Photo</span>
                             <span>${fileSize}</span>
@@ -425,7 +426,7 @@ function createAttachmentElement(attachment) {
         return `
                     <div class="attachment attachment-video">
                         <video controls>
-                            <source src="${MEMOS_FILE_URL}${attachment.filename}" type="${attachment.type}">
+                            <source src="${MEMOS_FILE_URL}${fileYear}/${fileName}" type="${attachment.type}">
                             您的浏览器不支持视频播放
                         </video>
                         <div class="attachment-info">
