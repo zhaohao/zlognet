@@ -393,7 +393,7 @@ function createMemoElement(memo) {
     memoItem.innerHTML = `
                 <a id="${dateAnchor}" class="memo-anchor"></a>
                 <div class="memo-header">
-                    <div class="memo-date">${formattedDate}</div>
+                    <div class="memo-date"><a class="memo-link" href="memo.html?id=${memo.name}">${formattedDate}</a></div>
                     <div class="memo-tags">${tagsHtml}</div>
                 </div>
                 <div class="memo-content">${contentHtml}</div>

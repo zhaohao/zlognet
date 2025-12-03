@@ -253,6 +253,27 @@ h1 {
     font-size: 0.9rem;
 }
 
+.memo-link {
+    color: #1a4a4a;
+    text-decoration: none;
+}
+
+
+.memo-back {
+    margin: 10px 0;
+    background: #eaf4f4;
+    padding: 5px 20px;
+    border-radius: 12px;
+    width: fit-content;
+}
+
+.memo-back a{
+
+    color: #1a4a4a;
+    text-decoration: none;
+}
+
+
 .memo-bottom-date {
     color: #1a4a4a;
     font-size: 0.8rem;
