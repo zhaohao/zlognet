@@ -3,6 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <title>ZLOG.NET</title>
     <link rel="stylesheet" href="zlog.css">
     <style>
@@ -12,6 +15,7 @@
 
 <body>
 
+    <button onclick="toggle()" class="toggle">◑</button>
     <button id="backbutton" onclick="(() => (history.length === 1) ? window.location = '/' : history.back())()">
         ◀ 返回列表
     </button>
@@ -52,13 +56,12 @@
 
             // 附件
 
-    let attachmentsHtml = '';
-    if (memo.attachments && memo.attachments.length > 0) {
-        attachmentsHtml = memo.attachments.map(attachment => {
-            return createAttachmentElement(attachment);
-        }).join('');
-    }
-
+            let attachmentsHtml = '';
+            if (memo.attachments && memo.attachments.length > 0) {
+                attachmentsHtml = memo.attachments.map(attachment => {
+                    return createAttachmentElement(attachment);
+                }).join('');
+            }
 
             // 输出 HTML
             document.getElementById("memoContainer").innerHTML = `
@@ -69,6 +72,21 @@
         </div>
     `;
         })();
+    </script>
+    <script>
+        let html = document.querySelector('html');
+        html.setAttribute('data-theme', localStorage.getItem("themeName"));
+        function toggle() {
+            let html = document.querySelector('html');
+            let currentTheme = html.getAttribute('data-theme');
+            if (currentTheme === "dark") {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem("themeName", 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem("themeName", 'dark');
+            }
+        }
     </script>
 </body>
 
