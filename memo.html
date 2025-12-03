@@ -87,7 +87,7 @@
     <div id="memoContainer">加载中...</div>
 
     <!-- 图片模态框 -->
-    <div id="imageModal" style="display: flex;">
+    <div id="imageModal">
         <span id="closeModal">&times;</span>
         <div class="modal-navigation">
             <button class="nav-btn" id="prevBtn">&#10094;</button>
@@ -182,7 +182,7 @@
             currentIndex = i;
             const modal = document.getElementById("imageModal");
             const modalImg = document.getElementById("modalImage");
-            modal.style.display = "block";
+            modal.style.display = "flex";
             modalImg.src = imageList[currentIndex];
         }
 
