@@ -8,8 +8,67 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <title>ZLOG.NET</title>
     <link rel="stylesheet" href="zlog.css">
-    <style>
 
+    <style>
+        /* 图片模态框：与 index.html 风格一致，但独立可运行 */
+        #imageModal {
+            display: none;
+            /* position: fixed; */
+            z-index: 9999;
+            padding-top: 40px;
+            left: 0;
+            /* top: 0; */
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            /* background-color: rgba(0, 0, 0, 0.85); */
+            top: 50%;
+            transform: translateY(-50%);
+            animation: zoomIn 0.3s;
+        }
+
+        #imageModal img {
+            margin: auto;
+            display: block;
+            max-width: 94%;
+            max-height: 80vh;
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        #closeModal {
+            position: fixed;
+            top: 18px;
+            right: 20px;
+            font-size: 32px;
+            color: #4a4a4a;
+            cursor: pointer;
+            z-index: 10001;
+        }
+
+        .modal-navigation {
+            position: fixed;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            z-index: 10000;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            font-size: 40px;
+            color: #4a4a4a;
+            padding: 20px;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+
+        .nav-btn:hover {
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -20,9 +79,21 @@
         ◀ 返回列表
     </button>
 
+    <!-- memo 内容 -->
     <div id="memoContainer">加载中...</div>
 
+    <!-- 图片模态框 -->
+    <div id="imageModal">
+        <span id="closeModal">&times;</span>
+        <div class="modal-navigation">
+            <button class="nav-btn" id="prevBtn">&#10094;</button>
+            <button class="nav-btn" id="nextBtn">&#10095;</button>
+        </div>
+        <img id="modalImage" src="">
+    </div>
+
     <script src="zlog.js"></script>
+
     <script>
         (async function () {
             // 获取 memo id
@@ -61,28 +132,89 @@
 
             const title = formattedDate;
 
-            // 格式化内容
+            // 内容
             const contentHtml = formatContent(memo.content || "");
 
             // 附件
-
             let attachmentsHtml = '';
             if (memo.attachments && memo.attachments.length > 0) {
-                attachmentsHtml = memo.attachments.map(attachment => {
-                    return createAttachmentElement(attachment);
-                }).join('');
+                attachmentsHtml = memo.attachments
+                    .map(attachment => createAttachmentElement(attachment))
+                    .join('');
             }
 
             // 输出 HTML
             document.getElementById("memoContainer").innerHTML = `
-        <div class="memo-item">
-            <div class="memo-date">${title}</div>
-            <div class="memo-content">${contentHtml}</div>
-            <div class="memo-attachments">${attachmentsHtml}</div>
-        </div>
-    `;
+                <div class="memo-item">
+                    <div class="memo-date">${title}</div>
+                    <div class="memo-content">${contentHtml}</div>
+                    <div class="memo-attachments">${attachmentsHtml}</div>
+                </div>
+            `;
+
+            setupImageViewer();
         })();
+
+
+
+        /* ==========================================================
+           图片查看器（支持左右切换、ESC、点击关闭）
+        ========================================================== */
+
+        let imageList = [];
+        let currentIndex = 0;
+
+        function setupImageViewer() {
+            imageList = [];
+            const imgs = document.querySelectorAll(".attachment-image img");
+
+            imgs.forEach((img, i) => {
+                imageList.push(img.src);
+                img.addEventListener("click", () => openModal(i));
+            });
+        }
+
+        function openModal(i) {
+            currentIndex = i;
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+            modal.style.display = "block";
+            modalImg.src = imageList[currentIndex];
+        }
+
+        function closeModal() {
+            document.getElementById("imageModal").style.display = "none";
+        }
+
+        // 绑定按钮
+        document.getElementById("closeModal").onclick = closeModal;
+
+        document.getElementById("prevBtn").onclick = function () {
+            currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+            document.getElementById("modalImage").src = imageList[currentIndex];
+        };
+
+        document.getElementById("nextBtn").onclick = function () {
+            currentIndex = (currentIndex + 1) % imageList.length;
+            document.getElementById("modalImage").src = imageList[currentIndex];
+        };
+
+        // 点击背景关闭
+        document.getElementById("imageModal").addEventListener("click", function (e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Keyboard
+        document.addEventListener("keydown", function (e) {
+            const modal = document.getElementById("imageModal");
+            if (modal.style.display !== "block") return;
+
+            if (e.key === "Escape") closeModal();
+            if (e.key === "ArrowLeft") document.getElementById("prevBtn").click();
+            if (e.key === "ArrowRight") document.getElementById("nextBtn").click();
+        });
     </script>
+
     <script>
         let html = document.querySelector('html');
         html.setAttribute('data-theme', localStorage.getItem("themeName"));
@@ -98,6 +230,7 @@
             }
         }
     </script>
+
     <script defer src="https://cloud.umami.is/script.js"
         data-website-id="170e4246-7377-4f38-8e3e-fa65207d98c8"></script>
 </body>

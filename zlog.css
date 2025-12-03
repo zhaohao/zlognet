@@ -474,7 +474,7 @@ h1 {
     color: white;
     border: none;
     padding: 10px 15px;
-    border-radius: 50%;
+    border-radius: 0%;
     cursor: pointer;
     font-size: 20px;
     transition: background 0.3s;
