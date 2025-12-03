@@ -51,23 +51,21 @@
             const contentHtml = formatContent(memo.content || "");
 
             // 附件
-            let attachments = "";
-            if (memo.attachments) {
-                memo.attachments.forEach(att => {
-                    const year = att.createTime.substring(0, 4);
-                    const url = config.file_url + year + "/" + att.filename;
-                    if (att.type.startsWith("image/")) {
-                        attachments += `<img src="${url}" />`;
-                    }
-                });
-            }
+
+    let attachmentsHtml = '';
+    if (memo.attachments && memo.attachments.length > 0) {
+        attachmentsHtml = memo.attachments.map(attachment => {
+            return createAttachmentElement(attachment);
+        }).join('');
+    }
+
 
             // 输出 HTML
             document.getElementById("memoContainer").innerHTML = `
         <div class="memo-item">
             <div class="memo-date">${title}</div>
             <div class="memo-content">${contentHtml}</div>
-            <div class="memo-attachments">${attachments}</div>
+            <div class="memo-attachments">${attachmentsHtml}</div>
         </div>
     `;
         })();
