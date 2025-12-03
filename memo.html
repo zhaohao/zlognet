@@ -15,16 +15,20 @@
             display: none;
             position: fixed;
             z-index: 9999;
-            padding-top: 40px;
             left: 0;
-            top: 30px; 
+            top: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
             background-color: rgba(26, 74, 74, 0.3);
-            top: 50%;
-            transform: translateY(-50%);
             animation: zoomIn 0.3s;
+
+            /* 新增：让大图真正垂直 & 水平居中 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            /* 去掉 padding-top 否则始终偏下 */
         }
 
         #imageModal img {
