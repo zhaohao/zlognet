@@ -21,12 +21,10 @@
             height: 100%;
             overflow: hidden;
             background-color: rgba(26, 74, 74, 0.3);
-
-            /* Flex 居中 */
             justify-content: center;
             align-items: center;
-
-            animation: zoomIn 0.3s;
+            margin: 0;
+            padding: 0;
         }
 
         /* 显示 modal 时 */
@@ -34,13 +32,29 @@
             display: flex;
         }
 
-        #imageModal img {
-            margin: auto;
-            display: block;
+        /* 图片包装容器 - 确保稳定居中 */
+        .image-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #modalImage {
             max-width: 94%;
             max-height: 80vh;
+            width: auto;
+            height: auto;
             border-radius: 12px;
             box-shadow: 0 4px 30px rgba(26, 74, 74, 0.3);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        #modalImage.loaded {
+            opacity: 1;
         }
 
         #closeModal {
@@ -96,7 +110,9 @@
             <button class="nav-btn" id="prevBtn">&#10094;</button>
             <button class="nav-btn" id="nextBtn">&#10095;</button>
         </div>
-        <img id="modalImage" src="">
+        <div class="image-wrapper">
+            <img id="modalImage" src="" alt="预览图片">
+        </div>
     </div>
 
     <script src="zlog.js"></script>
@@ -155,7 +171,7 @@
         })();
 
         /* ==========================================================
-           图片查看器（稳定版，图片加载完再显示 modal）
+           图片查看器（修复版）
         ========================================================== */
         let imageList = [];
         let currentIndex = 0;
@@ -167,6 +183,10 @@
             imgs.forEach((img, i) => {
                 imageList.push(img.src);
                 img.addEventListener("click", () => openModal(i));
+                
+                // 预加载图片到内存
+                const preloadImg = new Image();
+                preloadImg.src = img.src;
             });
         }
 
@@ -174,24 +194,34 @@
             currentIndex = i;
             const modal = document.getElementById("imageModal");
             const modalImg = document.getElementById("modalImage");
-
-            // 先隐藏，避免闪现
-            modal.classList.remove("show");
-
-            // 先清空 src 防止上一次图片闪现
-            modalImg.src = "";
-
-            // 关键：等图片加载完成再显示 modal
-            const img = new Image();
-            img.onload = function () {
-                modalImg.src = imageList[currentIndex];
-                modal.classList.add("show");
-            };
-            img.src = imageList[currentIndex];
+            
+            // 先隐藏图片
+            modalImg.classList.remove("loaded");
+            
+            // 显示模态框
+            modal.classList.add("show");
+            
+            // 设置图片源
+            modalImg.src = imageList[currentIndex];
+            
+            // 等待图片加载完成后显示
+            if (modalImg.complete) {
+                modalImg.classList.add("loaded");
+            } else {
+                modalImg.onload = function() {
+                    modalImg.classList.add("loaded");
+                    // 清理事件处理器
+                    modalImg.onload = null;
+                };
+            }
         }
 
         function closeModal() {
-            document.getElementById("imageModal").classList.remove("show");
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+            
+            modal.classList.remove("show");
+            modalImg.classList.remove("loaded");
         }
 
         document.getElementById("closeModal").onclick = closeModal;
