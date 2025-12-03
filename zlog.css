@@ -251,6 +251,7 @@ h1 {
     padding: 3px 8px;
     border-radius: 12px;
     font-size: 0.9rem;
+    width: fit-content;
 }
 
 .memo-link {
@@ -258,16 +259,6 @@ h1 {
     text-decoration: none;
 }
 
-.memo-attachments img {
-    width: 100%;
-    max-width: 720px;
-    height: inherit;
-    display: block;
-    margin: 15px 4px 15px 4px;
-    -webkit-box-shadow: #999 1px 1px 4px;
-    -moz-box-shadow: #999 1px 1px 4px;
-    box-shadow: #999 1px 1px 4px;
-}
 
 #backbutton {
     margin: 10px 0;
@@ -343,6 +334,17 @@ h1 {
     margin-top: 15px;
 }
 
+.memo-attachments img {
+    width: 100%;
+    max-width: 720px;
+    height: inherit;
+    display: block;
+    margin: 15px 4px 15px 4px;
+    -webkit-box-shadow: #999 1px 1px 4px;
+    -moz-box-shadow: #999 1px 1px 4px;
+    box-shadow: #999 1px 1px 4px;
+}
+
 .attachment {
     border-radius: 6px;
     overflow: hidden;
@@ -358,7 +360,7 @@ h1 {
 }
 
 .attachment-image {
-    max-width: 200px;
+    max-width: 300px;
 }
 
 .attachment-video {
