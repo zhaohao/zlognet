@@ -1,72 +1,77 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<title>Memo</title>
-<link rel="stylesheet" href="zlog.css">
-<style>
 
-</style>
+<head>
+    <meta charset="UTF-8">
+    <title>ZLOG.NET</title>
+    <link rel="stylesheet" href="zlog.css">
+    <style>
+
+    </style>
 </head>
+
 <body>
 
-<div class="memo-back"><a href="/">← 返回列表</a></div>
+    <button id="backbutton" onclick="(() => (history.length === 1) ? window.location = '/' : history.back())()">
+        ✦ 返回列表
+    </button>
 
-<div id="memoContainer">加载中...</div>
+    <div id="memoContainer">加载中...</div>
 
-<script src="zlog.js"></script>
-<script>
-(async function() {
-    // 获取 memo id
-    const params = new URLSearchParams(location.search);
-    const memoName = params.get("id");
+    <script src="zlog.js"></script>
+    <script>
+        (async function () {
+            // 获取 memo id
+            const params = new URLSearchParams(location.search);
+            const memoName = params.get("id");
 
-    if (!memoName) {
-        document.getElementById("memoContainer").innerHTML = "未指定 memo";
-        return;
-    }
-
-    // 获取全部 memo 数据
-    const res = await fetch("config.json");
-    const config = await res.json();
-    const memosRes = await fetch(config.json_url);
-    const memosData = await memosRes.json();
-
-    const memo = memosData.memos.find(m => m.name === memoName);
-
-    if (!memo) {
-        document.getElementById("memoContainer").innerHTML = "找不到该 memo";
-        return;
-    }
-
-    // 格式化显示
-    const createDate = new Date(memo.createTime);
-    const title = createDate.toLocaleString("zh-CN");
-
-    // 格式化内容
-    const contentHtml = formatContent(memo.content || "");
-
-    // 附件
-    let attachments = "";
-    if (memo.attachments) {
-        memo.attachments.forEach(att => {
-            const year = att.createTime.substring(0, 4);
-            const url = config.file_url + year + "/" + att.filename;
-            if (att.type.startsWith("image/")) {
-                attachments += `<img src="${url}" />`;
+            if (!memoName) {
+                document.getElementById("memoContainer").innerHTML = "未指定 memo";
+                return;
             }
-        });
-    }
 
-    // 输出 HTML
-    document.getElementById("memoContainer").innerHTML = `
+            // 获取全部 memo 数据
+            const res = await fetch("config.json");
+            const config = await res.json();
+            const memosRes = await fetch(config.json_url);
+            const memosData = await memosRes.json();
+
+            const memo = memosData.memos.find(m => m.name === memoName);
+
+            if (!memo) {
+                document.getElementById("memoContainer").innerHTML = "找不到该 memo";
+                return;
+            }
+
+            // 格式化显示
+            const createDate = new Date(memo.createTime);
+            const title = createDate.toLocaleString("zh-CN");
+
+            // 格式化内容
+            const contentHtml = formatContent(memo.content || "");
+
+            // 附件
+            let attachments = "";
+            if (memo.attachments) {
+                memo.attachments.forEach(att => {
+                    const year = att.createTime.substring(0, 4);
+                    const url = config.file_url + year + "/" + att.filename;
+                    if (att.type.startsWith("image/")) {
+                        attachments += `<img src="${url}" />`;
+                    }
+                });
+            }
+
+            // 输出 HTML
+            document.getElementById("memoContainer").innerHTML = `
         <div class="memo-item">
             <div class="memo-date">${title}</div>
             <div class="memo-content">${contentHtml}</div>
             <div class="memo-attachments">${attachments}</div>
         </div>
     `;
-})();
-</script>
+        })();
+    </script>
 </body>
+
 </html>

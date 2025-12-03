@@ -258,19 +258,25 @@ h1 {
     text-decoration: none;
 }
 
-
-.memo-back {
+#backbutton {
     margin: 10px 0;
+    padding: 0.5em 0.5em;
+    color: #1a4a4a;
+    font-weight: bold;
     background: #eaf4f4;
-    padding: 5px 20px;
-    border-radius: 12px;
-    width: fit-content;
+    font-family: Galdeano, Cuprum, "Microsoft Yahei", sans-serif;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 0;
+    transition: all 1s ease-in-out;
 }
 
-.memo-back a{
-
-    color: #1a4a4a;
-    text-decoration: none;
+#backbutton:hover {
+    color: #eaf4f4;
+    padding: 0.5em 1em;
+    background: #1a4a4a;
+    border-radius: 15px;
+    border: 0;
 }
 
 
@@ -742,26 +748,26 @@ footer {
         padding: 8px 12px;
         font-size: 16px;
     }
-    
+
     .month-label {
         width: 25px;
         font-size: 10px;
     }
-    
+
     .month-row {
         grid-template-columns: repeat(31, 7px);
         gap: 1px;
     }
-    
+
     .day {
         width: 7px;
         height: 7px;
     }
-    
+
     .pagination-container {
         gap: 5px;
     }
-    
+
     .pagination-btn {
         padding: 6px 10px;
         font-size: 0.85rem;
