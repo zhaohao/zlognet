@@ -90,6 +90,12 @@
         .nav-btn:hover {
             opacity: 1;
         }
+
+        #artalk-comments {
+
+            margin-top: 20px;
+        }
+        
     </style>
 </head>
 
@@ -102,7 +108,9 @@
 
     <!-- memo 内容 -->
     <div id="memoContainer">加载中...</div>
-
+    <!-- Artalk 评论容器 -->
+    <div id="artalk-comments"></div>
+    
     <!-- 图片模态框 -->
     <div id="imageModal">
         <span id="closeModal">&times;</span>
@@ -265,6 +273,19 @@
                 localStorage.setItem("themeName", 'dark');
             }
         }
+    </script>
+
+    <link href="https://echo.zme.life/dist/Artalk.css" rel="stylesheet">
+    <script src="https://echo.zme.life/dist/Artalk.js"></script>
+
+    <script>
+        Artalk.init({
+            el: '#artalk-comments',
+            server: 'https://echo.zme.life', 
+            site: '2025.ZLOG.NET', 
+            pageKey: location.href, 
+            pageTitle: document.title, 
+        });
     </script>
 
     <script defer src="https://cloud.umami.is/script.js"
