@@ -1,6 +1,13 @@
+// filename: zlog.js
+// update time: 2025.12.03
+// homepage: https://zlog.net
 
 let MEMOS_JSON_URL = null;
 let MEMOS_FILE_URL = null;
+let ITEMS_PER_PAGE = 20; // 默认每页显示数量
+let currentPage = 1;
+let totalPages = 1;
+let allMemos = [];
 
 async function init() {
     try {
@@ -9,10 +16,11 @@ async function init() {
 
         MEMOS_JSON_URL = config.json_url;
         MEMOS_FILE_URL = config.file_url;
+        ITEMS_PER_PAGE = config.items_per_page || 20; // 从配置读取，默认20
 
         document.getElementById('dataSource').textContent = MEMOS_JSON_URL;
 
-        loadMemosData();
+        await loadMemosData();
 
         setupModalEvents();
 
@@ -32,10 +40,6 @@ document.addEventListener("DOMContentLoaded", init);
 
 let currentImageIndex = 0;
 let allImages = [];
-
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('dataSource').textContent = MEMOS_JSON_URL;
-});
 
 function setupModalEvents() {
     const modal = document.getElementById('imageModal');
@@ -118,7 +122,6 @@ function collectAllImages() {
 }
 
 async function loadMemosData() {
-
     const memoList = document.getElementById('memoList');
 
     try {
@@ -133,19 +136,24 @@ async function loadMemosData() {
         document.getElementById('loadingState').style.display = 'none';
 
         if (memosData.memos && memosData.memos.length > 0) {
-
-            const sortedMemos = memosData.memos.sort((a, b) =>
+            // 保存所有memo数据
+            allMemos = memosData.memos.sort((a, b) =>
                 new Date(b.createTime) - new Date(a.createTime)
             );
 
-            sortedMemos.forEach(memo => {
-                const memoElement = createMemoElement(memo);
-                memoList.appendChild(memoElement);
-            });
+            // 计算总页数
+            totalPages = Math.ceil(allMemos.length / ITEMS_PER_PAGE);
+            
+            // 显示第一页
+            await displayPage(1);
+            
+            // 创建分页导航
+            createPagination();
 
-            collectAllImages();
         } else {
             memoList.innerHTML = '<div class="empty-state">暂无备忘录内容</div>';
+            // 显示空热力图
+            generateEmptyHeatmap();
         }
     } catch (error) {
         console.error('加载 memos 数据失败:', error);
@@ -156,6 +164,181 @@ async function loadMemosData() {
                         <p>请检查 memos.json 文件路径是否正确</p>
                     </div>`;
     }
+}
+
+async function displayPage(page) {
+    currentPage = page;
+    const memoList = document.getElementById('memoList');
+    
+    // 清空当前内容
+    memoList.innerHTML = '';
+    
+    // 计算起始和结束索引
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const pageMemos = allMemos.slice(startIndex, endIndex);
+    
+    // 如果没有数据，显示空状态
+    if (pageMemos.length === 0) {
+        memoList.innerHTML = '<div class="empty-state">暂无备忘录内容</div>';
+        generateEmptyHeatmap();
+        return;
+    }
+    
+    // 创建当前页的memo元素
+    pageMemos.forEach(memo => {
+        const memoElement = createMemoElement(memo);
+        memoList.appendChild(memoElement);
+    });
+    
+    // 收集所有图片用于模态框
+    collectAllImages();
+    
+    // 更新热力图（只显示当前页面的月份）
+    await generateHeatmapForPage(pageMemos);
+    
+    // 更新分页导航状态
+    updatePagination();
+    
+    // 滚动到顶部
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 生成空热力图
+function generateEmptyHeatmap() {
+    const heatmap = document.getElementById("heatmap");
+    heatmap.innerHTML = '<div class="empty-heatmap">本月暂无备忘录</div>';
+}
+
+function createPagination() {
+    const memoList = document.getElementById('memoList');
+    
+    // 创建分页容器
+    const paginationContainer = document.createElement('div');
+    paginationContainer.className = 'pagination-container';
+    paginationContainer.id = 'paginationContainer';
+    
+    memoList.parentNode.insertBefore(paginationContainer, memoList.nextSibling);
+    
+    // 更新分页导航
+    updatePagination();
+}
+
+function updatePagination() {
+    const paginationContainer = document.getElementById('paginationContainer');
+    if (!paginationContainer) return;
+    
+    paginationContainer.innerHTML = '';
+    
+    // 分页容器样式
+    paginationContainer.style.cssText = `
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 40px 0;
+        padding: 20px 0;
+        flex-wrap: wrap;
+        gap: 10px;
+    `;
+    
+    // 只有一页时不显示分页
+    if (totalPages <= 1) return;
+    
+    // 上一页按钮
+    const prevButton = document.createElement('button');
+    prevButton.innerHTML = '&laquo; 上一页';
+    prevButton.className = 'pagination-btn';
+    prevButton.disabled = currentPage === 1;
+    prevButton.onclick = async () => {
+        if (currentPage > 1) {
+            await displayPage(currentPage - 1);
+        }
+    };
+    paginationContainer.appendChild(prevButton);
+    
+    // 页码按钮
+    const maxVisiblePages = 5; // 最多显示5个页码
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    
+    // 调整起始页码，确保显示maxVisiblePages个页码
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+    
+    // 第一页
+    if (startPage > 1) {
+        const firstPageBtn = document.createElement('button');
+        firstPageBtn.textContent = '1';
+        firstPageBtn.className = 'pagination-btn';
+        firstPageBtn.onclick = async () => await displayPage(1);
+        paginationContainer.appendChild(firstPageBtn);
+        
+        if (startPage > 2) {
+            const ellipsis = document.createElement('span');
+            ellipsis.textContent = '...';
+            ellipsis.style.cssText = `
+                padding: 5px 10px;
+                color: #666;
+            `;
+            paginationContainer.appendChild(ellipsis);
+        }
+    }
+    
+    // 页码数字
+    for (let i = startPage; i <= endPage; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = i;
+        pageButton.className = 'pagination-btn';
+        if (i === currentPage) {
+            pageButton.classList.add('active');
+        }
+        pageButton.onclick = async () => await displayPage(i);
+        paginationContainer.appendChild(pageButton);
+    }
+    
+    // 最后一页
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            const ellipsis = document.createElement('span');
+            ellipsis.textContent = '...';
+            ellipsis.style.cssText = `
+                padding: 5px 10px;
+                color: #666;
+            `;
+            paginationContainer.appendChild(ellipsis);
+        }
+        
+        const lastPageBtn = document.createElement('button');
+        lastPageBtn.textContent = totalPages;
+        lastPageBtn.className = 'pagination-btn';
+        lastPageBtn.onclick = async () => await displayPage(totalPages);
+        paginationContainer.appendChild(lastPageBtn);
+    }
+    
+    // 下一页按钮
+    const nextButton = document.createElement('button');
+    nextButton.innerHTML = '下一页 &raquo;';
+    nextButton.className = 'pagination-btn';
+    nextButton.disabled = currentPage === totalPages;
+    nextButton.onclick = async () => {
+        if (currentPage < totalPages) {
+            await displayPage(currentPage + 1);
+        }
+    };
+    paginationContainer.appendChild(nextButton);
+    
+    // 页面信息
+    const pageInfo = document.createElement('div');
+    pageInfo.style.cssText = `
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+        color: #666;
+        font-size: 0.9rem;
+    `;
+    pageInfo.textContent = `第 ${currentPage} 页 / 共 ${totalPages} 页（${allMemos.length} 条记录）`;
+    paginationContainer.appendChild(pageInfo);
 }
 
 function createMemoElement(memo) {
@@ -171,17 +354,14 @@ function createMemoElement(memo) {
         day: 'numeric'
     });
 
-    // UTC const dateAnchor = createDate.toISOString().split('T')[0];
-    // LOC const dateAnchor = createDate.toLocaleDateString('en-CA'); 
-
-    const weekday = createDate.toLocaleDateString('zh-CN', { weekday: 'long' });
+    const weekday = createDate.toLocaleDateString('en-US', { weekday: 'short' });
     const y = createDate.getFullYear();
     const m = String(createDate.getMonth() + 1).padStart(2, '0');
     const d = String(createDate.getDate()).padStart(2, '0');
     const hh = String(createDate.getHours()).padStart(2, '0');
     const mm = String(createDate.getMinutes()).padStart(2, '0');
 
-    const formattedDate = `${y}年${m}月${d}日${hh}点${mm}分 ${weekday}`;
+    const formattedDate = `${y}.${m}.${d} ${hh}:${mm} ${weekday}`;
     const dateAnchor = `${y}-${m}-${d}`;
 
     let contentHtml = '';
@@ -190,7 +370,7 @@ function createMemoElement(memo) {
     } else {
         contentHtml = `<p>${memo.content || '无内容'}</p>`;
     }
-    
+
     let locationHtml = '';
     if (memo.location && memo.location.placeholder.length > 0) {
         locationHtml = `<p>${memo.location.placeholder}</p>`;
@@ -213,7 +393,7 @@ function createMemoElement(memo) {
     memoItem.innerHTML = `
                 <a id="${dateAnchor}" class="memo-anchor"></a>
                 <div class="memo-header">
-                    <div class="memo-date">${formattedDate}</div>
+                    <div class="memo-date"><a class="memo-link" href="memo.html?id=${memo.name}">${formattedDate}</a></div>
                     <div class="memo-tags">${tagsHtml}</div>
                 </div>
                 <div class="memo-content">${contentHtml}</div>
@@ -228,16 +408,17 @@ function createMemoElement(memo) {
 function createAttachmentElement(attachment) {
     if (!attachment.type) return '';
 
-    //    const fileSize = attachment.size ? formatFileSize(attachment.size) : '';
+    const fileSize = attachment.size ? formatFileSize(attachment.size) : '';
     const fileName = attachment.filename || '未命名文件';
+    const fileYear = attachment.createTime.substring(0, 4);
 
     if (attachment.type.startsWith('image/')) {
         return `
-                    <div class="attachment attachment-image" data-image-src="${attachment.filename}">
-                        <img src="${MEMOS_FILE_URL}${attachment.filename}" alt="${fileName}" loading="lazy">
+                    <div class="attachment attachment-image" data-image-src="${fileName}">
+                        <img src="${MEMOS_FILE_URL}${fileYear}/${fileName}" alt="${fileName}" loading="lazy">
                         <div class="attachment-info">
                             <span class="attachment-type">Photo</span>
-                            <span>stardust</span>
+                            <span>${fileSize}</span>
                         </div>
                     </div>
                 `;
@@ -245,23 +426,22 @@ function createAttachmentElement(attachment) {
         return `
                     <div class="attachment attachment-video">
                         <video controls>
-                            <source src="${MEMOS_FILE_URL}${attachment.filename}" type="${attachment.type}">
+                            <source src="${MEMOS_FILE_URL}${fileYear}/${fileName}" type="${attachment.type}">
                             您的浏览器不支持视频播放
                         </video>
                         <div class="attachment-info">
                             <span class="attachment-type">Video</span>
-                            <span>stardust</span>
+                            <span>${fileSize}</span>
                         </div>
                     </div>
                 `;
     } else {
-
         return `
                     <div class="attachment">
                         <div style="padding: 15px; background: #f5f5f5; text-align: center;">
                             <p>${fileName}</p>
                             <p>${attachment.type}</p>
-                            <p>stardust</p>
+                            <p>${fileSize}</p>
                         </div>
                     </div>
                 `;
@@ -356,9 +536,7 @@ function formatContent(content) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-
     document.addEventListener('click', function (event) {
-
         if (event.target.closest('.attachment-image')) {
             const attachment = event.target.closest('.attachment-image');
             const img = attachment.querySelector('img');
@@ -374,7 +552,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function randomString(e) {
-
     e = e || 32;
     var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
         a = t.length,
@@ -382,4 +559,3 @@ function randomString(e) {
     for (i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
     return n
 }
-let verstring = "?" + randomString(8);

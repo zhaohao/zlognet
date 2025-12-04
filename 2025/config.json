@@ -1,0 +1,7 @@
+{
+    "json_url": "memos_2025.json",
+    "file_url": "https://zlog.net/files/",
+    "end_date": "2025-12-31",
+    "start_date": "2025-01-01",
+    "items_per_page": 100
+}

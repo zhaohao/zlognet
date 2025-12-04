@@ -1,6 +1,7 @@
 {
-    "json_url": "memos.json",
-    "file_url": "https://zlog.net/files/2024/",
+    "json_url": "memos_2024.json",
+    "file_url": "https://zlog.net/files/",
     "end_date": "2024-12-31",
-    "start_date": "2024-08-01"
+    "start_date": "2024-08-01",
+    "items_per_page": 100
 }

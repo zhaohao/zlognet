@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <title>Z-MEMO</title>
+    <link rel="stylesheet" href="zlog.css">
+
+    <style>
+        /* 图片模态框：稳定版 */
+        #imageModal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(26, 74, 74, 0.3);
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 显示 modal 时 */
+        #imageModal.show {
+            display: flex;
+        }
+
+        /* 图片包装容器 - 确保稳定居中 */
+        .image-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #modalImage {
+            max-width: 94%;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(26, 74, 74, 0.3);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        #modalImage.loaded {
+            opacity: 1;
+        }
+
+        #closeModal {
+            position: fixed;
+            top: 50px;
+            right: 20px;
+            font-size: 32px;
+            color: #4a4a4a;
+            cursor: pointer;
+            z-index: 10001;
+        }
+
+        .modal-navigation {
+            position: fixed;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            z-index: 10000;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            font-size: 40px;
+            color: #4a4a4a;
+            padding: 20px;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+
+        .nav-btn:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button onclick="toggle()" class="toggle">◑</button>
+    <button id="backbutton" onclick="(() => (history.length === 1) ? window.location = '/' : history.back())()">
+        ◀ 返回列表
+    </button>
+
+    <!-- memo 内容 -->
+    <div id="memoContainer">加载中...</div>
+
+    <!-- 图片模态框 -->
+    <div id="imageModal">
+        <span id="closeModal">&times;</span>
+        <div class="modal-navigation">
+            <button class="nav-btn" id="prevBtn">&#10094;</button>
+            <button class="nav-btn" id="nextBtn">&#10095;</button>
+        </div>
+        <div class="image-wrapper">
+            <img id="modalImage" src="" alt="预览图片">
+        </div>
+    </div>
+
+    <script src="zlog.js"></script>
+
+    <script>
+        (async function () {
+            const params = new URLSearchParams(location.search);
+            const memoName = params.get("id");
+
+            if (!memoName) {
+                document.getElementById("memoContainer").innerHTML = "未指定 memo";
+                return;
+            }
+
+            const res = await fetch("config.json");
+            const config = await res.json();
+            const memosRes = await fetch(config.json_url);
+            const memosData = await memosRes.json();
+
+            const memo = memosData.memos.find(m => m.name === memoName);
+
+            if (!memo) {
+                document.getElementById("memoContainer").innerHTML = "找不到该 memo";
+                return;
+            }
+
+            const createDate = new Date(memo.createTime);
+            const weekday = createDate.toLocaleDateString('en-US', { weekday: 'short' });
+            const y = createDate.getFullYear();
+            const m = String(createDate.getMonth() + 1).padStart(2, '0');
+            const d = String(createDate.getDate()).padStart(2, '0');
+            const hh = String(createDate.getHours()).padStart(2, '0');
+            const mm = String(createDate.getMinutes()).padStart(2, '0');
+
+            const formattedDate = `${y}.${m}.${d} ${hh}:${mm} ${weekday}`;
+            const title = formattedDate;
+
+            const contentHtml = formatContent(memo.content || "");
+
+            let attachmentsHtml = '';
+            if (memo.attachments && memo.attachments.length > 0) {
+                attachmentsHtml = memo.attachments
+                    .map(attachment => createAttachmentElement(attachment))
+                    .join('');
+            }
+
+            document.getElementById("memoContainer").innerHTML = `
+        <div class="memo-item">
+            <div class="memo-date">${title}</div>
+            <div class="memo-content">${contentHtml}</div>
+            <div class="memo-attachments">${attachmentsHtml}</div>
+        </div>
+    `;
+
+            setupImageViewer();
+        })();
+
+        /* ==========================================================
+           图片查看器（修复版）
+        ========================================================== */
+        let imageList = [];
+        let currentIndex = 0;
+
+        function setupImageViewer() {
+            imageList = [];
+            const imgs = document.querySelectorAll(".attachment-image img");
+
+            imgs.forEach((img, i) => {
+                imageList.push(img.src);
+                img.addEventListener("click", () => openModal(i));
+                
+                // 预加载图片到内存
+                const preloadImg = new Image();
+                preloadImg.src = img.src;
+            });
+        }
+
+        function openModal(i) {
+            currentIndex = i;
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+            
+            // 先隐藏图片
+            modalImg.classList.remove("loaded");
+            
+            // 显示模态框
+            modal.classList.add("show");
+            
+            // 设置图片源
+            modalImg.src = imageList[currentIndex];
+            
+            // 等待图片加载完成后显示
+            if (modalImg.complete) {
+                modalImg.classList.add("loaded");
+            } else {
+                modalImg.onload = function() {
+                    modalImg.classList.add("loaded");
+                    // 清理事件处理器
+                    modalImg.onload = null;
+                };
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+            
+            modal.classList.remove("show");
+            modalImg.classList.remove("loaded");
+        }
+
+        document.getElementById("closeModal").onclick = closeModal;
+
+        document.getElementById("prevBtn").onclick = function () {
+            currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+            openModal(currentIndex);
+        };
+
+        document.getElementById("nextBtn").onclick = function () {
+            currentIndex = (currentIndex + 1) % imageList.length;
+            openModal(currentIndex);
+        };
+
+        document.getElementById("imageModal").addEventListener("click", function (e) {
+            if (e.target === this) closeModal();
+        });
+
+        // 键盘控制
+        document.addEventListener("keydown", function (e) {
+            const modal = document.getElementById("imageModal");
+            if (!modal.classList.contains("show")) return;
+
+            if (e.key === "Escape") closeModal();
+            if (e.key === "ArrowLeft") document.getElementById("prevBtn").click();
+            if (e.key === "ArrowRight") document.getElementById("nextBtn").click();
+        });
+    </script>
+
+    <script>
+        let html = document.querySelector('html');
+        html.setAttribute('data-theme', localStorage.getItem("themeName"));
+        function toggle() {
+            let html = document.querySelector('html');
+            let currentTheme = html.getAttribute('data-theme');
+            if (currentTheme === "dark") {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem("themeName", 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem("themeName", 'dark');
+            }
+        }
+    </script>
+
+    <script defer src="https://cloud.umami.is/script.js"
+        data-website-id="170e4246-7377-4f38-8e3e-fa65207d98c8"></script>
+
+</body>
+
+</html>

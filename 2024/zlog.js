@@ -409,6 +409,7 @@ function createAttachmentElement(attachment) {
     if (!attachment.type) return '';
 
     const fileSize = attachment.size ? formatFileSize(attachment.size) : '';
+//    const fileSize = attachment.size;
     const fileName = attachment.filename || '未命名文件';
     const fileYear = attachment.createTime.substring(0, 4);
 
@@ -460,6 +461,7 @@ function formatFileSize(bytes) {
         unitIndex++;
     }
 
+    // 字节显示整数，其他显示1位小数
     const formattedSize = unitIndex === 0 
         ? Math.round(size) 
         : size.toFixed(1);
