@@ -254,6 +254,12 @@ h1 {
     width: fit-content;
 }
 
+.memo-date:hover {
+    background: #9fc9c9;
+    color: #1a4a4a;
+    transition: all 1s ease-in-out;
+}
+
 .memo-link {
     color: #1a4a4a;
     text-decoration: none;
