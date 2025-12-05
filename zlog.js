@@ -143,10 +143,10 @@ async function loadMemosData() {
 
             // 计算总页数
             totalPages = Math.ceil(allMemos.length / ITEMS_PER_PAGE);
-            
+
             // 显示第一页
             await displayPage(1);
-            
+
             // 创建分页导航
             createPagination();
 
@@ -169,37 +169,37 @@ async function loadMemosData() {
 async function displayPage(page) {
     currentPage = page;
     const memoList = document.getElementById('memoList');
-    
+
     // 清空当前内容
     memoList.innerHTML = '';
-    
+
     // 计算起始和结束索引
     const startIndex = (page - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
     const pageMemos = allMemos.slice(startIndex, endIndex);
-    
+
     // 如果没有数据，显示空状态
     if (pageMemos.length === 0) {
         memoList.innerHTML = '<div class="empty-state">暂无备忘录内容</div>';
         generateEmptyHeatmap();
         return;
     }
-    
+
     // 创建当前页的memo元素
     pageMemos.forEach(memo => {
         const memoElement = createMemoElement(memo);
         memoList.appendChild(memoElement);
     });
-    
+
     // 收集所有图片用于模态框
     collectAllImages();
-    
+
     // 更新热力图（只显示当前页面的月份）
     await generateHeatmapForPage(pageMemos);
-    
+
     // 更新分页导航状态
     updatePagination();
-    
+
     // 滚动到顶部
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -212,14 +212,14 @@ function generateEmptyHeatmap() {
 
 function createPagination() {
     const memoList = document.getElementById('memoList');
-    
+
     // 创建分页容器
     const paginationContainer = document.createElement('div');
     paginationContainer.className = 'pagination-container';
     paginationContainer.id = 'paginationContainer';
-    
+
     memoList.parentNode.insertBefore(paginationContainer, memoList.nextSibling);
-    
+
     // 更新分页导航
     updatePagination();
 }
@@ -227,9 +227,9 @@ function createPagination() {
 function updatePagination() {
     const paginationContainer = document.getElementById('paginationContainer');
     if (!paginationContainer) return;
-    
+
     paginationContainer.innerHTML = '';
-    
+
     // 分页容器样式
     paginationContainer.style.cssText = `
         display: flex;
@@ -240,10 +240,10 @@ function updatePagination() {
         flex-wrap: wrap;
         gap: 10px;
     `;
-    
+
     // 只有一页时不显示分页
     if (totalPages <= 1) return;
-    
+
     // 上一页按钮
     const prevButton = document.createElement('button');
     prevButton.innerHTML = '&laquo; 上一页';
@@ -255,17 +255,17 @@ function updatePagination() {
         }
     };
     paginationContainer.appendChild(prevButton);
-    
+
     // 页码按钮
     const maxVisiblePages = 5; // 最多显示5个页码
     let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
     let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-    
+
     // 调整起始页码，确保显示maxVisiblePages个页码
     if (endPage - startPage + 1 < maxVisiblePages) {
         startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
-    
+
     // 第一页
     if (startPage > 1) {
         const firstPageBtn = document.createElement('button');
@@ -273,7 +273,7 @@ function updatePagination() {
         firstPageBtn.className = 'pagination-btn';
         firstPageBtn.onclick = async () => await displayPage(1);
         paginationContainer.appendChild(firstPageBtn);
-        
+
         if (startPage > 2) {
             const ellipsis = document.createElement('span');
             ellipsis.textContent = '...';
@@ -284,7 +284,7 @@ function updatePagination() {
             paginationContainer.appendChild(ellipsis);
         }
     }
-    
+
     // 页码数字
     for (let i = startPage; i <= endPage; i++) {
         const pageButton = document.createElement('button');
@@ -296,7 +296,7 @@ function updatePagination() {
         pageButton.onclick = async () => await displayPage(i);
         paginationContainer.appendChild(pageButton);
     }
-    
+
     // 最后一页
     if (endPage < totalPages) {
         if (endPage < totalPages - 1) {
@@ -308,14 +308,14 @@ function updatePagination() {
             `;
             paginationContainer.appendChild(ellipsis);
         }
-        
+
         const lastPageBtn = document.createElement('button');
         lastPageBtn.textContent = totalPages;
         lastPageBtn.className = 'pagination-btn';
         lastPageBtn.onclick = async () => await displayPage(totalPages);
         paginationContainer.appendChild(lastPageBtn);
     }
-    
+
     // 下一页按钮
     const nextButton = document.createElement('button');
     nextButton.innerHTML = '下一页 &raquo;';
@@ -327,7 +327,7 @@ function updatePagination() {
         }
     };
     paginationContainer.appendChild(nextButton);
-    
+
     // 页面信息
     const pageInfo = document.createElement('div');
     pageInfo.style.cssText = `
@@ -340,6 +340,18 @@ function updatePagination() {
     pageInfo.textContent = `第 ${currentPage} 页 / 共 ${totalPages} 页（${allMemos.length} 条记录）`;
     paginationContainer.appendChild(pageInfo);
 }
+
+function getDayOfYear(date) {
+    const start = new Date(date.getFullYear(), 0, 1);  // 当年1月1日
+    const diff = date - start;                        // 毫秒差
+    return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+}
+
+function daysInYear(year) {
+    // 闰年返回 366
+    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0) ? 366 : 365;
+}
+
 
 function createMemoElement(memo) {
     const memoItem = document.createElement('article');
@@ -360,6 +372,10 @@ function createMemoElement(memo) {
     const d = String(createDate.getDate()).padStart(2, '0');
     const hh = String(createDate.getHours()).padStart(2, '0');
     const mm = String(createDate.getMinutes()).padStart(2, '0');
+
+    const dayofyear = getDayOfYear(createDate);
+    const totalDays = daysInYear(createDate.getFullYear());
+    const percent = Math.floor((dayofyear / totalDays) * 100) + "%";
 
     const formattedDate = `${weekday} ${y}.${m}.${d} ${hh}:${mm}`;
     const dateAnchor = `${y}-${m}-${d}`;
@@ -396,6 +412,7 @@ function createMemoElement(memo) {
                     <div class="memo-date"><a class="memo-link" href="memo.html?id=${memo.name}">${formattedDate}</a></div>
                     <div class="memo-tags">${tagsHtml}</div>
                 </div>
+                <div class="memo-content">今天是${y}年的第${dayofyear}天｜全年共${totalDays}天｜已过时间${percent}｜</div>
                 <div class="memo-content">${contentHtml}</div>
                 ${attachmentsHtml ? `<div class="memo-attachments">${attachmentsHtml}</div>` : ''}
                 <div class="memo-bottom-date">${locationHtml}</div>
@@ -460,10 +477,10 @@ function formatFileSize(bytes) {
         unitIndex++;
     }
 
-    const formattedSize = unitIndex === 0 
-        ? Math.round(size) 
+    const formattedSize = unitIndex === 0
+        ? Math.round(size)
         : size.toFixed(1);
-    
+
     return `${formattedSize} ${units[unitIndex]}`;
 }
 
