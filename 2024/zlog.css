@@ -373,11 +373,11 @@ h1 {
 }
 
 .attachment-image {
-    max-width: 200px;
+    max-width: 300px;
 }
 
 .attachment-video {
-    max-width: 300px;
+    max-width: 400px;
 }
 
 .attachment img {
