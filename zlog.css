@@ -265,6 +265,13 @@ h1 {
     text-decoration: none;
 }
 
+.memo-percent {
+    background: #c1d5b8;
+    width: fit-content;
+    padding: 0 5px;
+    border-radius: 8px;
+    font-size: 0.7em;
+}
 
 #backbutton {
     margin: 10px 0;
@@ -420,8 +427,8 @@ h1 {
     position: relative;
     margin: auto;
     display: flex;
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 100%;
+    max-height: 100%;
     top: 50%;
     transform: translateY(-50%);
     animation: zoomIn 0.3s;
@@ -471,7 +478,7 @@ h1 {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0 2px;
+    padding: 0 20px;
     transform: translateY(-50%);
 }
 
