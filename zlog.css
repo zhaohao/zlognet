@@ -343,7 +343,7 @@ h1 {
 .memo-attachments {
     display: flex;
     gap: 10px;
-    flex-wrap: wrap;
+    flex-wrap: inherit;
     margin-top: 15px;
 }
 
@@ -373,7 +373,7 @@ h1 {
 }
 
 .attachment-image {
-    max-width: 300px;
+    max-width: 200px;
 }
 
 .attachment-video {
