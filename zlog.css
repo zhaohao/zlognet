@@ -266,7 +266,7 @@ h1 {
 }
 
 .memo-percent {
-    background: #c1d5b8;
+    background: #96c2b6; /* #c1d5b8; */
     width: fit-content;
     padding: 0 5px;
     border-radius: 8px;
