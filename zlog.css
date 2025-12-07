@@ -590,7 +590,6 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;
-  /*background: linear-gradient(90deg, #00cfff, #a600ff, #ff006e, #f80);*/
   background: linear-gradient(90deg,  #00cfff, #aeff00, #12d1be, #d1ece9);
  
 
@@ -603,7 +602,6 @@ footer {
   background-size: 300% 300%;
   -webkit-animation: gradientShift 10s ease-in-out infinite;
   animation: gradientShift 10s ease-in-out infinite;
-  /* 硬件加速 */
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
@@ -617,16 +615,14 @@ footer {
   bottom: 0;
   font: inherit;
   letter-spacing: inherit;
-  /*background: linear-gradient(90deg, #00cfff, #a600ff, #ff006e, #f80);*/
   background: linear-gradient(90deg, #00cfff, #aeff00, #12d1be, #d1ece9);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  /* 修改或移除 mix-blend-mode */
-  -webkit-mix-blend-mode: difference; /* 尝试不同的混合模式 */
+  -webkit-mix-blend-mode: difference;
   mix-blend-mode: difference;
-  -webkit-filter: blur(0.5px) brightness(1.3); /* 减少模糊值 */
+  -webkit-filter: blur(0.5px) brightness(1.3); 
   filter: blur(0.5px) brightness(1.3);
   z-index: 0;
   pointer-events: none;
@@ -649,7 +645,8 @@ footer {
 
 .zl-nav-logo a {
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
+    font-family: monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
     color: #1a4a4a;
     text-decoration: none;
 }
