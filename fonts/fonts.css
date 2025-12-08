@@ -31,6 +31,18 @@
   src:url("/fonts/GOTHIC.TTF") format('truetype');
 }
 
+
+@font-face {
+  font-family: 'Dot Digital-7';
+  src:url("/fonts/dotd7.ttf") format('truetype');
+}
+
+
+@font-face {
+  font-family: 'Bold Dot Digital-7';
+  src:url("/fonts/bdotd7.ttf") format('truetype');
+}
+
 /* LXGW WenKai Screen [4] */
 @font-face {
 	font-family: 'LXGW WenKai Screen';

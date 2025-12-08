@@ -366,7 +366,7 @@ function createMemoElement(memo) {
         day: 'numeric'
     });
 
-    const weekday = createDate.toLocaleDateString('zh-CN', { weekday: 'short' });
+    const weekday = createDate.toLocaleDateString('en-US', { weekday: 'short' });
     const y = createDate.getFullYear();
     const m = String(createDate.getMonth() + 1).padStart(2, '0');
     const d = String(createDate.getDate()).padStart(2, '0');
@@ -375,7 +375,7 @@ function createMemoElement(memo) {
 
     const dayofyear = getDayOfYear(createDate);
     const totalDays = daysInYear(createDate.getFullYear());
-    const percent = Math.floor((dayofyear / totalDays) * 100) + "%";
+    const percent = Math.floor((1-(dayofyear / totalDays)) * 100) + "%";
 
     const formattedDate = `${weekday} ${y}.${m}.${d} ${hh}:${mm}`;
     const dateAnchor = `${y}-${m}-${d}`;
@@ -412,7 +412,7 @@ function createMemoElement(memo) {
                     <div class="memo-date"><a class="memo-link" href="memo.html?id=${memo.name}">${formattedDate}</a></div>
                     <div class="memo-tags">${tagsHtml}</div>
                 </div>
-                <div class="memo-percent">${dayofyear}/${totalDays}｜${percent}</div>
+                <div class="memo-percent">${dayofyear}/${totalDays} ${percent}</div>
                 <div class="memo-content">${contentHtml}</div>
                 ${attachmentsHtml ? `<div class="memo-attachments">${attachmentsHtml}</div>` : ''}
                 <div class="memo-bottom-date">${locationHtml}</div>

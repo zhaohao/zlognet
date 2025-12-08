@@ -248,6 +248,7 @@ h1 {
 .memo-date {
     background: #eaf4f4;
     color: #1a4a4a;
+    font-family: Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
     padding: 3px 8px;
     border-radius: 12px;
     font-size: 0.9rem;
@@ -271,6 +272,7 @@ h1 {
     padding: 0 5px;
     border-radius: 8px;
     font-size: 0.7em;
+    font-family: "Bold Dot Digital-7", Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
 }
 
 #backbutton {
@@ -298,6 +300,7 @@ h1 {
 .memo-bottom-date {
     color: #1a4a4a;
     font-size: 0.8rem;
+    font-family: "Bold Dot Digital-7", Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
     text-align: right;
 }
 
@@ -314,6 +317,7 @@ h1 {
     padding: 3px 8px;
     border-radius: 12px;
     font-size: 0.8rem;
+    font-family: "Bold Dot Digital-7", Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
 }
 
 .memo-content {
@@ -328,7 +332,7 @@ h1 {
     color: #1a4a4a;
     padding: 2px 6px;
     border-radius: 4px;
-    font-family: 'Courier New', monospace;
+    font-family: Hack, 'Courier New', monospace;
     font-size: 0.9em;
 }
 
@@ -377,7 +381,7 @@ h1 {
 }
 
 .attachment-video {
-    max-width: 400px;
+    max-width: 350px;
 }
 
 .attachment img {
@@ -646,7 +650,7 @@ footer {
 .zl-nav-logo a {
     font-weight: 600;
     font-size: 18px;
-    font-family: monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
+    font-family: "Bold Dot Digital-7", monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
     color: #1a4a4a;
     text-decoration: none;
 }
