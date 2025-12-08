@@ -366,7 +366,7 @@ function createMemoElement(memo) {
         day: 'numeric'
     });
 
-    const weekday = createDate.toLocaleDateString('en-US', { weekday: 'short' });
+    const weekday = createDate.toLocaleDateString('zh-CN', { weekday: 'short' });
     const y = createDate.getFullYear();
     const m = String(createDate.getMonth() + 1).padStart(2, '0');
     const d = String(createDate.getDate()).padStart(2, '0');
