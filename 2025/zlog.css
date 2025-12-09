@@ -299,7 +299,7 @@ h1 {
 .memo-bottom-date {
     color: #1a4a4a;
     font-size: 0.8rem;
-    font-family: "Bold Dot Digital-7", Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
+    font-family: Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
     text-align: right;
 }
 
@@ -316,7 +316,7 @@ h1 {
     padding: 3px 8px;
     border-radius: 12px;
     font-size: 0.8rem;
-    font-family: "Bold Dot Digital-7", Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
+    font-family: Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
 }
 
 .memo-content {
@@ -649,7 +649,7 @@ footer {
 .zl-nav-logo a {
     font-weight: 600;
     font-size: 18px;
-    font-family: "Bold Dot Digital-7", monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
+    font-family: monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
     color: #1a4a4a;
     text-decoration: none;
 }
