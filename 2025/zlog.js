@@ -412,7 +412,7 @@ function createMemoElement(memo) {
                     <div class="memo-date"><a class="memo-link" href="memo.html?id=${memo.name}">${formattedDate}</a></div>
                     <div class="memo-tags">${tagsHtml}</div>
                 </div>
-                <div class="memo-percent">${dayofyear}/${totalDays} ⚡${percent}</div>
+                <div class="memo-percent">${dayofyear}/${totalDays} ⚡︎${percent}</div>
                 <div class="memo-content">${contentHtml}</div>
                 ${attachmentsHtml ? `<div class="memo-attachments">${attachmentsHtml}</div>` : ''}
                 <div class="memo-bottom-date">${locationHtml}</div>
