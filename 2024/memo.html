@@ -108,8 +108,8 @@
 
     <!-- memo 内容 -->
     <div id="memoContainer">加载中...</div>
-    <!-- Artalk 评论容器 -->
-    <div id="artalk-comments"></div>
+
+    <div id="tcomment"></div>
 
     <!-- 图片模态框 -->
     <div id="imageModal">
@@ -275,17 +275,14 @@
         }
     </script>
 
-    <link href="https://echo.zme.life/dist/Artalk.css" rel="stylesheet">
-    <script src="https://echo.zme.life/dist/Artalk.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.min.js"></script>
     <script>
-        Artalk.init({
-            el: '#artalk-comments',
-            server: 'https://echo.zme.life', 
-            site: '2024.ZLOG.NET', 
-            pageKey: location.href, 
-            pageTitle: document.title, 
-        });
+        twikoo.init({
+            envId: 'https://echo.zme.life',
+            el: '#tcomment',
+            path: location.href, 
+            lang: 'zh-CN', // 用于手动设定评论区语言，支持的语言列表 https://github.com/twikoojs/twikoo/blob/main/src/client/utils/i18n/index.js
+        })
     </script>
 
     <script defer src="https://cloud.umami.is/script.js"
