@@ -717,6 +717,11 @@ footer {
     transition: all 0.3s ease;
 }
 
+.tk-footer {
+    display: none;
+}
+
+
 /* --- Mobile Menu --- */
 @media (max-width: 768px) {
     .zl-nav-menu {

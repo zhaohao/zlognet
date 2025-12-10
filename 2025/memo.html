@@ -6,12 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <title>ZLOG.NET.MEMO</title>
+    <title>z.memo</title>
     <link rel="stylesheet" href="/fonts/fonts.css">
     <link rel="stylesheet" href="zlog.css">
 
     <style>
-        /* 图片模态框：稳定版 */
         #imageModal {
             display: none;
             position: fixed;
@@ -28,12 +27,10 @@
             padding: 0;
         }
 
-        /* 显示 modal 时 */
         #imageModal.show {
             display: flex;
         }
 
-        /* 图片包装容器 - 确保稳定居中 */
         .image-wrapper {
             width: 100%;
             height: 100%;
@@ -96,7 +93,6 @@
 
             margin-top: 20px;
         }
-        
     </style>
 </head>
 
@@ -107,12 +103,10 @@
         ◀ 返回列表
     </button>
 
-    <!-- memo 内容 -->
     <div id="memoContainer">加载中...</div>
 
     <div id="tcomment"></div>
-    
-    <!-- 图片模态框 -->
+
     <div id="imageModal">
         <span id="closeModal">&times;</span>
         <div class="modal-navigation">
@@ -149,7 +143,7 @@
             }
 
             const createDate = new Date(memo.createTime);
-            const weekday = createDate.toLocaleDateString('en-US', { weekday: 'short' });
+            const weekday = createDate.toLocaleDateString('en-US', { weekday: 'long' });
             const y = createDate.getFullYear();
             const m = String(createDate.getMonth() + 1).padStart(2, '0');
             const d = String(createDate.getDate()).padStart(2, '0');
@@ -179,9 +173,7 @@
             setupImageViewer();
         })();
 
-        /* ==========================================================
-           图片查看器（修复版）
-        ========================================================== */
+
         let imageList = [];
         let currentIndex = 0;
 
@@ -192,8 +184,7 @@
             imgs.forEach((img, i) => {
                 imageList.push(img.src);
                 img.addEventListener("click", () => openModal(i));
-                
-                // 预加载图片到内存
+
                 const preloadImg = new Image();
                 preloadImg.src = img.src;
             });
@@ -203,23 +194,18 @@
             currentIndex = i;
             const modal = document.getElementById("imageModal");
             const modalImg = document.getElementById("modalImage");
-            
-            // 先隐藏图片
+
             modalImg.classList.remove("loaded");
-            
-            // 显示模态框
+
             modal.classList.add("show");
-            
-            // 设置图片源
+
             modalImg.src = imageList[currentIndex];
-            
-            // 等待图片加载完成后显示
+
             if (modalImg.complete) {
                 modalImg.classList.add("loaded");
             } else {
-                modalImg.onload = function() {
+                modalImg.onload = function () {
                     modalImg.classList.add("loaded");
-                    // 清理事件处理器
                     modalImg.onload = null;
                 };
             }
@@ -228,7 +214,7 @@
         function closeModal() {
             const modal = document.getElementById("imageModal");
             const modalImg = document.getElementById("modalImage");
-            
+
             modal.classList.remove("show");
             modalImg.classList.remove("loaded");
         }
@@ -249,7 +235,6 @@
             if (e.target === this) closeModal();
         });
 
-        // 键盘控制
         document.addEventListener("keydown", function (e) {
             const modal = document.getElementById("imageModal");
             if (!modal.classList.contains("show")) return;
@@ -282,12 +267,12 @@
             envId: 'https://echo.zme.life',
             el: '#tcomment',
             path: location.href, 
-            lang: 'zh-CN', // 用于手动设定评论区语言，支持的语言列表 https://github.com/twikoojs/twikoo/blob/main/src/client/utils/i18n/index.js
+            lang: 'zh-CN', // https://github.com/twikoojs/twikoo/blob/main/src/client/utils/i18n/index.js
         })
     </script>
 
     <script defer src="https://cloud.umami.is/script.js"
-        data-website-id="170e4246-7377-4f38-8e3e-fa65207d98c8"></script>
+        data-website-id="fa4151b1-b92f-491b-b1a4-5ee58163e12f"></script>
 
 </body>
 
