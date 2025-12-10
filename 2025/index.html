@@ -12,12 +12,12 @@
 </head>
 
 <body>
-  
+
   <button onclick="toggle()" class="toggle">◑</button>
   <button id="backToTop" title="Back To Top">
     <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M18 15L12.2278 8.26574C12.108 8.12606 11.892 8.12606 11.7722 8.26574L6 15"
-            stroke="#000000" stroke-width="2" stroke-linecap="round" />
+      <path d="M18 15L12.2278 8.26574C12.108 8.12606 11.892 8.12606 11.7722 8.26574L6 15" stroke="#000000"
+        stroke-width="2" stroke-linecap="round" />
     </svg>
   </button>
 
@@ -36,10 +36,10 @@
       </button>
 
       <ul class="zl-nav-menu" id="zlNavMenu">
-                <li><a href="/2024/">2024</a></li> 
-                <li><a href="/2025/" style="color:#21793f;font-weight: bold;">2025</a></li>
-                <li><a href="/">HOME</a></li>
-                <li style="display: none;"><a href="https://blog.zlog.net/"  target="_blank">BLOG</a></li>
+        <li><a href="/2024/">2024</a></li>
+        <li><a href="/2025/" style="color:#21793f;font-weight: bold;">2025</a></li>
+        <li><a href="/">HOME</a></li>
+        <li style="display: none;"><a href="https://blog.zlog.net/" target="_blank">BLOG</a></li>
       </ul>
     </div>
   </nav>
@@ -69,7 +69,7 @@
 
   <footer>
     <p class="data-source">数据源: <span id="dataSource">未设置</span></p>
-    <a style="color: #1e4e4e;font-size: 12px;"  href="https://beian.miit.gov.cn/" target="_blank">粤ICP备17061473号-3</a>
+    <a style="color: #1e4e4e;font-size: 12px;" href="https://beian.miit.gov.cn/" target="_blank">粤ICP备17061473号-3</a>
   </footer>
 
   <script>
@@ -121,6 +121,16 @@
 
   <script src="heatmap.js"></script>
   <script src="zlog.js"></script>
+  <script>
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://i.zhao.im/assets/js/analytics.js';
+      script.defer = true;
+      script.setAttribute('data-site-key', 'eea4a266f6ec1bab');
+      script.setAttribute('data-endpoint', 'https://i.zhao.im/api/track.php');
+      document.head.appendChild(script);
+    })();
+  </script>
   <script defer src="https://cloud.umami.is/script.js" data-website-id="170e4246-7377-4f38-8e3e-fa65207d98c8"></script>
 </body>
 

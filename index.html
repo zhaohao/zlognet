@@ -16,34 +16,34 @@
 
 <body>
   <script>
-        const favicons = [
-            '001.svg',
-            '002.svg',
-            '003.svg',
-            '004.svg',
-            '005.svg',
-            '006.svg',
-            '007.svg',
-            '008.svg',
-            '009.svg',
-            '010.svg',
-            '011.svg',
-            '012.svg'
-        ];
-        let currentFaviconIndex = 0;
-        function changeFavicon() {
-            const favicon = document.getElementById('favicon');
-            currentFaviconIndex = (currentFaviconIndex + 1) % favicons.length;
-            favicon.href = favicons[currentFaviconIndex];
-        }
-        setInterval(changeFavicon, 1000);
-    </script>
+    const favicons = [
+      '001.svg',
+      '002.svg',
+      '003.svg',
+      '004.svg',
+      '005.svg',
+      '006.svg',
+      '007.svg',
+      '008.svg',
+      '009.svg',
+      '010.svg',
+      '011.svg',
+      '012.svg'
+    ];
+    let currentFaviconIndex = 0;
+    function changeFavicon() {
+      const favicon = document.getElementById('favicon');
+      currentFaviconIndex = (currentFaviconIndex + 1) % favicons.length;
+      favicon.href = favicons[currentFaviconIndex];
+    }
+    setInterval(changeFavicon, 1000);
+  </script>
 
   <button onclick="toggle()" class="toggle">◑</button>
   <button id="backToTop" title="Back To Top">
     <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M18 15L12.2278 8.26574C12.108 8.12606 11.892 8.12606 11.7722 8.26574L6 15"
-            stroke="#000000" stroke-width="2" stroke-linecap="round" />
+      <path d="M18 15L12.2278 8.26574C12.108 8.12606 11.892 8.12606 11.7722 8.26574L6 15" stroke="#000000"
+        stroke-width="2" stroke-linecap="round" />
     </svg>
   </button>
 
@@ -62,11 +62,11 @@
       </button>
 
       <ul class="zl-nav-menu" id="zlNavMenu">
-                <li><a href="/2024/">2024</a></li>
-                <li><a href="/2025/">2025</a></li>
-                <li><a href="/" style="color:#21793f;font-weight: bold;">HOME</a></li>
-                <li style="display: none;"><a href="/about/" target="_blank">关于</a></li>
-                <li style="display: none;"><a href="https://blog.zlog.net/"  target="_blank">BLOG</a></li>
+        <li><a href="/2024/">2024</a></li>
+        <li><a href="/2025/">2025</a></li>
+        <li><a href="/" style="color:#21793f;font-weight: bold;">HOME</a></li>
+        <li style="display: none;"><a href="/about/" target="_blank">关于</a></li>
+        <li style="display: none;"><a href="https://blog.zlog.net/" target="_blank">BLOG</a></li>
       </ul>
     </div>
   </nav>
@@ -147,6 +147,16 @@
 
   <script src="heatmap.js"></script>
   <script src="zlog.js"></script>
+  <script>
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://i.zhao.im/assets/js/analytics.js';
+      script.defer = true;
+      script.setAttribute('data-site-key', 'eea4a266f6ec1bab');
+      script.setAttribute('data-endpoint', 'https://i.zhao.im/api/track.php');
+      document.head.appendChild(script);
+    })();
+  </script>
   <script defer src="https://cloud.umami.is/script.js" data-website-id="170e4246-7377-4f38-8e3e-fa65207d98c8"></script>
 </body>
 
