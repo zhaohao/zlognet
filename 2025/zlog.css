@@ -89,6 +89,12 @@ body {
     margin: 0 auto;
 }
 
+
+a {
+    text-decoration: none;
+    color: #1a4a4a;
+}
+
 img,
 video,
 pre {
