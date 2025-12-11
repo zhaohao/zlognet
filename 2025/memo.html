@@ -11,6 +11,24 @@
     <link rel="stylesheet" href="zlog.css">
 
     <style>
+        .memo-page {
+            margin: 0 0 30px 0;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .tk-comments {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
         #imageModal {
             display: none;
             position: fixed;
@@ -163,7 +181,7 @@
             }
 
             document.getElementById("memoContainer").innerHTML = `
-        <div class="memo-item">
+        <div class="memo-page">
             <div class="memo-date">${title}</div>
             <div class="memo-content">${contentHtml}</div>
             <div class="memo-attachments">${attachmentsHtml}</div>
@@ -261,16 +279,16 @@
         }
     </script>
 
-    <script src="twikoo.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.min.js"></script>
     <script>
         twikoo.init({
             envId: 'https://echo.zme.life',
             el: '#tcomment',
             path: location.href,
-            lang: 'zh-CN',
+            lang: 'zh-CN', // https://github.com/twikoojs/twikoo/blob/main/src/client/utils/i18n/index.js
         })
     </script>
-    
+
     <script src="statistics.js"></script>
 </body>
 

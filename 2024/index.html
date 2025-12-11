@@ -6,12 +6,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <title>z.memos.2024</title>
-  <link rel="stylesheet" href="/fonts/fonts.css">
+  <link id="favicon" rel="icon" href="/001.svg" type="image/svg+xml">
+  <title>z.memos</title>
   <link rel="stylesheet" href="zlog.css">
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <style></style>
+
 </head>
 
 <body>
+  <script>
+    const favicons = [
+      '001.svg',
+      '002.svg',
+      '003.svg',
+      '004.svg',
+      '005.svg',
+      '006.svg',
+      '007.svg',
+      '008.svg',
+      '009.svg',
+      '010.svg',
+      '011.svg',
+      '012.svg'
+    ];
+    let currentFaviconIndex = 0;
+    function changeFavicon() {
+      const favicon = document.getElementById('favicon');
+      currentFaviconIndex = (currentFaviconIndex + 1) % favicons.length;
+      favicon.href = favicons[currentFaviconIndex];
+    }
+    setInterval(changeFavicon, 1000);
+  </script>
 
   <button onclick="toggle()" class="toggle">◑</button>
   <button id="backToTop" title="Back To Top">
@@ -22,23 +48,24 @@
   </button>
 
   <header style="display: none;">
-    <h1>z.memos.2024</h1>
+    <h1>z.memos</h1>
     <p class="subtitle">Let the day go on and on</p>
   </header>
 
   <!-- Navbar -->
   <nav class="zl-navbar">
     <div class="zl-nav-container">
-      <div class="zl-nav-logo"><a href="/2024/">z.memos.2024</a></div>
+      <div class="zl-nav-logo"><a href="/">z.memos</a></div>
 
       <button class="zl-nav-toggle" id="zlNavToggle" aria-label="Toggle Navigation">
         <span></span><span></span><span></span>
       </button>
 
       <ul class="zl-nav-menu" id="zlNavMenu">
-        <li><a href="/2024/" style="color:#21793f;font-weight: bold;">2024</a></li>
+        <li><a href="/2024/" style="color:#1a4a4a;font-weight: bold;">2024</a></li>
         <li><a href="/2025/">2025</a></li>
         <li><a href="/">HOME</a></li>
+        <li style="display: none;"><a href="/about/" target="_blank">关于</a></li>
         <li style="display: none;"><a href="https://blog.zlog.net/" target="_blank">BLOG</a></li>
       </ul>
     </div>
@@ -69,7 +96,6 @@
 
   <footer>
     <p class="data-source">数据源: <span id="dataSource">未设置</span></p>
-    <a style="color: #1e4e4e;font-size: 12px;" href="https://beian.miit.gov.cn/" target="_blank">粤ICP备17061473号-3</a>
   </footer>
 
   <script>

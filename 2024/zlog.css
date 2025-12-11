@@ -85,7 +85,7 @@ body {
     line-height: 1.6;
     color: #333;
     padding: 20px;
-    max-width: 900px;
+    max-width: 920px;
     margin: 0 auto;
 }
 
@@ -208,26 +208,35 @@ h1 {
     font-size: 1rem;
 }
 
+/* 瀑布流布局 */
 .memo-list {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+    display: block;
+    position: relative;
+    min-height: 100px;
+    margin: 0;
+    padding: 0;
 }
 
 .memo-item {
+    position: absolute;
+    width: 450px;
+    transition: all 0.3s ease, opacity 0.5s ease;
+    opacity: 0;
+    box-sizing: border-box;
+    margin: 0;
     background: white;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
-    position: relative;
     white-space: normal;
     word-break: break-word;
 }
 
+/* 卡片悬停效果增强 */
 .memo-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    z-index: 10;
 }
 
 .memo-anchor {
@@ -752,6 +761,20 @@ footer {
 
     .zl-nav-menu.active {
         display: flex;
+    }
+    
+    /* 移动端瀑布流适配 */
+    .memo-item {
+        position: relative !important;
+        width: 100% !important;
+        opacity: 1 !important;
+        left: 0 !important;
+        top: 0 !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .memo-list {
+        height: auto !important;
     }
 }
 
