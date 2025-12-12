@@ -363,7 +363,7 @@ h1 {
     display: flex;
     gap: 10px;
     flex-wrap: inherit;
-    margin-top: 15px;
+    margin-top: 15px 0;
 }
 
 .memo-attachments img {

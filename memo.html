@@ -29,6 +29,66 @@
             border-radius: 10px;
         }
 
+        .page-attachment {
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .page-attachment:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .page-memo-attachments {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .page-attachment-image {
+            max-width: 400px;
+        }
+
+        .page-attachment-video {
+            max-width: 400px;
+        }
+
+        .page-attachment img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .page-attachment video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .page-attachment-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 74, 74, 0.3);
+            color: white;
+            padding: 5px 8px;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .page-attachment-type {
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+
         #toggleCommentBtn {
             margin: 10px 0;
             padding: 0.5em 0.5em;
@@ -215,7 +275,7 @@
         <div class="memo-page">
             <div class="memo-date">${title}</div>
             <div class="memo-content">${contentHtml}</div>
-            <div class="memo-attachments">${attachmentsHtml}</div>
+            <div class="page-memo-attachments">${attachmentsHtml}</div>
         </div>
     `;
 
@@ -228,7 +288,7 @@
 
         function setupImageViewer() {
             imageList = [];
-            const imgs = document.querySelectorAll(".attachment-image img");
+            const imgs = document.querySelectorAll(".page-attachment-image img");
 
             imgs.forEach((img, i) => {
                 imageList.push(img.src);
@@ -303,30 +363,30 @@
 
             if (attachment.type.startsWith('image/')) {
                 return `
-                    <div class="attachment attachment-image" data-image-src="${fileName}">
+                    <div class="page-attachment page-attachment-image" data-image-src="${fileName}">
                         <img src="${MEMOS_FILE_URL}${fileYear}/${fileName}" alt="${fileName}" loading="lazy">
-                        <div class="attachment-info">
-                            <span class="attachment-type">Photo</span>
+                        <div class="page-attachment-info">
+                            <span class="page-attachment-type">Photo</span>
                             <span>${fileSize}</span>
                         </div>
                     </div>
                 `;
             } else if (attachment.type.startsWith('video/')) {
                 return `
-                    <div class="attachment attachment-video">
+                    <div class="page-attachment page-attachment-video">
                         <video controls>
                             <source src="${MEMOS_FILE_URL}${fileYear}/${fileName}" type="${attachment.type}">
                             您的浏览器不支持视频播放
                         </video>
-                        <div class="attachment-info">
-                            <span class="attachment-type">Video</span>
+                        <div class="page-attachment-info">
+                            <span class="page-attachment-type">Video</span>
                             <span>${fileSize}</span>
                         </div>
                     </div>
                 `;
             } else {
                 return `
-                    <div class="attachment">
+                    <div class="page-attachment">
                         <div style="padding: 15px; background: #f5f5f5; text-align: center;">
                             <p>${fileName}</p>
                             <p>${attachment.type}</p>

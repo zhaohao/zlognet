@@ -85,7 +85,7 @@ body {
     line-height: 1.6;
     color: #333;
     padding: 20px;
-    max-width: 900px;
+    max-width: 920px;
     margin: 0 auto;
 }
 
@@ -353,7 +353,7 @@ h1 {
     display: flex;
     gap: 10px;
     flex-wrap: inherit;
-    margin-top: 15px;
+    margin-top: 15px 0;
 }
 
 .memo-attachments img {
