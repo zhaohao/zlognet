@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <title>z.memo</title>
+    <title>z.memoᴴᴼᴹᴱ</title>
     <link rel="stylesheet" href="/fonts/fonts.css">
     <link rel="stylesheet" href="zlog.css">
 
@@ -27,6 +27,27 @@
             background: #fff;
             padding: 20px;
             border-radius: 10px;
+        }
+
+        #toggleCommentBtn {
+            margin: 10px 0;
+            padding: 0.5em 0.5em;
+            color: #1a4a4a;
+            font-weight: bold;
+            background: #eaf4f4;
+            font-family: Galdeano, Cuprum, "Microsoft Yahei", sans-serif;
+            border-radius: 15px;
+            cursor: pointer;
+            border: 0;
+            transition: all 1s ease-in-out;
+        }
+
+        #toggleCommentBtn:hover {
+            color: #eaf4f4;
+            padding: 0.5em 1em;
+            background: #1a4a4a;
+            border-radius: 15px;
+            border: 0;
         }
 
         #imageModal {
@@ -108,7 +129,6 @@
         }
 
         #artalk-comments {
-
             margin-top: 20px;
         }
     </style>
@@ -121,9 +141,18 @@
         ◀ 返回列表
     </button>
 
+    <!-- 新增：评论开关按钮 -->
+    <button id="toggleCommentBtn" onclick="toggleComment()" style="margin-left:10px;">
+        显示评论框
+    </button>
+
     <div id="memoContainer">加载中...</div>
 
-    <div id="tcomment"></div>
+    <!-- 默认隐藏评论区 -->
+
+    <div id="tcomment" style="display:none;">
+        <div id="tcomments"></div>
+    </div>
 
     <div id="imageModal">
         <span id="closeModal">&times;</span>
@@ -279,13 +308,29 @@
         }
     </script>
 
+    <!-- 评论开关逻辑 -->
+    <script>
+        function toggleComment() {
+            const box = document.getElementById("tcomment");
+            const btn = document.getElementById("toggleCommentBtn");
+
+            if (box.style.display === "none") {
+                box.style.display = "block";
+                btn.textContent = "隐藏评论区";
+            } else {
+                box.style.display = "none";
+                btn.textContent = "显示评论区";
+            }
+        }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.min.js"></script>
     <script>
         twikoo.init({
             envId: 'https://echo.zme.life',
-            el: '#tcomment',
+            el: '#tcomments',
             path: location.href,
-            lang: 'zh-CN', // https://github.com/twikoojs/twikoo/blob/main/src/client/utils/i18n/index.js
+            lang: 'zh-CN',
         })
     </script>
 
