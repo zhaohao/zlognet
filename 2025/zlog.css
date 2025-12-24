@@ -574,17 +574,6 @@ footer {
     font-size: 0.8rem;
 }
 
-.tk-footer {
-    display: none;
-}
-.tk-tag-green {
-    background-color: #ff0000;
-    border: 0px solid #ff0000;
-    border-radius: 2px;
-    color: #eee;
-}
-
-
 /* --- Navbar Base --- */
 .zl-navbar {
     width: 100%;
