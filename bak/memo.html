@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <title>z.memoᴴᴼᴹᴱ</title>
+    <link rel="stylesheet" href="/fonts/fonts.css">
+    <link rel="stylesheet" href="zlog.css">
+
+    <style>
+        .memo-page {
+            margin: 0 0 30px 0;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .tk-comments {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .page-attachment {
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .page-attachment:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .page-memo-attachments {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .page-attachment-image {
+            max-width: 400px;
+        }
+
+        .page-attachment-video {
+            max-width: 400px;
+        }
+
+        .page-attachment img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .page-attachment video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .page-attachment-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 74, 74, 0.3);
+            color: white;
+            padding: 5px 8px;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .page-attachment-type {
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+
+        #toggleCommentBtn {
+            margin: 10px 0;
+            padding: 0.5em 0.5em;
+            color: #1a4a4a;
+            font-weight: bold;
+            background: #eaf4f4;
+            font-family: Galdeano, Cuprum, "Microsoft Yahei", sans-serif;
+            border-radius: 15px;
+            cursor: pointer;
+            border: 0;
+            transition: all 1s ease-in-out;
+        }
+
+        #toggleCommentBtn:hover {
+            color: #eaf4f4;
+            padding: 0.5em 1em;
+            background: #1a4a4a;
+            border-radius: 15px;
+            border: 0;
+        }
+
+        #imageModal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(26, 74, 74, 0.3);
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        #imageModal.show {
+            display: flex;
+        }
+
+        .image-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #modalImage {
+            max-width: 94%;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(26, 74, 74, 0.3);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        #modalImage.loaded {
+            opacity: 1;
+        }
+
+        #closeModal {
+            position: fixed;
+            top: 50px;
+            right: 20px;
+            font-size: 32px;
+            color: #4a4a4a;
+            cursor: pointer;
+            z-index: 10001;
+        }
+
+        .modal-navigation {
+            position: fixed;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            z-index: 10000;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            font-size: 40px;
+            color: #4a4a4a;
+            padding: 20px;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+
+        .nav-btn:hover {
+            opacity: 1;
+        }
+
+        #artalk-comments {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button onclick="toggle()" class="toggle">◑</button>
+    <button id="backbutton" onclick="(() => (history.length === 1) ? window.location = '/' : history.back())()">
+        ⬅ 返回列表
+    </button>
+
+    <button id="toggleCommentBtn" onclick="toggleComment()" style="margin-left:10px;">
+        显示评论框
+    </button>
+
+    <div id="memoContainer">加载中...</div>
+
+    <div id="tcomment" style="display:none;">
+        <div id="tcomments"></div>
+    </div>
+
+    <div id="imageModal">
+        <span id="closeModal">&times;</span>
+        <div class="modal-navigation">
+            <button class="nav-btn" id="prevBtn">&#10094;</button>
+            <button class="nav-btn" id="nextBtn">&#10095;</button>
+        </div>
+        <div class="image-wrapper">
+            <img id="modalImage" src="" alt="预览图片">
+        </div>
+    </div>
+
+    <script>
+
+        let MEMOS_JSON_URL = null;
+        let MEMOS_FILE_URL = null;
+
+        (async function () {
+            const params = new URLSearchParams(location.search);
+            const memoName = params.get("id");
+
+            if (!memoName) {
+                document.getElementById("memoContainer").innerHTML = "未指定 memo";
+                return;
+            }
+
+            const res = await fetch("config.json");
+            const config = await res.json();
+            const memosRes = await fetch(config.json_url);
+            const memosData = await memosRes.json();
+
+            MEMOS_JSON_URL = config.json_url;
+            MEMOS_FILE_URL = config.file_url;
+
+            const memo = memosData.memos.find(m => m.name === memoName);
+
+            if (!memo) {
+                document.getElementById("memoContainer").innerHTML = "找不到该 memo";
+                return;
+            }
+
+            const createDate = new Date(memo.createTime);
+            const weekday = createDate.toLocaleDateString('en-US', { weekday: 'long' });
+            const y = createDate.getFullYear();
+            const m = String(createDate.getMonth() + 1).padStart(2, '0');
+            const d = String(createDate.getDate()).padStart(2, '0');
+            const hh = String(createDate.getHours()).padStart(2, '0');
+            const mm = String(createDate.getMinutes()).padStart(2, '0');
+
+            const formattedDate = `${y}.${m}.${d} ${hh}:${mm} ${weekday}`;
+            const title = formattedDate;
+
+            const contentHtml = formatContent(memo.content || "");
+
+            let attachmentsHtml = '';
+            if (memo.attachments && memo.attachments.length > 0) {
+                attachmentsHtml = memo.attachments
+                    .map(attachment => createAttachmentElement(attachment))
+                    .join('');
+            }
+
+            document.getElementById("memoContainer").innerHTML = `
+        <div class="memo-page">
+            <div class="memo-date">${title}</div>
+            <div class="memo-content">${contentHtml}</div>
+            <div class="page-memo-attachments">${attachmentsHtml}</div>
+        </div>
+    `;
+
+            setupImageViewer();
+        })();
+
+
+        let imageList = [];
+        let currentIndex = 0;
+
+        function setupImageViewer() {
+            imageList = [];
+            const imgs = document.querySelectorAll(".page-attachment-image img");
+
+            imgs.forEach((img, i) => {
+                imageList.push(img.src);
+                img.addEventListener("click", () => openModal(i));
+
+                const preloadImg = new Image();
+                preloadImg.src = img.src;
+            });
+        }
+
+        function openModal(i) {
+            currentIndex = i;
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+
+            modalImg.classList.remove("loaded");
+
+            modal.classList.add("show");
+
+            modalImg.src = imageList[currentIndex];
+
+            if (modalImg.complete) {
+                modalImg.classList.add("loaded");
+            } else {
+                modalImg.onload = function () {
+                    modalImg.classList.add("loaded");
+                    modalImg.onload = null;
+                };
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+
+            modal.classList.remove("show");
+            modalImg.classList.remove("loaded");
+        }
+
+        document.getElementById("closeModal").onclick = closeModal;
+
+        document.getElementById("prevBtn").onclick = function () {
+            currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+            openModal(currentIndex);
+        };
+
+        document.getElementById("nextBtn").onclick = function () {
+            currentIndex = (currentIndex + 1) % imageList.length;
+            openModal(currentIndex);
+        };
+
+        document.getElementById("imageModal").addEventListener("click", function (e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.addEventListener("keydown", function (e) {
+            const modal = document.getElementById("imageModal");
+            if (!modal.classList.contains("show")) return;
+
+            if (e.key === "Escape") closeModal();
+            if (e.key === "ArrowLeft") document.getElementById("prevBtn").click();
+            if (e.key === "ArrowRight") document.getElementById("nextBtn").click();
+        });
+
+
+        function createAttachmentElement(attachment) {
+            if (!attachment.type) return '';
+
+            const fileSize = attachment.size ? formatFileSize(attachment.size) : '';
+            const fileName = attachment.filename || '未命名文件';
+            const fileYear = attachment.createTime.substring(0, 4);
+
+            if (attachment.type.startsWith('image/')) {
+                return `
+                    <div class="page-attachment page-attachment-image" data-image-src="${fileName}">
+                        <img src="${MEMOS_FILE_URL}${fileYear}/${fileName}" alt="${fileName}" loading="lazy">
+                        <div class="page-attachment-info">
+                            <span class="page-attachment-type">Photo</span>
+                            <span>${fileSize}</span>
+                        </div>
+                    </div>
+                `;
+            } else if (attachment.type.startsWith('video/')) {
+                return `
+                    <div class="page-attachment page-attachment-video">
+                        <video controls>
+                            <source src="${MEMOS_FILE_URL}${fileYear}/${fileName}" type="${attachment.type}">
+                            您的浏览器不支持视频播放
+                        </video>
+                        <div class="page-attachment-info">
+                            <span class="page-attachment-type">Video</span>
+                            <span>${fileSize}</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="page-attachment">
+                        <div style="padding: 15px; background: #f5f5f5; text-align: center;">
+                            <p>${fileName}</p>
+                            <p>${attachment.type}</p>
+                            <p>${fileSize}</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (!bytes && bytes !== 0) return '';
+
+            const units = ['B', 'KB', 'MB', 'GB'];
+            let size = bytes;
+            let unitIndex = 0;
+
+            while (size >= 1024 && unitIndex < units.length - 1) {
+                size /= 1024;
+                unitIndex++;
+            }
+
+            const formattedSize = unitIndex === 0
+                ? Math.round(size)
+                : size.toFixed(1);
+
+            return `${formattedSize} ${units[unitIndex]}`;
+        }
+
+
+
+        function formatContent(content) {
+            if (!content) return '';
+
+            let formatted = content;
+
+            formatted = formatted.replace(/(^|\s)#([a-zA-Z0-9\u4e00-\u9fa5_-]+)(?=\s|$)/g,
+                '$1<span class="tag" data-tag="$2">#$2</span>');
+
+            // 1. 处理代码块 ```
+            formatted = formatted.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+
+            // 2. 处理行内代码 `
+            formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+            // 3. 处理标题
+            formatted = formatted.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            formatted = formatted.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            formatted = formatted.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+            // 4. 处理粗体 ** ** 或 __ __
+            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            formatted = formatted.replace(/__(.*?)__/g, '<strong>$1</strong>');
+
+            // 5. 处理斜体 * * 或 _ _
+            formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            formatted = formatted.replace(/_(.*?)_/g, '<em>$1</em>');
+
+            // 6. 处理删除线 ~~ ~~
+            formatted = formatted.replace(/~~(.*?)~~/g, '<del>$1</del>');
+
+            // 7. 处理引用块 >
+            formatted = formatted.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
+
+            // 8. 处理无序列表 * 或 -
+            formatted = formatted.replace(/^\s*[\*\-] (.*$)/gim, '<li>$1</li>');
+            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+
+            // 9. 处理有序列表 1. 2. 3.
+            formatted = formatted.replace(/^\s*\d+\. (.*$)/gim, '<li>$1</li>');
+            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>');
+
+            // 10. 处理图片 ![alt](src)
+            formatted = formatted.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:50%;height:auto;" />');
+
+            // 11. 处理链接 [text](url)
+            formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+            // 12. 处理简单的表格（基本支持）
+            formatted = formatted.replace(/^\|(.+)\|$/gim, function (match) {
+                if (match.includes('---')) {
+                    return ''; // 跳过表头分隔线
+                }
+                return '<tr>' + match.split('|').slice(1, -1).map(cell =>
+                    `<td>${cell.trim()}</td>`
+                ).join('') + '</tr>';
+            });
+
+            // 13. 包装表格
+            formatted = formatted.replace(/(<tr>.*<\/tr>)/s, '<table>$1</table>');
+
+            // 14. 处理换行（将两个换行转换为段落，单个换行转换为 <br>）
+            formatted = formatted.replace(/\n\n+/g, '</p><p>');
+            formatted = formatted.replace(/\n/g, '<br>');
+            formatted = '<p>' + formatted + '</p>';
+
+            // 15. 清理空的段落
+            formatted = formatted.replace(/<p><\/p>/g, '');
+            formatted = formatted.replace(/<p><br><\/p>/g, '');
+
+            return formatted;
+        }
+
+    </script>
+
+    <script>
+        let html = document.querySelector('html');
+        html.setAttribute('data-theme', localStorage.getItem("themeName"));
+        function toggle() {
+            let html = document.querySelector('html');
+            let currentTheme = html.getAttribute('data-theme');
+            if (currentTheme === "dark") {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem("themeName", 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem("themeName", 'dark');
+            }
+        }
+    </script>
+
+    <script>
+        function toggleComment() {
+            const box = document.getElementById("tcomment");
+            const btn = document.getElementById("toggleCommentBtn");
+
+            if (box.style.display === "none") {
+                box.style.display = "block";
+                btn.textContent = "隐藏评论区";
+            } else {
+                box.style.display = "none";
+                btn.textContent = "显示评论区";
+            }
+        }
+    </script>
+
+    <script src="twikoo.min.js"></script>
+    <script>
+        twikoo.init({
+            envId: 'https://echo.zme.life',
+            el: '#tcomments',
+            path: location.href,
+            lang: 'zh-CN',
+        })
+    </script>
+    <script src="statistics.js"></script>
+</body>
+
+</html>

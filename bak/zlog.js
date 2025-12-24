@@ -24,13 +24,6 @@ async function init() {
 
         setupModalEvents();
 
-        // 页面加载完成后添加窗口大小监听
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                initWaterfallLayout();
-            }, 100);
-        });
-
     } catch (err) {
         console.error("加载 config.json 失败:", err);
         document.getElementById('loadingState').innerHTML = `
@@ -206,9 +199,6 @@ async function displayPage(page) {
 
     // 更新分页导航状态
     updatePagination();
-
-    // 等待图片加载完成后初始化瀑布流布局
-    waitForImagesAndLayout();
 
     // 滚动到顶部
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -590,136 +580,3 @@ function randomString(e) {
     for (i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
     return n
 }
-
-// 瀑布流布局函数 - 简化优化版
-function initWaterfallLayout() {
-    const container = document.querySelector('.memo-list');
-    if (!container) return;
-    
-    const items = container.querySelectorAll('.memo-item');
-    if (items.length === 0) return;
-    
-    const containerWidth = container.clientWidth;
-    const screenWidth = window.innerWidth;
-    
-    // 移动端单列布局
-    if (screenWidth < 1000) {
-        items.forEach(item => {
-            item.style.cssText = `
-                position: relative !important;
-                width: 100% !important;
-                left: 0 !important;
-                top: 0 !important;
-                opacity: 1 !important;
-                margin-bottom: 20px !important;
-            `;
-        });
-        container.style.height = 'auto';
-        return;
-    }
-    
-    // 桌面端瀑布流布局
-    const cardWidth = 450;
-    const gap = 20;
-    
-    // 计算列数
-    let columns = Math.floor(containerWidth / cardWidth);
-    columns = Math.max(2, Math.min(columns, 4));
-    
-    // 计算每列的起始位置
-    const colPositions = [];
-    for (let i = 0; i < columns; i++) {
-        colPositions.push(i * (cardWidth + gap));
-    }
-    
-    // 每列当前的高度
-    const colHeights = new Array(columns).fill(0);
-    
-    // 布局每个卡片
-    items.forEach(item => {
-        // 设置固定宽度
-        item.style.width = cardWidth + 'px';
-        item.style.position = 'absolute';
-        
-        // 找到最短的列
-        let minHeight = Infinity;
-        let targetCol = 0;
-        
-        for (let i = 0; i < columns; i++) {
-            if (colHeights[i] < minHeight) {
-                minHeight = colHeights[i];
-                targetCol = i;
-            }
-        }
-        
-        // 计算位置
-        const left = colPositions[targetCol];
-        const top = colHeights[targetCol];
-        
-        item.style.left = left + 'px';
-        item.style.top = top + 'px';
-        item.style.opacity = '1';
-        
-        // 更新列高度
-        colHeights[targetCol] = top + item.offsetHeight + gap;
-    });
-    
-    // 设置容器高度
-    const maxHeight = Math.max(...colHeights);
-    container.style.height = maxHeight + 'px';
-}
-
-// 防抖函数
-function debounce(func, wait) {
-    let timeout;
-    return function() {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, arguments), wait);
-    };
-}
-
-// 改进的等待函数，确保卡片高度正确计算
-function waitForImagesAndLayout() {
-    const container = document.querySelector('.memo-list');
-    if (!container) return;
-    
-    // 强制浏览器重排以确保DOM完全渲染
-    void container.offsetHeight;
-    
-    // 等待一帧确保布局计算完成
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            initWaterfallLayout();
-            
-            // 再次检查，确保图片加载后重新布局
-            setTimeout(() => {
-                initWaterfallLayout();
-            }, 300);
-        });
-    });
-}
-
-
-// 改进的窗口大小变化处理
-let resizeTimer;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-        initWaterfallLayout();
-    }, 100);
-});
-
-// 页面加载完成后立即布局
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        initWaterfallLayout();
-    }, 100);
-});
-
-// 窗口大小改变时重新布局
-const debouncedResize = debounce(() => {
-    initWaterfallLayout();
-}, 150);
-
-// 监听窗口大小变化
-window.addEventListener('resize', debouncedResize);
