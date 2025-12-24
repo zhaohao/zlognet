@@ -574,6 +574,16 @@ footer {
     font-size: 0.8rem;
 }
 
+.tk-footer {
+    display: none;
+}
+.tk-tag-green {
+    background-color: #ff0000;
+    border: 0px solid #ff0000;
+    border-radius: 2px;
+    color: #eee;
+}
+
 
 /* --- Navbar Base --- */
 .zl-navbar {
@@ -731,11 +741,6 @@ footer {
     border-radius: 2px;
     transition: all 0.3s ease;
 }
-
-.tk-footer {
-    display: none;
-}
-
 
 /* --- Mobile Menu --- */
 @media (max-width: 768px) {
