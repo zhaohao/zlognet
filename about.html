@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <title>About</title>
+    <link rel="stylesheet" href="/fonts/fonts.css">
+    <link rel="stylesheet" href="zlog.css">
+
+    <style>
+        .memo-page {
+            margin: 0 0 30px 0;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .tk-comments {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+
+        #toggleCommentBtn {
+            margin: 10px 0;
+            padding: 0.5em 0.5em;
+            color: #1a4a4a;
+            font-weight: bold;
+            background: #eaf4f4;
+            font-family: Galdeano, Cuprum, "Microsoft Yahei", sans-serif;
+            border-radius: 15px;
+            cursor: pointer;
+            border: 0;
+            transition: all 1s ease-in-out;
+        }
+
+        #toggleCommentBtn:hover {
+            color: #eaf4f4;
+            padding: 0.5em 1em;
+            background: #1a4a4a;
+            border-radius: 15px;
+            border: 0;
+        }
+
+        #artalk-comments {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button onclick="toggle()" class="toggle">◑</button>
+    <button id="backbutton" onclick="(() => (history.length === 1) ? window.location = '/' : history.back())()">
+        ⬅ 返回列表
+    </button>
+
+    <button id="toggleCommentBtn" onclick="toggleComment()" style="margin-left:10px;">
+        显示评论框
+    </button>
+
+    <div id="memoContainer">
+        <div class="memo-page">
+            <div class="memo-date">About Me</div>
+            <div class="memo-content">
+                <p>我是<code> Hao / stardust / ZHao</code>;</p>
+                <p>喜欢混乱的思考、沉默的待在角落。</p>
+                <p>目前处于某种混沌的状态中。</p>
+                <p>也注册了一些的网络账号，几乎未用但也占据着互联网的一隅：</p>
+                <li style="margin-left: 30px;"><span class="tag" data-tag="net">t.me/zhaohao</span></li>
+                <li style="margin-left: 30px;"><span class="tag" data-tag="net">x.com/zhaohao</span></li>
+                <li style="margin-left: 30px;"><span class="tag" data-tag="net">facebook.com/haozhao</span></li>
+                <li style="margin-left: 30px;"><span class="tag" data-tag="net">Weixin : haozhao</span></li>
+                <p>也可以通过电子邮箱 hao@zhao.im 或者 z@zlog.net 联系到我。</p>
+                
+
+                <span class="tag" data-tag="net">#about</span> 
+            </div>
+        </div>
+    </div>
+
+    <div id="tcomment" style="display:none;">
+        <div id="tcomments"></div>
+    </div>
+
+    <script>
+        let html = document.querySelector('html');
+        html.setAttribute('data-theme', localStorage.getItem("themeName"));
+        function toggle() {
+            let html = document.querySelector('html');
+            let currentTheme = html.getAttribute('data-theme');
+            if (currentTheme === "dark") {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem("themeName", 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem("themeName", 'dark');
+            }
+        }
+    </script>
+
+    <script>
+        function toggleComment() {
+            const box = document.getElementById("tcomment");
+            const btn = document.getElementById("toggleCommentBtn");
+
+            if (box.style.display === "none") {
+                box.style.display = "block";
+                btn.textContent = "隐藏评论区";
+            } else {
+                box.style.display = "none";
+                btn.textContent = "显示评论区";
+            }
+        }
+    </script>
+
+    <script src="twikoo.min.js"></script>
+    <script>
+        twikoo.init({
+            envId: 'https://echo.zme.life',
+            el: '#tcomments',
+            path: location.href,
+            lang: 'zh-CN',
+        })
+    </script>
+    <script src="statistics.js"></script>
+</body>
+
+</html>
