@@ -5,26 +5,31 @@
 /*@import '//cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css?ver=6.2.2';*/
 
 :root {
-    --bgcolor: rgb(233, 237, 237);
+    --stardust: 200;
+    --color-selection-bar: linear-gradient(to right, oklch(.8 .1 0), oklch(.8 .1 30), oklch(.8 .1 60), oklch(.8 .1 90), oklch(.8 .1 120), oklch(.8 .1 150), oklch(.8 .1 180), oklch(.8 .1 210), oklch(.8 .1 240), oklch(.8 .1 270), oklch(.8 .1 300), oklch(.8 .1 330), oklch(.8 .1 360));
+    --bgcolor: oklch(.95 .005 var(--stardust)); /*rgb(233, 237, 237);*/
+    --bglightcyan: oklch(.95 .01 var(--stardust)); 
+    --maindeepcyan: oklch(.47 .07 var(--stardust)); 
+    --maindatehover: oklch(.7 .05 var(--stardust)); 
     --darknumer: 0;
     --darkdegree: 0deg;
-    --scrollbar-track: rgb(233, 237, 237);
-    --scrollbar-thumb: #d1ece9;
+    --scrollbar-track: oklch(.95 .005 var(--stardust)); /*rgb(233, 237, 237);*/
+    --scrollbar-thumb: oklch(.47 .07 var(--stardust)); /* #d1ece9;*/
 }
 
 [data-theme="dark"] {
     --darknumer: 1;
     --darkdegree: 180deg;
     --scrollbar-track: #000;
-    --scrollbar-thumb: #96c2b6;
+    --scrollbar-thumb: var(--scrollbar-thumb); /*#96c2b6*/
 }
 
 [data-theme="light"] {
     --darknumer: 0;
     --darkdegree: 0deg;
-    --bgcolor: rgb(233, 237, 237);
-    --scrollbar-track: rgb(233, 237, 237);
-    --scrollbar-thumb: #96c2b6;
+    --bgcolor: oklch(.95 .005 var(--stardust)); /*rgb(233, 237, 237);*/
+    --scrollbar-track: oklch(.95 .005 var(--stardust)); /*rgb(233, 237, 237);*/
+    --scrollbar-thumb: var(--scrollbar-thumb); /*#96c2b6*/
 }
 
 html {
@@ -53,7 +58,7 @@ html {
 
 .toggle {
     font-size: 20px;
-    color: #1a4a4a;
+    color:  var(--maindeepcyan); /*#1a4a4a*/
     background-color: #0e0e0e00;
     border: 0px;
     width: 20px;
@@ -92,7 +97,7 @@ body {
 
 a {
     text-decoration: none;
-    color: #1a4a4a;
+    color:  var(--maindeepcyan); /*#1a4a4a*/
 }
 
 img,
@@ -261,8 +266,8 @@ h1 {
 }
 
 .memo-date {
-    background: #eaf4f4;
-    color: #1a4a4a;
+    background:  var(--bglightcyan); /*#eaf4f4*/
+    color:  var(--maindeepcyan); /*#1a4a4a*/
     font-family: Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
     padding: 3px 8px;
     border-radius: 12px;
@@ -271,18 +276,18 @@ h1 {
 }
 
 .memo-date:hover {
-    background: #9fc9c9;
-    color: #1a4a4a;
+    background: var(--maindatehover); /*#9fc9c9*/
+    color:  var(--maindeepcyan); /*#1a4a4a*/
     transition: all 1s ease-in-out;
 }
 
 .memo-link {
-    color: #1a4a4a;
+    color:  var(--maindeepcyan); /*#1a4a4a*/
     text-decoration: none;
 }
 
 .memo-percent {
-    background: #1a4a4a; /* #9fc9c9; #96c2b6;  #c1d5b8; */
+    background:  var(--maindeepcyan); /*#1a4a4a*/ /* #9fc9c9; #96c2b6;  #c1d5b8; */
     color: #f5f5f5;
     width: fit-content;
     padding: 0 5px;
@@ -293,9 +298,9 @@ h1 {
 #backbutton {
     margin: 10px 0;
     padding: 0.5em 0.5em;
-    color: #1a4a4a;
+    color:  var(--maindeepcyan); /*#1a4a4a*/
     font-weight: bold;
-    background: #eaf4f4;
+    background:  var(--bglightcyan); /*#eaf4f4*/
     font-family: Galdeano, Cuprum, "Microsoft Yahei", sans-serif;
     border-radius: 15px;
     cursor: pointer;
@@ -304,16 +309,16 @@ h1 {
 }
 
 #backbutton:hover {
-    color: #eaf4f4;
+    color:  var(--bglightcyan); /*#eaf4f4*/
     padding: 0.5em 1em;
-    background: #1a4a4a;
+    background:  var(--maindeepcyan); /*#1a4a4a*/
     border-radius: 15px;
     border: 0;
 }
 
 
 .memo-bottom-date {
-    color: #1a4a4a;
+    color:  var(--maindeepcyan); /*#1a4a4a*/
     font-size: 0.8rem;
     font-family: Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
     text-align: right;
@@ -327,8 +332,8 @@ h1 {
 }
 
 .tag {
-    background: #eaf4f4;
-    color: #1a4a4a;
+    background:  var(--bglightcyan); /*#eaf4f4*/
+    color:  var(--maindeepcyan); /*#1a4a4a*/
     padding: 3px 8px;
     border-radius: 12px;
     font-size: 0.8rem;
@@ -344,7 +349,7 @@ h1 {
 }
 
 .memo-content code {
-    color: #1a4a4a;
+    color:  var(--maindeepcyan); /*#1a4a4a*/
     padding: 2px 6px;
     border-radius: 4px;
     font-family: Hack, 'Courier New', monospace;
@@ -356,7 +361,7 @@ h1 {
     border-radius: 6px;
     overflow-x: auto;
     margin: 15px 0;
-    border-left: 3px solid #1a4a4a;
+    border-left: 3px solid  var(--maindeepcyan); /*#1a4a4a*/
 }
 
 .memo-attachments {
@@ -665,7 +670,7 @@ footer {
     font-weight: 600;
     font-size: 18px;
     font-family: monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
-    color: #1a4a4a;
+    color:  var(--maindeepcyan); /*#1a4a4a*/
     text-decoration: none;
 }
 
@@ -817,14 +822,14 @@ footer {
 
 .pagination-btn:hover:not(:disabled) {
     background-color: #f5f5f5;
-    border-color: #1a4a4a;
-    color: #1a4a4a;
+    border-color:  var(--maindeepcyan); /*#1a4a4a*/
+    color:  var(--maindeepcyan); /*#1a4a4a*/
 }
 
 .pagination-btn.active {
-    background-color: #1a4a4a;
+    background-color:  var(--maindeepcyan); /*#1a4a4a*/
     color: white;
-    border-color: #1a4a4a;
+    border-color:  var(--maindeepcyan); /*#1a4a4a*/
 }
 
 .pagination-btn:disabled {
@@ -833,7 +838,7 @@ footer {
 }
 
 .pagination-btn.active:hover {
-    background-color: #1a4a4a;
+    background-color:  var(--maindeepcyan); /*#1a4a4a*/
     color: white;
 }
 
