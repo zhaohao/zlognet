@@ -21,7 +21,7 @@
     --darknumer: 1;
     --darkdegree: 180deg;
     --scrollbar-track: #000;
-    --scrollbar-thumb: var(--scrollbar-thumb); /*#96c2b6*/
+    --scrollbar-thumb: oklch(.47 .07 var(--stardust)); /*#96c2b6*/
 }
 
 [data-theme="light"] {
@@ -29,7 +29,7 @@
     --darkdegree: 0deg;
     --bgcolor: oklch(.95 .005 var(--stardust)); /*rgb(233, 237, 237);*/
     --scrollbar-track: oklch(.95 .005 var(--stardust)); /*rgb(233, 237, 237);*/
-    --scrollbar-thumb: var(--scrollbar-thumb); /*#96c2b6*/
+    --scrollbar-thumb: oklch(.47 .07 var(--stardust));  /*#96c2b6*/
 }
 
 html {
@@ -613,8 +613,8 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg,  #00cfff, #aeff00, #12d1be, #d1ece9);
- 
+  background: linear-gradient(90deg, var(--maindeepcyan), var(--maindatehover), var(--bglightcyan), var(--scrollbar-track));
+  /*background: linear-gradient(90deg,  #00cfff, #aeff00, #12d1be, #d1ece9);*/
 
   -webkit-filter: blur(15px) brightness(1);
   filter: blur(15px) brightness(1);
@@ -638,7 +638,8 @@ footer {
   bottom: 0;
   font: inherit;
   letter-spacing: inherit;
-  background: linear-gradient(90deg, #00cfff, #aeff00, #12d1be, #d1ece9);
+  background: linear-gradient(90deg, var(--maindeepcyan), var(--maindatehover), var(--bglightcyan), var(--scrollbar-track));
+  /*background: linear-gradient(90deg,  #00cfff, #aeff00, #12d1be, #d1ece9);*/
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
