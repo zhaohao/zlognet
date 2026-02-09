@@ -374,8 +374,9 @@ h1 {
 .memo-attachments img {
     width: 100%;
     max-width: 720px;
-    height: inherit;
+    height: 200px;
     display: block;
+    object-fit: cover;
     margin: 15px 4px 15px 4px;
     -webkit-box-shadow: #999 1px 1px 4px;
     -moz-box-shadow: #999 1px 1px 4px;
@@ -405,12 +406,6 @@ h1 {
 
 .attachment-video {
     max-width: 350px;
-}
-
-.attachment img {
-    width: 100%;
-    height: auto;
-    display: block;
 }
 
 .attachment video {
