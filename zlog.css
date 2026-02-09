@@ -15,6 +15,10 @@
     --darkdegree: 0deg;
     --scrollbar-track: oklch(.95 .005 var(--stardust)); /*rgb(233, 237, 237);*/
     --scrollbar-thumb: oklch(.47 .07 var(--stardust)); /* #d1ece9;*/
+    --linear-gradient-color01: oklch(63.536% 0.10804 var(--stardust));
+    --linear-gradient-color02: oklch(60.513% 0.09807 var(--stardust));
+    --linear-gradient-color03: oklch(86.302% 0.03291 var(--stardust));
+    --linear-gradient-color04: oklch(89.815% 0.13862 var(--stardust));
 }
 
 [data-theme="dark"] {
@@ -611,7 +615,7 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, var(--maindeepcyan), var(--maindatehover), var(--bglightcyan), var(--scrollbar-track));
+  background: linear-gradient(90deg, var(--linear-gradient-color01), var(--linear-gradient-color02), var(--linear-gradient-color03), var(--linear-gradient-color04));
   /*background: linear-gradient(90deg,  #00cfff, #aeff00, #12d1be, #d1ece9);*/
 
   -webkit-filter: blur(15px) brightness(1);
@@ -636,7 +640,7 @@ footer {
   bottom: 0;
   font: inherit;
   letter-spacing: inherit;
-  background: linear-gradient(90deg, var(--maindeepcyan), var(--maindatehover), var(--bglightcyan), var(--scrollbar-track));
+  background: linear-gradient(90deg, var(--linear-gradient-color01), var(--linear-gradient-color02), var(--linear-gradient-color03), var(--linear-gradient-color04));
   /*background: linear-gradient(90deg,  #00cfff, #aeff00, #12d1be, #d1ece9);*/
   -webkit-background-clip: text;
   background-clip: text;
