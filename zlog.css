@@ -217,6 +217,12 @@ h1 {
     transition: all 1s;
 }
 
+blockquote {
+    background: var(--bglightcyan);
+    border-left: var(--maindeepcyan) 10px solid;
+    margin-left: 10px;
+    padding: 10px 0 10px 15px;
+}
 
 .subtitle {
     color: #7f8c8d;
