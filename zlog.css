@@ -219,8 +219,8 @@ h1 {
 
 blockquote {
     background: var(--bglightcyan);
-    border-left: var(--maindeepcyan) 10px solid;
-    margin-left: 10px;
+    border-left: var(--maindeepcyan) 6px solid;
+    margin: 0px 0px -10px 10px;
     padding: 10px 0 10px 15px;
 }
 
