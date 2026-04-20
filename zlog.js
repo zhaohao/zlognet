@@ -449,6 +449,19 @@ function createAttachmentElement(attachment) {
                         </div>
                     </div>
                 `;
+    } else if (attachment.type.startsWith('audio/')) {
+        return `
+                    <div class="attachment">
+                        <audio controls style="padding:10px 10px 30px 10px">
+                            <source src="${MEMOS_FILE_URL}${fileYear}/${fileName}" type="${attachment.type}">
+                            您的浏览器不支持音频播放
+                        </audio>
+                        <div class="attachment-info">
+                            <span class="attachment-type">Audio</span>
+                            <span>${fileSize}</span>
+                        </div>
+                    </div>
+                `;
     } else if (attachment.type.startsWith('video/')) {
         return `
                     <div class="attachment attachment-video">
@@ -462,7 +475,12 @@ function createAttachmentElement(attachment) {
                         </div>
                     </div>
                 `;
-    } else {
+    } 
+    
+    
+    
+    
+    else {
         return `
                     <div class="attachment">
                         <div style="padding: 15px; background: #f5f5f5; text-align: center;">
