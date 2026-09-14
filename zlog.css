@@ -90,7 +90,7 @@ html {
 body {
     background: var(--bgcolor);
     transition: all 0.5s ease-in-out;
-    font-family: Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
+    font-family: Hack, "Century Gothic", "LXGW WenKai Screen", sans-serif;
     line-height: 1.6;
     color: #333;
     padding: 20px;
@@ -175,7 +175,7 @@ h1 {
     margin-right: 10px;
     font-weight: bold;
     font-size: 12px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Courier New', Courier, Hack;
     color: #333;
 }
 
@@ -278,7 +278,7 @@ blockquote {
 .memo-date {
     background:  var(--bglightcyan); /*#eaf4f4*/
     color:  var(--maindeepcyan); /*#1a4a4a*/
-    font-family: Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
+    font-family: Hack, "Century Gothic", "LXGW WenKai Screen", sans-serif;
     padding: 3px 8px;
     border-radius: 12px;
     font-size: 0.9rem;
@@ -330,7 +330,7 @@ blockquote {
 .memo-bottom-date {
     color:  var(--maindeepcyan); /*#1a4a4a*/
     font-size: 0.8rem;
-    font-family: Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
+    font-family: Hack, "Century Gothic", "LXGW WenKai Screen", sans-serif;
     text-align: right;
 }
 
@@ -347,7 +347,7 @@ blockquote {
     padding: 3px 8px;
     border-radius: 12px;
     font-size: 0.8rem;
-    font-family: Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
+    font-family: Hack, "Century Gothic", "LXGW WenKai Screen", sans-serif;
 }
 
 .memo-content {
@@ -362,12 +362,13 @@ blockquote {
     color:  var(--maindeepcyan); /*#1a4a4a*/
     padding: 2px 6px;
     border-radius: 4px;
-    font-family: Hack, 'Courier New', monospace;
+    font-family: Hack, "Courier New", "LXGW WenKai Screen";
     font-size: 0.9em;
 }
 
 .memo-content pre {
-    padding: 15px;
+    background: var(--bglightcyan);
+    padding: 5px 15px;
     border-radius: 6px;
     overflow-x: auto;
     margin: 15px 0;
@@ -678,7 +679,7 @@ footer {
 .zl-nav-logo a {
     font-weight: 600;
     font-size: 18px;
-    font-family: monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
+    font-family: "Century Gothic", "LXGW WenKai Screen", sans-serif;
     color:  var(--maindeepcyan); /*#1a4a4a*/
     text-decoration: none;
 }
@@ -714,7 +715,7 @@ footer {
 .zl-nav-menu li a {
     text-decoration: none;
     color: #333;
-    font-family: "Bold Dot Digital-7", Hack, monospace, "Century Gothic", "LXGW WenKai Screen", sans-serif;
+    font-family: "Bold Dot Digital-7", Hack, "Century Gothic", "LXGW WenKai Screen", sans-serif;
     font-size: 15px;
     transition: 0.2s ease;
 }
