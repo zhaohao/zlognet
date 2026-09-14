@@ -376,7 +376,7 @@ function createMemoElement(memo) {
         day: 'numeric'
     });
 
-    const weekday = createDate.toLocaleDateString('zh-CN', { weekday: 'short' });
+    const weekday = createDate.toLocaleDateString('en-US', { weekday: 'short' });
     const y = createDate.getFullYear();
     const m = String(createDate.getMonth() + 1).padStart(2, '0');
     const d = String(createDate.getDate()).padStart(2, '0');
@@ -387,7 +387,7 @@ function createMemoElement(memo) {
     const totalDays = daysInYear(createDate.getFullYear());
     const percent = Math.floor((1-(dayofyear / totalDays)) * 100) + "%";
 
-    const formattedDate = `${weekday} ${y}.${m}.${d} ${hh}:${mm}`;
+    const formattedDate = `${y}/${m}/${d} ${hh}:${mm}`;
     const dateAnchor = `${y}-${m}-${d}`;
 
     let contentHtml = '';
@@ -580,6 +580,8 @@ function formatContent(content) {
     // 15. 清理空的段落
     formatted = formatted.replace(/<p><\/p>/g, '');
     formatted = formatted.replace(/<p><br><\/p>/g, '');
+
+    formatted = formatted.replace(/(<code>)\s*<br\s*\/?>/gi, '$1');
 
     return formatted;
 }
