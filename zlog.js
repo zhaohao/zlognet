@@ -9,13 +9,58 @@ let currentPage = 1;
 let totalPages = 1;
 let allMemos = [];
 
+// 统一解析资源文件路径（构建 /file/attachments/${resourceId}/${filename}）
+function getResourceUrl(res) {
+    if (!res) return '';
+
+    // 规范化基础前缀（去除末尾斜杠；若未配置或为本地标识则使用 '.'）
+    let baseUrl = (MEMOS_FILE_URL || '').trim().replace(/\/+$/, '');
+    if (!baseUrl || baseUrl === '.' || baseUrl === './') {
+        baseUrl = '.';
+    }
+
+    // 1. 如果传入的是纯字符串（如 Markdown 中的图片路径）
+    if (typeof res === 'string') {
+        if (/^(http|https|data:)/i.test(res)) return res;
+        const cleanPath = res.startsWith('/') ? res : `/${res}`;
+        return `${baseUrl}${cleanPath}`;
+    }
+
+    // 2. 如果包含外部完整链接
+    if (res.externalLink) return res.externalLink;
+
+    // 3. 提取 resourceId 与 filename
+    let resourceId = res.resourceId || res.id;
+    if (!resourceId && res.name) {
+        // 如果 name 为 attachments/TuLhEcm4XqmjgGUk5LgAgg，提取末尾 ID
+        const parts = res.name.split('/');
+        resourceId = parts[parts.length - 1];
+    }
+
+    const filename = res.filename || res.fileName || '';
+
+    // 拼接标准附件路径
+    if (resourceId && filename) {
+        return `${baseUrl}/file/attachments/${resourceId}/${filename}`;
+    }
+
+    // 4. 备用 url 字段兜底
+    if (res.url) {
+        if (/^(http|https|data:)/i.test(res.url)) return res.url;
+        const cleanPath = res.url.startsWith('/') ? res.url : `/${res.url}`;
+        return `${baseUrl}${cleanPath}`;
+    }
+
+    return '';
+}
+
 async function init() {
     try {
         const res = await fetch("config.json");
         const config = await res.json();
 
         MEMOS_JSON_URL = config.json_url;
-        MEMOS_FILE_URL = config.file_url || '';
+        MEMOS_FILE_URL = config.file_url;
         ITEMS_PER_PAGE = config.items_per_page || 20; // 从配置读取，默认20
 
         const dataSourceEl = document.getElementById('dataSource');
@@ -45,51 +90,6 @@ async function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
-
-/**
- * 统一解析资源文件路径：
- * 支持构建 ${MEMOS_FILE_URL}/file/attachments/${resourceId}/${filename}
- */
-function getResourceUrl(res) {
-    if (!res) return '';
-
-    // 规范化基础域名/前缀（去掉末尾斜杠；若未配置则使用 '.' 表示当前本地相对目录）
-    const baseUrl = MEMOS_FILE_URL ? MEMOS_FILE_URL.replace(/\/+$/, '') : '.';
-
-    // 1. 纯字符串路径（如 Markdown 内嵌图片）
-    if (typeof res === 'string') {
-        if (/^(http|https|data:)/i.test(res)) return res;
-        const cleanPath = res.startsWith('/') ? res : `/${res}`;
-        return `${baseUrl}${cleanPath}`;
-    }
-
-    // 2. 外部链接
-    if (res.externalLink) return res.externalLink;
-
-    // 3. 提取 resourceId 与 filename
-    let resourceId = res.resourceId || res.id || '';
-    if (!resourceId && res.name) {
-        // 如果 name 为 attachments/TuLhEcm4XqmjgGUk5LgAgg，提取最后一段作为 resourceId
-        const parts = res.name.split('/');
-        resourceId = parts[parts.length - 1];
-    }
-
-    const filename = res.filename || res.fileName || '';
-
-    // 拼接 /file/attachments/${resourceId}/${filename}
-    if (resourceId && filename) {
-        return `${baseUrl}/file/attachments/${resourceId}/${filename}`;
-    }
-
-    // 4. 备用 fallback：如果对象自带 url 字段
-    if (res.url) {
-        if (/^(http|https|data:)/i.test(res.url)) return res.url;
-        const cleanPath = res.url.startsWith('/') ? res.url : `/${res.url}`;
-        return `${baseUrl}${cleanPath}`;
-    }
-
-    return '';
-}
 
 let currentImageIndex = 0;
 let allImages = [];
@@ -412,6 +412,7 @@ function daysInYear(year) {
     return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0) ? 366 : 365;
 }
 
+
 function createMemoElement(memo) {
     const memoItem = document.createElement('article');
     memoItem.className = 'memo-item';
@@ -425,6 +426,7 @@ function createMemoElement(memo) {
         day: 'numeric'
     });
 
+    const weekday = createDate.toLocaleDateString('en-US', { weekday: 'short' });
     const y = createDate.getFullYear();
     const m = String(createDate.getMonth() + 1).padStart(2, '0');
     const d = String(createDate.getDate()).padStart(2, '0');
@@ -433,7 +435,7 @@ function createMemoElement(memo) {
 
     const dayofyear = getDayOfYear(createDate);
     const totalDays = daysInYear(createDate.getFullYear());
-    const percent = Math.floor((1 - (dayofyear / totalDays)) * 100) + "%";
+    const percent = Math.floor((1-(dayofyear / totalDays)) * 100) + "%";
 
     const formattedDate = `${y}/${m}/${d} ${hh}:${mm}`;
     const dateAnchor = `${y}-${m}-${d}`;
@@ -457,10 +459,11 @@ function createMemoElement(memo) {
         ).join('');
     }
 
+    // 兼容 attachments 与 resources 字段
+    const resourcesList = memo.attachments || memo.resources || [];
     let attachmentsHtml = '';
-    const resources = memo.attachments || memo.resources || [];
-    if (resources.length > 0) {
-        attachmentsHtml = resources.map(attachment => {
+    if (resourcesList.length > 0) {
+        attachmentsHtml = resourcesList.map(attachment => {
             return createAttachmentElement(attachment);
         }).join('');
     }
@@ -468,7 +471,7 @@ function createMemoElement(memo) {
     memoItem.innerHTML = `
                 <a id="${dateAnchor}" class="memo-anchor"></a>
                 <div class="memo-header">
-                    <div class="memo-date"><a class="memo-link" href="memo.html?id=${memo.name}">${formattedDate}</a></div>
+                    <div class="memo-date"><a class="memo-link" href="memo.html?name=${encodeURIComponent(memo.name || memo.id)}">${formattedDate}</a></div>
                     <div class="memo-tags">${tagsHtml}</div>
                 </div>
                 <div class="memo-percent">${dayofyear}/${totalDays} ⚡︎${percent}</div>
@@ -482,17 +485,16 @@ function createMemoElement(memo) {
 }
 
 function createAttachmentElement(attachment) {
-    if (!attachment || !attachment.type) return '';
-
-    const fileSize = attachment.size ? formatFileSize(attachment.size) : '';
-    const fileName = attachment.filename || attachment.fileName || '未命名文件';
     const fileUrl = getResourceUrl(attachment);
-
     if (!fileUrl) return '';
 
-    if (attachment.type.startsWith('image/')) {
+    const mimeType = (attachment.type || attachment.mimeType || '').toLowerCase();
+    const fileSize = attachment.size ? formatFileSize(attachment.size) : '';
+    const fileName = attachment.filename || attachment.fileName || '未命名文件';
+
+    if (mimeType.startsWith('image/') || /\.(jpg|jpeg|png|gif|webp|svg|bmp)$/i.test(fileUrl.split('?')[0])) {
         return `
-                    <div class="attachment attachment-image" data-image-src="${fileUrl}">
+                    <div class="attachment attachment-image" data-image-src="${fileName}">
                         <img src="${fileUrl}" alt="${fileName}" loading="lazy">
                         <div class="attachment-info">
                             <span class="attachment-type">Photo</span>
@@ -500,11 +502,11 @@ function createAttachmentElement(attachment) {
                         </div>
                     </div>
                 `;
-    } else if (attachment.type.startsWith('audio/')) {
+    } else if (mimeType.startsWith('audio/') || /\.(mp3|wav|ogg|aac|m4a)$/i.test(fileUrl.split('?')[0])) {
         return `
                     <div class="attachment">
                         <audio controls style="padding:10px 10px 30px 10px">
-                            <source src="${fileUrl}" type="${attachment.type}">
+                            <source src="${fileUrl}" type="${mimeType}">
                             您的浏览器不支持音频播放
                         </audio>
                         <div class="attachment-info">
@@ -513,11 +515,11 @@ function createAttachmentElement(attachment) {
                         </div>
                     </div>
                 `;
-    } else if (attachment.type.startsWith('video/')) {
+    } else if (mimeType.startsWith('video/') || /\.(mp4|webm|ogg|mov)$/i.test(fileUrl.split('?')[0])) {
         return `
                     <div class="attachment attachment-video">
                         <video controls>
-                            <source src="${fileUrl}" type="${attachment.type}">
+                            <source src="${fileUrl}" type="${mimeType}">
                             您的浏览器不支持视频播放
                         </video>
                         <div class="attachment-info">
@@ -530,8 +532,8 @@ function createAttachmentElement(attachment) {
         return `
                     <div class="attachment">
                         <div style="padding: 15px; background: #f5f5f5; text-align: center;">
-                            <p><a href="${fileUrl}" target="_blank">${fileName}</a></p>
-                            <p>${attachment.type}</p>
+                            <p><a href="${fileUrl}" target="_blank" style="color:#008090; text-decoration:underline;">📎 ${fileName}</a></p>
+                            <p>${mimeType}</p>
                             <p>${fileSize}</p>
                         </div>
                     </div>
@@ -599,10 +601,10 @@ function formatContent(content) {
     formatted = formatted.replace(/^\s*\d+\. (.*$)/gim, '<li>$1</li>');
     formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>');
 
-    // 10. 处理图片 ![alt](src)，自动拼接 MEMOS_FILE_URL 前缀
-    formatted = formatted.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, src) => {
-        const fullUrl = getResourceUrl(src);
-        return `<img src="${fullUrl}" alt="${alt}" style="max-width:50%;height:auto;" />`;
+    // 10. 处理图片 ![alt](src) 并自动适配本地/远程路径
+    formatted = formatted.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function (match, alt, src) {
+        const resolvedSrc = getResourceUrl(src);
+        return `<img src="${resolvedSrc}" alt="${alt}" style="max-width:50%;height:auto;" />`;
     });
 
     // 11. 处理链接 [text](url)
@@ -641,6 +643,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const attachment = event.target.closest('.attachment-image');
             const img = attachment.querySelector('img');
             const src = img.src;
+            const alt = img.alt;
 
             const imageIndex = allImages.findIndex(image => image.src === src);
             if (imageIndex !== -1) {
@@ -741,3 +744,53 @@ function initWaterfallLayout() {
 function debounce(func, wait) {
     let timeout;
     return function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, arguments), wait);
+    };
+}
+
+// 改进的等待函数，确保卡片高度正确计算
+function waitForImagesAndLayout() {
+    const container = document.querySelector('.memo-list');
+    if (!container) return;
+    
+    // 强制浏览器重排以确保DOM完全渲染
+    void container.offsetHeight;
+    
+    // 等待一帧确保布局计算完成
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            initWaterfallLayout();
+            
+            // 再次检查，确保图片加载后重新布局
+            setTimeout(() => {
+                initWaterfallLayout();
+            }, 300);
+        });
+    });
+}
+
+
+// 改进的窗口大小变化处理
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        initWaterfallLayout();
+    }, 100);
+});
+
+// 页面加载完成后立即布局
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        initWaterfallLayout();
+    }, 100);
+});
+
+// 窗口大小改变时重新布局
+const debouncedResize = debounce(() => {
+    initWaterfallLayout();
+}, 150);
+
+// 监听窗口大小变化
+window.addEventListener('resize', debouncedResize);
